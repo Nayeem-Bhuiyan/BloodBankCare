@@ -66,7 +66,7 @@
                                                     <th>Contact</th>
                                                     <th>Gender</th>
                                                     <th>Age</th>
-                                                    <th class="text-md-center">Action</th>
+                                                    @*<th class="text-md-center">Action</th>*@
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -84,10 +84,10 @@
                                                     <td>@item.Gender?.genderName</td>
                                                     <td>@item.DonorInformations.FirstOrDefault()?.age</td>
 
-                                                    <td class="text-md-center">
+                                                    @*<td class="text-md-center">
                                                         <a href="#" class="btn btn-round btn-warning" ><i class="fa fa-edit"></i></a>
                                                         <a href="#" class="btn btn-round btn-danger" ><i class="fa fa-trash"></i></a>
-                                                    </td>
+                                                    </td>*@
                                                 </tr>
 
                                                         sl = sl + 1;

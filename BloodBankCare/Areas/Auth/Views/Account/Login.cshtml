@@ -7,7 +7,6 @@
 @{
     Layout = null;
 }
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,7 +22,6 @@
     @*<link href="~/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
         <link href="~/css/sb-admin-2.min.css" rel="stylesheet">*@
-
     <style>
         /*.centered {
             position: absolute;
@@ -249,36 +247,26 @@
 
 <body>
     <!-- Material form register -->
-
     <div class="bg-text">
-        <div class="container-fluid">
+        <div class="">
             <div class="row">
                 <div class="col-xl-8 col-lg-9 col-md-10 col-sm-12 frmPosition">
                     <p class="text-center p-0 m-0 pb-1">
-                        
                         <img src="~/DesignImage/Default.jpg" width="120" style="margin:0 auto;margin-top:55px;height:120px" />
                     </p>
                 </div>
             </div>
-
         </div>
-
-        <div class="container-fluid">
-
             <!-- Outer Row -->
             <div class="row">
-                <div class="col-xl-8 col-lg-9 col-md-10 col-sm-12 frmPosition">
-
+                <div class="col-md-12 frmPosition">
                     <div class="card centered frame" style="background-color:#006400; border:none!important; border-radius:10px!important; margin:0!important">
                         <div class="card-body p-0">
                             <div class="row">
-                                
                                 <div class="col-lg-12">
                                     <div class="p-4 mt-1">
                                         <div class="text-center frmDivSize">
                                             <h6 class="LargePhont">Blood Bank</h6>
-
-                                         
                                             <form class="user" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
                                                 <div asp-validation-summary="All" class="text-danger"></div>
                                                 <div class="form-group">
@@ -287,38 +275,27 @@
                                                 <div class="form-group">
                                                     <input type="password" class="form-control textBoxStyle" name="Password" id="exampleInputPassword" placeholder="Enter Password" required>
                                                 </div>
-                                               
                                                 <button type="submit" class="btn btn-light text-primary btn-block btnLogin">
                                                    Login
                                                 </button>
                                             </form>
-
                                         </div>
                                         <label style="color:#fff!important;">Don't have an account'??</label><a href="/Auth/Account/Register">Register</a><br />
                                         <a href="/Auth/Account/ForgotPassword">Forgot Password</a>
                                         <p style=" margin-top:0!important; color:#fff!important" href="#"><i class="fas fa-phone-square-alt"></i><i class="fas fa-phone-square"></i> Helpline:013xxxxxxxx</p>
-                                      
                                     </div>
-
-
-
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
     </div>
-
-
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
     <!-- Bootstrap core CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <!-- Material Design Bootstrap -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.6/css/mdb.min.css" rel="stylesheet">
-
-
 </body>
 </html>

@@ -35,7 +35,7 @@
                 <div class="card">
                     <h5 class="card-header info-color white-text text-center py-4" style="font-size:x-large">
                         <strong>
-                            নিবন্ধন করুন
+                          New Registration
                         </strong>
                     </h5>
 
@@ -46,12 +46,12 @@
                             <br />
                             <!-- E-mail -->
                             <div class="md-form mt-0">
-                                <input type="email" id="materialRegisterFormEmail" name="Email" class="form-control" placeholder="ই-মেইল লিখুন">
+                                <input type="email" id="materialRegisterFormEmail" name="Email" class="form-control" placeholder="Enter Email">
                             </div>
                             <div class="md-form mt-0">
 
                                 <select class="form-control" id="GenderId" name="GenderId">
-                                    <option value="" selected>Select</option>
+                                    <option value="" selected>Select Gender</option>
                                     @foreach (var item in Model.genders.OrderBy(x => x.Id))
                                     {
                                         <option value="@item.Id">@item.genderName</option>
@@ -64,7 +64,7 @@
                             <div class="md-form mt-0">
 
                                 <select class="form-control" id="BloodGroupId" name="BloodGroupId">
-                                    <option value="" selected>Select</option>
+                                    <option value="" selected>Select Blood</option>
                                     @foreach (var item in Model.bloodGroups.OrderBy(x => x.Id))
                                     {
                                         <option value="@item.Id">@item.groupName</option>
@@ -75,24 +75,23 @@
                             </div>
 
                             <div class="md-form mt-0">
-                                <input type="text" name="Name" id="materialRegisterFormEmail" class="form-control" placeholder="ব্যবহারকারীর নাম লিখুন">
+                                <input type="text" name="Name" id="materialRegisterFormEmail" class="form-control" placeholder="Enter User Name">
                                 <input type="hidden" name="UserTypeName" value="5" />
                                 <input type="text" id="userid" name="userid" hidden>
                             </div>
                             <div class="md-form">
-                                <input type="text" name="PhoneNumber" id="materialRegisterFormPhone" class="form-control" placeholder="ফোন নাম্বার লিখুন" aria-describedby="materialRegisterFormPhoneHelpBlock">
+                                <input type="text" name="PhoneNumber" id="materialRegisterFormPhone" class="form-control" placeholder="Enter Mobile No" aria-describedby="materialRegisterFormPhoneHelpBlock">
                             </div>
                             <div class="md-form">
-                                <input type="password" name="Password" id="materialRegisterFormPassword" placeholder="পাসওয়ার্ড লিখুন" class="form-control" aria-describedby="materialRegisterFormPasswordHelpBlock">
+                                <input type="password" name="Password" id="materialRegisterFormPassword" placeholder="Enter Password" class="form-control" aria-describedby="materialRegisterFormPasswordHelpBlock">
 
                             </div>
                             <div class="md-form">
-                                <input type="password" name="ConfirmPassword" id="materialRegisterFormConfirmPassword" placeholder="পাসওয়ার্ড ফাইনাল করুন" class="form-control" aria-describedby="materialRegisterFormConfirmPasswordHelpBlock">
+                                <input type="password" name="ConfirmPassword" id="materialRegisterFormConfirmPassword" placeholder="Enter Confirm Password" class="form-control" aria-describedby="materialRegisterFormConfirmPasswordHelpBlock">
                             </div>
-                            <button class="btn btn-info my-4 btn-block" style="font-size:x-large" type="submit">নিবন্ধন</button>
+                            <button class="btn btn-info my-4 btn-block" style="font-size:x-large" type="submit">Register</button>
                             <p>
-
-                                <a asp-area="Auth" asp-controller="Account" asp-action="Login" style="font-size:large">প্রবেশ  করুন</a>
+                                <a asp-area="Auth" asp-controller="Account" asp-action="Login" style="font-size:large">Login</a>
                         </form>
 
                     </div>
@@ -100,10 +99,7 @@
             </div>
             <div class="col-md-1"></div>
         </div>
-
-
     </div>
-
     <script src="~/SweetAlert/sweetalert2.js"></script>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">

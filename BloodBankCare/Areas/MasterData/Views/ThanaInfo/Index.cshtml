@@ -1,0 +1,262 @@
+﻿@model ThanaViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+
+<html>
+<head>
+    <title></title>
+
+
+</head>
+<body>
+
+
+    <!-- page content -->
+    <div class="right_col" role="main">
+        <div class="">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-end">
+                    <li class="breadcrumb-item"><a href="/Home/Index">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/DashBoard/UserDashboard">DashBoard</a></li>
+                    <li class="breadcrumb-item active">Thana</li>
+                </ol>
+            </nav>
+
+            <div class="x_panel">
+                <div class="x_title">
+
+                    <h5>Add New Thana </h5>
+
+                </div>
+                <div class="x_content">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form asp-area="MasterData" asp-controller="ThanaInfo" asp-action="Index" id="frmData">
+                                <input type="hidden" id="ThanaId" name="ThanaId" value="" />
+                                <div class="form-group row">
+                                    <label class="col-form-label col-md-2">District</label>
+                                    <div class="col-md-10">
+
+                                        <select id="DistrictId" name="DistrictId" class="form-control" required>
+                                            <option value="">Select</option>
+                                            @foreach (var item in Model.districts)
+                                            {
+                                                <option value="@item.Id">@item.districtName</option>
+
+                                            }
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label col-md-2">Thana</label>
+                                    <div class="col-md-10">
+                                        <input type="text" id="thanaName" name="thanaName" class="form-control" value="" required/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-form-label col-md-2"></label>
+                                    <div class="col-md-10">
+                                        <button type="submit" id="btnSave" value="Submit" class="btn btn-primary"><i class="fa fa-save"></i></button>
+                                        <button type="reset" id="btnReset" value="reset" class="btn btn-info"><i class="fa fa-repeat"></i></button>
+                                    </div>
+                                </div>
+
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="row">
+                <div class="col-md-12 col-sm-12 ">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h5>Thana Info</h5>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li>
+                                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="#">Settings 1</a>
+                                        <a class="dropdown-item" href="#">Settings 2</a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="Refreshfix"></div>
+                        </div>
+
+                        <div class="x_content">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="card-box table-responsive">
+
+                                        <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap text-md-center" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>#SlNo</th>
+                                                    <th>District</th>
+                                                    <th>Thana</th>
+                                                    <th class="text-md-center">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{
+
+                                                    int sl = 1;
+                                                    @foreach (var item in Model.thanas)
+                                                    {
+                                                <tr>
+                                                    <td>@sl</td>
+                                                    <td>@item.District?.districtName</td>
+                                                    <td>@item.thanaName</td>
+                                                    <td class="text-md-center">
+                                                        <a href="#" class="btn btn-round btn-warning" onclick="Edit(@item.Id,@item.DistrictId,'@item.thanaName')"><i class="fa fa-edit"></i></a>
+                                                        <a href="#" class="btn btn-round btn-danger" onclick="Delete(@item.Id)"><i class="fa fa-trash"></i></a>
+                                                    </td>
+                                                </tr>
+
+                                                        sl = sl + 1;
+                                                    }
+
+                                                }
+
+                                            </tbody>
+                                        </table>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /page content -->
+
+
+
+
+</body>
+</html>
+
+
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+        /*    $('#datatable-responsive').DataTable();*/
+
+            Refresh();
+        });
+
+
+        $('#btnSave').click(function () {
+            $('#frmData').on('submit', function (event) {
+                event.preventDefault();
+
+                var data = $('#frmData').serialize();
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You want to save this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, save it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '/MasterData/ThanaInfo/Index',
+                            type: 'POST',
+                            data: data
+                        }).done(function () {
+                            if (data[0].value == 0) {
+                                swal.fire('success', 'Saved Successfully!', 'success').then(function () {
+                                    location.reload();
+                                });
+                            }
+                            else {
+                                swal.fire('success', 'Saved Successfully!', 'success').then(function () {
+                                    location.reload();
+                                });;
+                            }
+                        }).fail(function () {
+                            swal.fire('warning', 'Failed!', 'warning');
+                        })
+                    }
+            })
+            
+
+		});
+
+
+	})
+
+
+        function Delete(Id) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to retrieve this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    thanaName
+                $.ajax({
+                    url: "/MasterData/ThanaInfo/Delete/" + Id,
+                    data: { Id: Id },
+                    type: 'POST'
+                })
+                    .done(function() {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Deleted Successfully!!',
+                            showConfirmButton: false,
+                            timer: 1000
+                        }).then(function () {
+                            window.location.reload();
+                        })
+                    })
+                    .fail(function () {
+                        swal.fire('Cancelled', 'It will not be deleted. Please try again later !!!', 'error');
+                    });
+                }
+            });
+        }
+
+
+
+        function Edit(Id, DistrictId, thanaName) {
+            $("#ThanaId").val(Id);
+            $("#DistrictId").val(DistrictId);
+            $("#thanaName").val(thanaName);
+        }
+
+
+        function Refresh() {
+            $("#ThanaId").val(0);
+            $("#thanaName").val("");
+        }
+    </script>
+}

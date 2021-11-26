@@ -1,0 +1,337 @@
+﻿@model DailyNewsUpdateViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <!-- page content -->
+    <div class="right_col" role="main">
+        <div class="">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-end">
+                    <li class="breadcrumb-item"><a href="/Home/Index">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/DashBoard/UserDashboard">DashBoard</a></li>
+                    <li class="breadcrumb-item active">Daily News Update</li>
+                </ol>
+            </nav>
+
+            <div class="x_panel">
+                <div class="x_title">
+                    <h5>Add Daily News Update</h5>
+                </div>
+                <div class="x_content">
+
+                    <form id="frmData" asp-area="Home" asp-controller="DailyNewsUpdateIs" asp-action="Index" enctype="multipart/form-data" data-parsley-validate class="form-horizontal form-label-left">
+                        <input type="hidden" id="DailyNewsUpdateId" name="DailyNewsUpdateId" value="0" />
+                        <div class="row">
+                            <div class="col-md-3 col-sm-12">
+                                <img src="/DefaultImage/NoImage.jpg" height="150" width="150" id="displayImage" alt="Alternate Text" />
+                            </div>
+                            <div class="col-md-9 col-sm-12">
+
+
+                                <div class="item form-group">
+                                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="UploadFile">
+                                        Banner <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 ">
+                                        <input type="file" id="UploadFile" name="UploadFile" onchange="loadFile(event)" required="required" class="form-control ">
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label for="reason" class="col-form-label col-md-3 col-sm-3 label-align">Reason<span class="required">*</span></label>
+                                    <div class="col-md-6 col-sm-6 ">
+                                        <input type="text" id="reason" class="form-control" name="reason">
+                                    </div>
+                                </div>
+
+                                <div class="item form-group">
+                                    <label for="location" class="col-form-label col-md-3 col-sm-3 label-align">Place<span class="required">*</span></label>
+                                    <div class="col-md-6 col-sm-6 ">
+                                        <input type="text" id="location" class="form-control" name="location">
+                                    </div>
+                                </div>
+
+                                <div class="item form-group">
+                                    <label for="date" class="col-form-label col-md-3 col-sm-3 label-align">Date<span class="required">*</span></label>
+                                    <div class="col-md-6 col-sm-6 ">
+                                        <input type="text" id="date" class="form-control" name="date">
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="headingText">
+                                        Heading Text <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 ">
+                                        <input type="text" id="headingText" name="headingText" required="required" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label for="detailsDescription" class="col-form-label col-md-3 col-sm-3 label-align">Details<span class="required">*</span></label>
+                                    <div class="col-md-6 col-sm-6 ">
+                                        <textarea cols="3" class="form-control" id="detailsDescription" name="detailsDescription"></textarea>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="ln_solid"></div>
+                        <div class="col-md-3">
+
+                        </div>
+                        <div class="item form-group">
+                            <div class="col-md-6 col-sm-6 offset-md-3">
+                                <button type="button" id="btnSave" class="btn btn-success">Save</button>
+                                <button class="btn btn-primary" type="reset">Reset</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 col-sm-12 ">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h5>Daily News Update Info</h5>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li>
+                                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="#">Settings 1</a>
+                                        <a class="dropdown-item" href="#">Settings 2</a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="Refreshfix"></div>
+                        </div>
+
+                        <div class="x_content">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="card-box table-responsive">
+
+                                        <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap text-md-center" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>#SlNo</th>
+                                                    <th>Banner</th>
+                                                    <th>reason</th>
+                                                    <th>Location</th>
+                                                    <th>Date</th>
+                                                    <th>Headline Text</th>
+
+                                                    <th class="text-md-center">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{
+
+                                                    int sl = 1;
+                                                    @foreach (var item in Model.dailyNewsUpdates)
+                                                    {
+                                                        <tr>
+                                                            <td>@sl</td>
+                                                            <td><img src="/@item.fileUrl" height="75" width="75" alt="Alternate Text" /></td>
+                                                        
+                                                            <td>@item.reason</td>
+                                                            <td>@item.location</td>
+                                                            <td>@item.date?.ToString("dd-MMM-yyyy")</td>
+                                                            <td>@item.headingText</td>
+
+                                                            <td class="text-md-center">
+                                                                <a href="#" class="btn btn-round btn-warning" onclick="Edit(@item.Id,'@item.headingText','@item.detailsDescription','@item.location','@item.reason','@item.date','@item.fileUrl')"><i class="fa fa-edit"></i></a>
+                                                                <a href="#" class="btn btn-round btn-danger" onclick="Delete(@item.Id)"><i class="fa fa-trash"></i></a>
+                                                            </td>
+                                                        </tr>
+
+                                                        sl = sl + 1;
+                                                    }
+
+
+                                                }
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /page content -->
+
+
+
+
+</body>
+</html>
+
+
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+        /*    $('#datatable-responsive').DataTable();*/
+            $('#date').flatpickr({ dateFormat: "Y-m-d", minDate: "@DateTime.Now.ToString("MM/dd/yyyy")" });
+            Refresh();
+
+            jQuery('input[type="file"]').each(function () {
+                $this = jQuery(this);
+                $this.on('change', function () {
+                    var fsize = $this[0].files[0].size,
+                        ftype = $this[0].files[0].type,
+                        fname = $this[0].files[0].name,
+                        fextension = fname.substring(fname.lastIndexOf('.') + 1);
+                    $("#fileType").val(fextension);
+                    validExtensions = ["jpg", "pdf", "jpeg", "gif", "png", "doc", "docx", "xls", "xlsx", "ppt", "pptx", "txt", "zip", "rar", "gzip"];
+
+                    if ($.inArray(fextension, validExtensions) == -1) {
+                        alert("This type of files are not allowed!");
+                        this.value = "";
+                        return false;
+                    } else {
+                        if (fsize > 2097152) {/*1048576-1MB(You can change the size as you want)*/
+                            alert("File size too large! Please upload less than 2MB");
+                            this.value = "";
+                            return false;
+                        } else {
+                            loadFile();
+
+                            return true;
+
+                        }
+
+                    }
+
+                });
+            });
+
+
+        });
+
+        var loadFile = function (event) {
+            var output = document.getElementById('displayImage');
+            output.src = URL.createObjectURL(event.target.files[0]);
+            output.onload = function () {
+                URL.revokeObjectURL(output.src) // free memory
+            }
+        };
+
+        $('#btnSave').click(function (event) {
+            event.preventDefault();
+            var form = $("#frmData")[0];
+            var data = new FormData(form);
+            data.append("UploadFile", $('input[type="file"]')[0].files[0]);
+            data.append("DailyNewsUpdateId", $('#DailyNewsUpdateId').val());
+            data.append("headingText", $('#headingText').val());
+            data.append("detailsDescription", $('#detailsDescription').val());
+            data.append("location", $('#location').text());
+            data.append("reason", $('#reason').text());
+            data.append("date", $('#date').text());
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You want to save this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, save it!'
+            }).then((result)=> {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/Home/DailyNewsUpdateIs/Index',
+                        type: 'POST',
+                        enctype:"multipart/form-data",
+                        data: data,
+                        processData: false,
+                        contentType: false,
+                        cache: false,
+                        timeout:600000
+                    }).done(function () {
+                            swal.fire('success', 'Saved Successfully!', 'success').then(function () {
+                                location.reload();
+                            });
+                    }).fail(function () {
+                        swal.fire('warning', 'Failed!', 'warning');
+                    })
+                }
+
+		});
+
+
+	})
+
+        function Delete(Id) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to retrieve this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                $.ajax({
+                    url: "/Home/DailyNewsUpdateIs/Delete/" + Id,
+                    data: { Id: Id },
+                    type: 'POST'
+                })
+                    .done(function() {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Deleted Successfully!!',
+                            showConfirmButton: false,
+                            timer: 1000
+                        }).then(function () {
+                            window.location.reload();
+                            Refresh();
+                        })
+                    })
+                    .fail(function () {
+                        swal.fire('Cancelled', 'It will not be deleted. Please try again later !!!', 'error');
+                    });
+                }
+            });
+        }
+
+        function Edit(Id,headingText,detailsDescription,location,reason,date,fileUrl) {
+            $("#DailyNewsUpdateId").val(Id);
+            $("#headingText").val(headingText);
+            $("#detailsDescription").val(detailsDescription);
+            $("#location").val(location);
+            $("#reason").val(reason);
+            $("#date").val(date);
+          /*  $("#displayImage").prop("src", "/" + fileUrl);*/
+
+        }
+
+
+        function Refresh() {
+            $("#DailyNewsUpdateId").val(0);
+            $("#headingText").val("");
+            $("#detailsDescription").val("");
+            $("#location").val("");
+            $("#reason").val("");
+            $("#date").val("");
+            $("#displayImage").prop("src","");
+        }
+    </script>
+}

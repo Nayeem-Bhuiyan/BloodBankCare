@@ -1,0 +1,549 @@
+﻿@model AdminDashBoardViewModel
+@{
+    ViewData["Title"] = "AdminDashBoard";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section Style{
+    <style>
+        .accordion .fa {
+            margin-right: 0.5rem;
+            font-size: 24px;
+            font-weight: bold;
+            position: relative;
+            top: 2px;
+        }
+
+        [data-toggle="collapse"] .fa:before {
+            content: "\f077";
+        }
+
+        [data-toggle="collapse"].collapsed .fa:before {
+            content: "\f078";
+        }
+
+        /*   input[type=checkbox] {
+            -webkit-appearance: checkbox;
+        }*/
+
+        input[type=checkbox] {
+            display: block;
+        }
+    </style>
+}
+
+
+
+<!-- page content -->
+<div class="right_col" role="main">
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb justify-content-end">
+            <li class="breadcrumb-item"><a href="/Home/Index">Home</a></li>
+            <li class="breadcrumb-item"><a href="/Home/AdminDashBoard">DashBoard</a></li>
+            <li class="breadcrumb-item active">Admin DashBoard</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12 ">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Admin DashBoard</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="#">Settings 1</a>
+                                <a class="dropdown-item" href="#">Settings 2</a>
+                            </div>
+                        </li>
+                        <li>
+                            <a class="close-link"><i class="fa fa-close"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+
+
+                <div class="x_content">
+                    <!-- top tiles -->
+                    <div class="row">
+                        <div class="col-md-3">
+                            <a href="/Auth/Account/UserList">
+                                <div class="card" style="min-height:200px!important">
+                                    <div class="card-header text-white text-center" style="background-color: #1E90FF ">
+                                        <h5><b> Total Users</b></h5>
+                                    </div>
+                                    <div class="card-body text-center text-white" style="background-color: #3CB371 ">
+                                        <h1><b>@Model?.countRecordInfos?.totalUsers</b></h1>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="#">
+                                <div class="card" style="min-height:200px!important">
+                                    <div class="card-header text-white text-center" style="background-color: #3CB371 ">
+                                        <h5><b> Total Donors</b></h5>
+                                    </div>
+                                    <div class="card-body text-center text-white" style="background-color: #1E90FF ">
+                                        <h1><b>@Model?.countRecordInfos?.totalDonors</b></h1>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="#">
+                                <div class="card" style="min-height:200px!important">
+                                    <div class="card-header text-white text-center" style="background-color: #00FF00">
+                                        <h5><b> Donated Donors</b></h5>
+                                    </div>
+                                    <div class="card-body text-center text-dark" style="background-color: #00FFFF">
+                                        <h1><b>@Model?.countRecordInfos?.totalDonatedDonors</b></h1>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="/Bloodbank/DonationRecord/Index">
+                                <div class="card" style="min-height:200px!important">
+                                    <div class="card-header text-white text-center" style="background-color: #00FFFF">
+                                        <h5><b> Total Donations</b></h5>
+                                    </div>
+                                    <div class="card-body text-center text-white" style="background-color: #00FF00">
+                                        <h1><b>@Model?.countRecordInfos?.totalDonation</b></h1>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- /top tiles -->
+
+                    <div class="row mt-3">
+                        <!-- /.col -->
+                        <div class="col-md-12">
+                            <!-- /.card -->
+                            <div class="accordion" id="accordionExample">
+                                <div class="card">
+                                    <div class="card-header collapsed" id="TabHeading1" data-toggle="collapse" data-target="#CollapseTab1">
+                                        <h5 class="mb-0 text-primary">
+                                            Admin
+                                            <i class="fa fa-angle-down float-md-right"></i>
+                                        </h5>
+                                    </div>
+                                    <div id="CollapseTab1" class="collapse show" aria-labelledby="TabHeading1" data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            <div class="card">
+                                                <div class="card-header p-2">
+                                                    <ul class="nav nav-pills">
+                                                        <li class="nav-item"><a class="nav-link active" href="#innerTab1" data-toggle="tab">Group Wise Record</a></li>
+                                                        <li class="nav-item"><a class="nav-link" href="#innerTab2" data-toggle="tab">Current Month Donations</a></li>
+                                                        <li class="nav-item"><a class="nav-link" href="#innerTab3" data-toggle="tab">Last Month Donations</a></li>
+                                                        
+
+                                                    </ul>
+                                                </div><!-- /.card-header -->
+                                                <div class="card-body">
+                                                    <div class="tab-content">
+                                                        <div class="active tab-pane" id="innerTab1">
+                                                            <div class="row">
+
+
+                                                                @foreach (var item in Model.groupWiseDonors)
+                                                                {
+
+                                                                    <div class="col-md-3 m-t-2 m-b-2">
+                                                                        <a href="/BloodBank/DonorInfo/DonorByBloodGroup/@item.bloodGroupId">
+                                                                            <div class="card text-center text-primary">
+                                                                                <div class="card-header bg-success">
+                                                                                    <span><b class="text-white h5"> @item?.bloodGroup?.groupName</b></span>
+                                                                                </div>
+                                                                                <div class="card-body bg-light">
+                                                                                    <span><b class="text-dark h5">Total Donors </b></span> <span><b class="text-dark h3">@item.TotalDonor</b></span>
+                                                                                </div>
+                                                                                <div class="card-footer bg-info">
+                                                                                    <span><b class="text-white h5">Total Donations</b></span> <span><b class="text-white h3"> @item.TotalDonation</b></span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </a>
+                                                                    </div>
+
+
+
+                                                                }
+
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="tab-pane" id="innerTab2">
+                                                            <div class="row">
+
+                                                                <div class="col-md-12">
+
+
+                                                                    <ul class="nav navbar-right panel_toolbox">
+                                                                        <li>
+                                                                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                                                        </li>
+                                                                        <li class="dropdown">
+                                                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                                                <a class="dropdown-item" href="#">Settings 1</a>
+                                                                                <a class="dropdown-item" href="#">Settings 2</a>
+                                                                            </div>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="close-link"><i class="fa fa-close"></i></a>
+                                                                        </li>
+                                                                    </ul>
+                                                                    <div class="Refreshfix"></div>
+
+
+                                                                    <div class="x_content">
+                                                                        <div class="row">
+                                                                            <div class="col-sm-12">
+                                                                                <div class="card-box table-responsive">
+
+                                                                                    <table id="CurrentMonthDonations" class="table table-striped table-bordered dt-responsive nowrap text-md-center" cellspacing="0" width="100%">
+                                                                                        <thead>
+                                                                                            <tr>
+                                                                                                <th>Patient</th>
+                                                                                                <th>Group</th>
+                                                                                                <th>Amount</th>
+                                                                                                <th>Reason</th>
+                                                                                                <th>Donate Date</th>
+                                                                                            </tr>
+                                                                                        </thead>
+                                                                                        <tbody>
+                                                                                            @foreach (var donation in Model.CurrentMonthDonations)
+                                                                                            {
+                                                                                                <tr>
+                                                                                                    <td>@donation?.patientName</td>
+                                                                                                    <td>@donation?.BloodGroup?.groupName</td>
+                                                                                                    <td>@donation?.amountOfBlood</td>
+                                                                                                    <td>@donation?.reasonOfBlood</td>
+                                                                                                    <td>@donation?.needDate?.ToString("dd-MMM-yyyy")</td>
+
+                                                                                                </tr>
+                                                                                            }
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="tab-pane" id="innerTab3">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="row">
+
+                                                                        <div class="col-md-12">
+
+
+                                                                            <ul class="nav navbar-right panel_toolbox">
+                                                                                <li>
+                                                                                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                                                                </li>
+                                                                                <li class="dropdown">
+                                                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                                                        <a class="dropdown-item" href="#">Settings 1</a>
+                                                                                        <a class="dropdown-item" href="#">Settings 2</a>
+                                                                                    </div>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <a class="close-link"><i class="fa fa-close"></i></a>
+                                                                                </li>
+                                                                            </ul>
+                                                                            <div class="Refreshfix"></div>
+
+
+                                                                            <div class="x_content">
+                                                                                <div class="row">
+                                                                                    <div class="col-sm-12">
+                                                                                        <div class="card-box table-responsive">
+
+                                                                                            <table id="LastMonthDonations" class="table table-striped table-bordered dt-responsive nowrap text-md-center" cellspacing="0" width="100%">
+                                                                                                <thead>
+                                                                                                    <tr>
+                                                                                                        <th>Patient</th>
+                                                                                                        <th>Group</th>
+                                                                                                        <th>Amount</th>
+                                                                                                        <th>Reason</th>
+                                                                                                        <th>Donate Date</th>
+                                                                                                    </tr>
+                                                                                                </thead>
+                                                                                                <tbody>
+                                                                                                    @foreach (var donation in Model.LastMonthDonations)
+                                                                                                    {
+                                                                                                        <tr>
+                                                                                                            <td>@donation?.patientName</td>
+                                                                                                            <td>@donation?.BloodGroup?.groupName</td>
+                                                                                                            <td>@donation?.amountOfBlood</td>
+                                                                                                            <td>@donation?.reasonOfBlood</td>
+                                                                                                            <td>@donation?.needDate?.ToString("dd-MMM-yyyy")</td>
+
+                                                                                                        </tr>
+                                                                                                    }
+                                                                                                </tbody>
+                                                                                            </table>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        
+
+                                                        <!-- /.tab-pane -->
+                                                    </div>
+                                                    <!-- /.tab-content -->
+                                                </div><!-- /.card-body -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="card">
+                                    <div class="card-header collapsed" id="TabHeading2" data-toggle="collapse" data-target="#CollapseTab2">
+                                        <h5 class="mb-0 text-primary">
+                                            Test
+                                            <i class="fa fa-angle-down float-md-right"></i>
+                                        </h5>
+                                    </div>
+                                    <div id="CollapseTab2" class="collapse" aria-labelledby="TabHeading2" data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            <p>Bootstrap is a sleek, intuitive, and powerful front-end framework for faster and easier web development. It is a collection of CSS and HTML conventions. <a href="https://www.tutorialrepublic.com/twitter-bootstrap-tutorial/" target="_blank">Learn more.</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="card">
+                                    <div class="card-header collapsed" id="TabHeading3" data-toggle="collapse" data-target="#CollapseTab3">
+                                        <h5 class="mb-0 text-primary">
+                                            Test
+                                            <i class="fa fa-angle-down float-md-right"></i>
+                                        </h5>
+                                    </div>
+                                    <div id="CollapseTab3" class="collapse" aria-labelledby="TabHeading3" data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            <p>Bootstrap is a sleek, intuitive, and powerful front-end framework for faster and easier web development. It is a collection of CSS and HTML conventions. <a href="https://www.tutorialrepublic.com/twitter-bootstrap-tutorial/" target="_blank">Learn more.</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /page content -->
+@section Scripts{ 
+<script>
+    $(document).ready(function() {
+      
+       
+        CurrentMonthDonationDataTable();
+        LastMonthDonationDataTable();
+    
+    })
+    
+
+    function CurrentMonthDonationDataTable() {
+
+        console.log('run_datatables');
+
+        if (typeof ($.fn.DataTable) === 'undefined') { return; }
+        console.log('init_DataTables');
+
+        var handleDataTableButtons = function () {
+            if ($("#datatable-buttons").length) {
+                $("#datatable-buttons").DataTable({
+                    dom: "Blfrtip",
+                    buttons: [
+                        {
+                            extend: "copy",
+                            className: "btn-sm"
+                        },
+                        {
+                            extend: "csv",
+                            className: "btn-sm"
+                        },
+                        {
+                            extend: "excel",
+                            className: "btn-sm"
+                        },
+                        {
+                            extend: "pdfHtml5",
+                            className: "btn-sm"
+                        },
+                        {
+                            extend: "print",
+                            className: "btn-sm"
+                        },
+                    ],
+                    responsive: true
+                });
+            }
+        };
+
+        TableManageButtons = function () {
+            "use strict";
+            return {
+                init: function () {
+                    handleDataTableButtons();
+                }
+            };
+        }();
+
+        $('#datatable').dataTable();
+
+        $('#datatable-keytable').DataTable({
+            keys: true
+        });
+
+        $('#CurrentMonthDonations').DataTable();
+
+        $('#datatable-scroller').DataTable({
+            ajax: "js/datatables/json/scroller-demo.json",
+            deferRender: true,
+            scrollY: 380,
+            scrollCollapse: true,
+            scroller: true
+        });
+
+        $('#datatable-fixed-header').DataTable({
+            fixedHeader: true
+        });
+
+        var $datatable = $('#datatable-checkbox');
+
+        $datatable.dataTable({
+            'order': [[1, 'asc']],
+            'columnDefs': [
+                { orderable: false, targets: [0] }
+            ]
+        });
+        $datatable.on('draw.dt', function () {
+            $('checkbox input').iCheck({
+                checkboxClass: 'icheckbox_flat-green'
+            });
+        });
+
+        TableManageButtons.init();
+
+    };
+
+
+    function LastMonthDonationDataTable() {
+
+        console.log('run_datatables');
+
+        if (typeof ($.fn.DataTable) === 'undefined') { return; }
+        console.log('init_DataTables');
+
+        var handleDataTableButtons = function () {
+            if ($("#datatable-buttons").length) {
+                $("#datatable-buttons").DataTable({
+                    dom: "Blfrtip",
+                    buttons: [
+                        {
+                            extend: "copy",
+                            className: "btn-sm"
+                        },
+                        {
+                            extend: "csv",
+                            className: "btn-sm"
+                        },
+                        {
+                            extend: "excel",
+                            className: "btn-sm"
+                        },
+                        {
+                            extend: "pdfHtml5",
+                            className: "btn-sm"
+                        },
+                        {
+                            extend: "print",
+                            className: "btn-sm"
+                        },
+                    ],
+                    responsive: true
+                });
+            }
+        };
+
+        TableManageButtons = function () {
+            "use strict";
+            return {
+                init: function () {
+                    handleDataTableButtons();
+                }
+            };
+        }();
+
+        $('#datatable').dataTable();
+
+        $('#datatable-keytable').DataTable({
+            keys: true
+        });
+
+        $('#LastMonthDonations').DataTable();
+
+        $('#datatable-scroller').DataTable({
+            ajax: "js/datatables/json/scroller-demo.json",
+            deferRender: true,
+            scrollY: 380,
+            scrollCollapse: true,
+            scroller: true
+        });
+
+        $('#datatable-fixed-header').DataTable({
+            fixedHeader: true
+        });
+
+        var $datatable = $('#datatable-checkbox');
+
+        $datatable.dataTable({
+            'order': [[1, 'asc']],
+            'columnDefs': [
+                { orderable: false, targets: [0] }
+            ]
+        });
+        $datatable.on('draw.dt', function () {
+            $('checkbox input').iCheck({
+                checkboxClass: 'icheckbox_flat-green'
+            });
+        });
+
+        TableManageButtons.init();
+
+    };
+
+</script>
+}

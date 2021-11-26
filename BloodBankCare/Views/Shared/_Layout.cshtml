@@ -1,0 +1,405 @@
+﻿@using BloodBankCare.Services.AuthService.Interfaces
+@using System
+
+@inject IUserInfoes userInfo
+@{
+
+    var userInfos = await userInfo.GetUserInfoByUser(@User.Identity.Name);
+}
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Nayeem Software</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicons -->
+    <link rel="shortcut icon" href="~/WebSite/Assets/~/WebSite/Assets/images/favicon.ico">
+    <link rel="apple-touch-icon" href="~/WebSite/Assets/~/WebSite/Assets/images/icon.png">
+
+    <!-- Google font (font-family: 'Poppins', sans-serif;) -->
+    <link href="~/Admin/css/GoogleFont_Poppins.css" rel="stylesheet" />
+    <!-- Google font (font-family: 'Work Sans', sans-serif;) -->
+    <link href="~/Admin/css/GoogleFont_Work Sans.css" rel="stylesheet" />
+
+    <!-- Stylesheets -->
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/WebSite/Assets/css/plugins.css" rel="stylesheet" />
+    <link href="~/WebSite/Assets/css/style.css" rel="stylesheet" />
+
+    <!-- Cusom css -->
+    <link href="~/WebSite/Assets/css/custom.css" rel="stylesheet" />
+
+    <!-- Modernizer js -->
+    <script src="~/WebSite/Assets/js/vendor/modernizr-3.5.0.min.js"></script>
+    @RenderSection("Style", required: false)
+
+</head>
+
+<body>
+    <!--[if lte IE 9]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+    <![endif]-->
+    <!-- Add your site or application content here -->
+
+
+    <div class="fakeloader"></div>
+
+    <!-- Main wrapper -->
+    <div class="wrapper" id="wrapper">
+
+        <!-- Header -->
+        <header id="header" class="header sticky--header">
+
+            <!-- Header Top Area -->
+            <div class="header__top bg--blue">
+                <div class="container">
+                    <div class="header__top__inner">
+                        <ul class="header__top__info">
+                            <li>
+                                <a href="#"><i class="fa fa-phone"></i>01755391672</a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-envelope-o"></i>nayeembhuiyan30@gmail.com
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="header__top__button">
+                            @if (userInfos?.UserName != null)
+                            {
+
+                            <a class="cr-btn cr-btn--lg" href="/DashBoard/UserDashboard">
+                                <span>Admin</span>
+                 
+                            </a>
+                            }
+                            else
+                            {
+
+                                <a class="cr-btn cr-btn--lg" asp-area="Auth" asp-controller="Account" asp-action="Login">
+                                    <span>Login</span>
+                                </a>
+                                <a class="cr-btn cr-btn--lg" asp-area="Auth" asp-controller="Account" asp-action="Register">
+                                    <span>Register</span>
+                                </a>
+                            }
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--// Header Top Area -->
+            <!-- Header Bottom Area -->
+            <div class="header__bottom bg--white">
+                <div class="container d-none d-lg-block">
+                    <div class="header__bottom__inner">
+                        <div class="header__logo">
+                            <a href="/Home/Index">
+
+                                <img src="~/DefaultImage/logo.png" height="30" width="30" alt="header logo">
+                            </a>
+                        </div>
+
+                        <!-- Main Navigation -->
+                        <nav id="main-navigation" class="header__menu main-navigation">
+                            <ul>
+                                <li>
+                                    <a href="/Home/Index">HOME</a>
+                                </li>
+                                <li>
+                                    <a href="/Home/ImportanHospitalDetails">Hospital</a>
+                                </li>
+                                <li>
+                                    <a href="/Bloodbank/BloodRequest/Index">Blood Request</a>
+                                </li>
+                                <li>
+                                    <a href="/Home/PhotoGallery">Gallery</a>
+                                </li>
+                                <li class="cr-dropdown">
+                                    <a href="#">Blood Banks</a>
+                                    <ul class="cr-dropdown-menu">
+                                        <li>
+                                            <a href="/Home/OtherBloodBankInfo">Blood Bank</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Home/AdminPanelInfo">Team Panel</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">BLOG</a>
+                                            <ul class="cr-sub-dropdown-menu">
+                                                <li>
+                                                    <a href="#">Blog</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Test</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Test</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Test</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Test</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a href="/Home/FeatureItems">FEATURES</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">SERVICE</a>
+                                            <ul class="cr-sub-dropdown-menu">
+                                                <li>
+                                                    <a href="#">Services</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Single Service</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                    </ul>
+                                </li>
+                                <li class="cr-dropdown">
+                                    <a href="blog.html">Contact</a>
+                                    <ul class="cr-dropdown-menu">
+                                        <li>
+                                            <a href="/Home/ContactUS">Contact Us</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Test</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Test</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Test</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Test</a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                            </ul>
+                        </nav>
+                        <!--// Main Navigation -->
+
+                    </div>
+                </div>
+
+                <!-- Mobile Menu -->
+                <div class="container d-block d-lg-none">
+                    <div class="mobile-menu clearfix d-md-block d-lg-none">
+                        <a class="mobile-logo" href="/Home/Index">
+                            <img src="~/DefaultImage/logo.png" height="30" width="30" alt="logo">
+                        </a>
+                    </div>
+                </div>
+                <!-- //Mobile Menu -->
+
+            </div>
+            <!--// Header Bottom Area -->
+
+        </header>
+        <!-- //Header -->
+
+        @RenderBody()
+
+        <!-- Footer Area -->
+        <footer id="footer" class="footer-area fixed--footer">
+
+            <!-- Footer Widgets Area -->
+            <div class="footer-area__widgets section-padding--lg bg--dark--light">
+                <div class="container">
+                    <div class="widget-area footer--widgets">
+
+                        <!-- Single Widget -->
+                        <div class="widget widget-about">
+                            <div class="footer-area__logo">
+                                <a href="/Home/Index">
+                                    <img src="~/DefaultImage/logo.png" height="100" width="100" alt="footer logo">
+                                </a>
+                            </div>
+                            <div class="social-icons social-icons--rounded">
+                                <ul>
+                                    <li class="facebook">
+                                        <a href="https://www.facebook.com/">
+                                            <i class="fa fa-facebook"></i>
+                                        </a>
+                                    </li>
+                                    <li class="twitter">
+                                        <a href="https://twitter.com/">
+                                            <i class="fa fa-twitter"></i>
+                                        </a>
+                                    </li>
+                                    <li class="instagram">
+                                        <a href="https://www.instagram.com/">
+                                            <i class="fa fa-instagram"></i>
+                                        </a>
+                                    </li>
+                                    <li class="google-plus">
+                                        <a href="https://plus.google.com/discover">
+                                            <i class="fa fa-google-plus"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!--// Single Widget -->
+                        <!-- Single Widget -->
+                        <div class="widget widget-quick-links">
+                            <h5 class="widget-title">QUICK LINKS</h5>
+                            <ul>
+                                <li>
+                                    <a href="/Bloodbank/BloodRequest/Index" target="_blank">Blood Request</a>
+                                </li>
+                                <li>
+                                    <a href="/Home/AdminPanelInfo" target="_blank">Admin Panel</a>
+                                </li>
+                                <li>
+                                    <a href="/Home/ImportanHospitalDetails" target="_blank">Important Hospitals</a>
+                                </li>
+                                <li>
+                                    <a href="/Home/NoticeDetails" target="_blank">Notice Board</a>
+                                </li>
+                                <li>
+                                    <a href="/Home/OtherBloodBankInfo" target="_blank">BloodBanks</a>
+                                </li>
+                                <li>
+                                    <a href="/Home/ContactUS" target="_blank">Contact Us</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--// Single Widget -->
+                        <!-- Single Widget -->
+                        <div class="widget widget-twitter-feed">
+                            <h5 class="widget-title">Important Links</h5>
+                            <ul>
+                                <li>
+                                    <p>
+                                        <a href="http://www.educationboardresults.gov.bd/" target="_blank">Public Result</a>
+                                    </p> 
+                                    <p>
+                                        <a href="https://www.jnu.ac.bd/" target="_blank">Jagannath University</a>
+                                    </p>
+                                    <p>
+                                        <a href="https://bangladesh.gov.bd/index.php" target="_blank">Bangladesh Government</a>
+                                    </p>
+                                    
+
+                                </li>
+                                <li>
+                                    <p>
+                                        <a href="https://www.isdb-bisew.org/apply" target="_blank">IsDB-BISEW</a>
+                                    </p>
+                                    <p>
+                                        <a href="https://eporcha.gov.bd/khatian-search-panel" target="_blank">Eporcha</a>
+                                    </p>
+                                    <p>
+                                        <a href="https://bdjobs.com/default.asp?page=view" target="_blank">Bd Jobs</a>
+                                    </p>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--// Single Widget -->
+                        <!-- Single Widget -->
+                        <div class="widget widget-contact-info">
+                            <h5 class="widget-title">Contact Info</h5>
+                            <ul>
+                                <li>
+                                    <p>136,Bangshal Road, Dhaka-1100</p>
+                                </li>
+                                <li>
+                                    <p>
+                                        <a href="callto://+8801755391672">+8801755391672</a>
+                                    </p>
+                                    <p>
+                                        <a href="callto://+8801984415186">+8801984415186</a>
+                                    </p> 
+                                    <p>
+                                        <a href="#">nayeembhuiyan30@gmail.com</a>
+                                    </p>
+                                </li>
+                                <li>
+                                    <p>
+                                        <a href="#">www.bloodbankcare.com</a>
+                                    </p>
+                                    <p>
+                                        <a href="#">www.nayeemsoftware.com</a>
+                                    </p>
+                                </li> 
+                                
+                            </ul>
+                        </div>
+                        <!--// Single Widget -->
+
+                    </div>
+                </div>
+            </div>
+            <!--// Footer Widgets Area -->
+            <!-- Footer Copyright Area -->
+            <div class="footer-area__copyright bg--dark">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="copyright text-center">
+                                <a target="_blank" href="#">Develop by Nayeem Bhuiyan</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--// Footer Copyright Area -->
+
+        </footer>
+        <!-- //Footer Area -->
+
+    </div>
+    <!-- //Main wrapper -->
+    <!-- JS Files -->
+    @*<script src="~/WebSite/Assets/js/vendor/jquery-3.2.1.min.js"></script>*@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    @*<script src="~/WebSite/Assets/js/popper.min.js"></script>*@
+    <script src="~/lib/jquery/dist/popper.js"></script>
+    @*<script src="~/WebSite/Assets/js/bootstrap.min.js"></script>*@
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+
+
+    <script src="~/WebSite/Assets/js/plugins.js"></script>
+    <script src="~/WebSite/Assets/js/active.js"></script>
+    <script src="~/WebSite/Assets/js/scripts.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

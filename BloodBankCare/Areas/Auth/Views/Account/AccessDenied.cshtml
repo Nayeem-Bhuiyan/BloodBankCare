@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "AccessDenied";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@section Style{
+    <style>
+        body {
+            background-color: #F7F7F7 !important;
+        }
+    </style>
+
+}
+
+
+<!-- page content -->
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb justify-content-end">
+        <li class="breadcrumb-item"><a href="/Home/Index">Home</a></li>
+        <li class="breadcrumb-item"><a href="/DashBoard/UserDashboard">DashBoard</a></li>
+        <li class="breadcrumb-item active">Access Denied</li>
+    </ol>
+</nav>
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-middle">
+            <div class="text-center text-center">
+                <h1 class="error-number font-weight-bolder text-danger">403</h1>
+                <h2 class="text-primary font-weight-bold">Access denied</h2>
+                <p class="text-success">
+                    Full authentication is required to access this resource
+                </p>
+            </div>
+        </div>
+    </div>
+    <!-- /page content -->
+</div>
+
+
+
+

@@ -1,0 +1,491 @@
+﻿@model ComplainInformationDetailsViewModel
+@{
+    ViewData["Title"] = "ComplainSolve";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<html>
+<head>
+    <title></title>
+
+
+</head>
+<body>
+
+
+    <!-- page content -->
+    <div class="right_col" role="main">
+        <div class="">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-end">
+                    <li class="breadcrumb-item"><a href="/Home/Index">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/DashBoard/UserDashboard">DashBoard</a></li>
+                    <li class="breadcrumb-item active">Complain Solve</li>
+                </ol>
+            </nav>
+
+            @*<div class="x_panel">
+                    <div class="x_title">
+
+                        <h5>Add Complain Details </h5>
+
+                    </div>
+                    <div class="x_content">
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <form asp-area="Complain" asp-controller="ComplainInfoDetails" asp-action="Index" id="frmData">
+                                    <input type="hidden" id="ComplainInformationDetailsId" name="ComplainInformationDetailsId" value="" />
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-md-2">ComplainBy</label>
+                                                <div class="col-md-10">
+                                                    <input type="text" id="complainBy" name="complainBy" class="form-control" value="" />
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-md-2">Email</label>
+                                                <div class="col-md-10">
+                                                    <input type="text" id="email" name="email" class="form-control" value="" />
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-md-2">Contact</label>
+                                                <div class="col-md-10">
+                                                    <input type="text" id="contact" name="contact" class="form-control" value="" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-md-2">Address</label>
+                                                <div class="col-md-10">
+                                                    <input type="text" id="Address" name="Address" class="form-control" value="" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-md-2">HeadLine</label>
+                                                <div class="col-md-10">
+                                                    <input type="text" id="complainHeadLine" name="complainHeadLine" class="form-control" value="" />
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-md-2">Details</label>
+                                                <div class="col-md-10">
+                                                    <textarea cols="2" id="complainDeatils" name="complainDeatils" class="form-control"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-1"></label>
+                                        <div class="col-md-10">
+                                            <button type="button" id="btnSave" value="Submit" class="btn btn-primary"><i class="fa fa-save"></i></button>
+                                            <button type="reset" id="btnReset" value="reset" class="btn btn-info"><i class="fa fa-repeat"></i></button>
+                                        </div>
+                                    </div>
+
+
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>*@
+
+
+
+            <div class="row">
+                <div class="col-md-12 col-sm-12 ">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h5>Complain Details Info</h5>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li>
+                                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="#">Settings 1</a>
+                                        <a class="dropdown-item" href="#">Settings 2</a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="Refreshfix"></div>
+                        </div>
+
+                        <div class="x_content">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="card-box table-responsive">
+
+                                        <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap text-md-center" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>#SlNo</th>
+                                                    <th>Complain By</th>
+                                                    <th>Contact</th>
+                                                    <th>ComPlainDate</th>
+                                                    <th>Complain</th>
+                                                    <th>Deatils</th>
+                                                    <th>Status</th>
+                                                    <th>IsApprove</th>
+                                                    <th class="text-md-center">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{
+
+                                                    int sl = 1;
+                                                    @foreach (var item in Model.complainInformations)
+                                                    {
+                                                        <tr>
+                                                            <td>@sl</td>
+                                                            <td>@item.ComplainInformationDetails?.complainBy</td>
+                                                            <td>@item.ComplainInformationDetails?.contact</td>
+                                                            <td>@item.ComplainInformationDetails?.comPlainDate?.ToString("dd-MMM-yyyy")</td>
+                                                            <td>@item.ComplainInformationDetails?.complainHeadLine</td>
+                                                            <td>@item.ComplainInformationDetails?.complainDeatils</td>
+                                                      
+                                                            @if (item.isSolved == 0)
+                                                            {
+                                                                <td>
+                                                                    Pending
+                                                                </td>
+
+                                                            }
+                                                            else if (item.isSolved == 1)
+                                                            {
+                                                                 <td>Solved</td>
+                                                            }
+                                                            else if (item.isSolved == 2)
+                                                            {
+                                                                  <td>Rejected</td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td>Unknown</td>
+                                                            }
+
+                                                            @if (item.isApprovedByAdmin == 0)
+                                                            {
+                                                                <td>Pending</td>
+                                                            }
+                                                            else if (item.isApprovedByAdmin == 1)
+                                                            {
+                                                        <td>Approved</td>
+                                                            }
+                                                            else if (item.isApprovedByAdmin == 2)
+                                                            {
+                                                        <td>Rejected</td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td>
+
+                                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                                                                        Unknown
+                                                                    </button>
+                                                                </td>
+
+                                                            }
+
+                                                        <td class="text-md-center">
+                                                            @*<a href="#" class="btn btn-round btn-warning" onclick="Edit(@item.ComplainInformationDetails?.Id,'@item.ComplainInformationDetails.email','@item.ComplainInformationDetails.complainBy','@item.ComplainInformationDetails.contact','@item.ComplainInformationDetails.complainHeadLine','@item.ComplainInformationDetails.complainDeatils','@item.ComplainInformationDetails.Address')"><i class="fa fa-edit"></i></a>
+        <a href="#" class="btn btn-round btn-danger" onclick="Delete(@item.ComplainInformationDetails.Id)"><i class="fa fa-trash"></i></a>*@
+
+
+
+
+                                                            @if (item.isSolved != 1)
+                                                            {
+                                                                <button type="button" class="btn btn-primary btn-round" onclick="Solve(@item.ComplainInformationDetails.Id)" data-toggle="modal" data-target="#myModal">
+                                                                    Solve
+                                                                </button>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <button type="button" class="btn btn-primary btn-round d-none" onclick="Solve(@item.ComplainInformationDetails.Id)" data-toggle="modal" data-target="#myModal">
+                                                                    Solve
+                                                                </button>
+                                                                <button type="button" class="btn btn-warning btn-round" onclick="SolveCancel(@item.ComplainInformationDetails.Id)">
+                                                                    Solve Cancel
+                                                                </button>
+                                                            }
+
+
+                                                        </td>
+
+                                                           
+
+
+                                                        </tr>
+
+                                                        sl = sl + 1;
+                                                    }
+
+                                                }
+
+                                            </tbody>
+                                        </table>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /page content -->
+    <!-- Button to Open the Modal -->
+    <!-- The Modal -->
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Solve Details</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form asp-area="Complain" asp-controller="ComplainSolveDetails" asp-action="Index" id="frmSolveData">
+
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <input type="hidden" id="ComplainInformationDetailsId" name="ComplainInformationDetailsId" value="0" />
+
+
+                                <input type="text" name="contact" id="contact" value="" class="form-control" placeholder="Enter Your Contact" /><br />
+                                <input type="text" name="solveDate" id="solveDate" value="" class="form-control" placeholder="Select solve date" /><br />
+                                <input type="text" name="solveinfoHeadLine" id="solveinfoHeadLine" value="" class="form-control" placeholder="Enter Solve Info Head Line" /><br />
+                                <textarea cols="2" class="form-control" id="solveinfoDetails" name="solveinfoDetails" placeholder="Enter Details Solve Info"></textarea><br />
+
+                                <button type="button" id="btnSolve" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-save"></i></button>
+                                <button type="button" class="btn btn-info" data-dismiss="modal"><i class="fa fa-repeat"></i></button>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+
+                <!-- Modal footer -->
+
+
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>
+
+
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            Refresh();
+            $('#solveDate').flatpickr({ dateFormat: "Y-m-d", minDate: "@DateTime.Now.ToString("MM/dd/yyyy")" });
+        });
+
+
+        $('#btnSolve').click(function () {
+            var data = $('#frmSolveData').serialize();
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You want to save this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, save it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/Complain/ComplainSolveDetails/Index',
+                        type: 'POST',
+                        data: data
+                    }).done(function () {
+                        if (data[0].value == 0) {
+                            swal.fire('success', 'Saved Successfully!', 'success').then(function () {
+                                location.reload();
+                            });
+                        }
+                        else {
+                            swal.fire('success', 'Saved Successfully!', 'success').then(function () {
+                                location.reload();
+                            });;
+                        }
+                    }).fail(function () {
+                        swal.fire('warning', 'Failed!', 'warning');
+                    })
+                }
+
+            });
+
+
+        })
+
+
+
+        $('#btnSave').click(function () {
+            var data = $('#frmData').serialize();
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You want to save this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, save it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/Complain/ComplainInfoDetails/Index',
+                        type: 'POST',
+                        data: data
+                    }).done(function () {
+                        if (data[0].value == 0) {
+                            swal.fire('success', 'Saved Successfully!', 'success').then(function () {
+                                location.reload();
+                            });
+                        }
+                        else {
+                            swal.fire('success', 'Saved Successfully!', 'success').then(function () {
+                                location.reload();
+                            });;
+                        }
+                    }).fail(function () {
+                        swal.fire('warning', 'Failed!', 'warning');
+                    })
+                }
+
+            });
+
+
+        })
+
+
+
+
+
+        function Delete(Id) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to retrieve this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "/Complain/ComplainInfoDetails/Delete/" + Id,
+                        data: { Id: Id },
+                        type: 'POST'
+                    })
+                        .done(function () {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Deleted Successfully!!',
+                                showConfirmButton: false,
+                                timer: 1000
+                            }).then(function () {
+                                window.location.reload();
+                            })
+                        })
+                        .fail(function () {
+                            swal.fire('Cancelled', 'It will not be deleted. Please try again later !!!', 'error');
+                        });
+                }
+            });
+        }
+
+
+
+        function Edit(Id, email, complainBy, contact, complainHeadLine, complainDeatils, Address) {
+            $("#ComplainInformationDetailsId").val(Id);
+            $("#email").val(email);
+            $("#complainBy").val(complainBy);
+            $("#contact").val(contact);
+            $("#complainHeadLine").val(complainHeadLine);
+            $("#complainDeatils").val(complainDeatils);
+            $("#Address").val(Address);
+        }
+
+        function Solve(Id){
+            $("#ComplainInformationDetailsId").val(Id);
+        }
+
+
+
+        function SolveCancel(ComplainInformationDetailsId) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to retrieve this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Cancel it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "/Complain/ComplainSolveDetails/ComplainSolveCancel/" + ComplainInformationDetailsId,
+                        data: { Id: ComplainInformationDetailsId },
+                        type: 'POST'
+                    })
+                        .done(function () {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Cancel Successfull!!',
+                                showConfirmButton: false,
+                                timer: 1000
+                            }).then(function () {
+                                window.location.reload();
+                            })
+                        })
+                        .fail(function () {
+                            swal.fire('Cancelled', 'It will not be deleted. Please try again later !!!', 'error');
+                        });
+                }
+            });
+        }
+
+
+        function Refresh() {
+            $("#ComplainInformationDetailsId").val(0);
+            $("#email").val("");
+            $("#complainBy").val("");
+            $("#contact").val("");
+            $("#complainHeadLine").val("");
+            $("#complainDeatils").val("");
+            $("#Address").val("");
+        }
+    </script>
+}
+
+
+

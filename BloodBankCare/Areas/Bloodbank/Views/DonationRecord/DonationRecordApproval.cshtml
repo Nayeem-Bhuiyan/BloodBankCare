@@ -1,0 +1,251 @@
+﻿@model BloodRequestReceivedInfoViewModel
+@{
+    ViewData["Title"] = "DonationRecordApproval";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<html>
+<head>
+    <title></title>
+
+
+</head>
+<body>
+
+
+    <!-- page content -->
+    <div class="right_col" role="main">
+        <div class="">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-end">
+                    <li class="breadcrumb-item"><a href="/Home/Index">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/DashBoard/UserDashboard">DashBoard</a></li>
+                    <li class="breadcrumb-item active">Create Donation</li>
+                </ol>
+            </nav>
+
+
+
+
+
+            <div class="row">
+                <div class="col-md-12 col-sm-12 ">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h5>Create Donation By Approval</h5>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li>
+                                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="#">Settings 1</a>
+                                        <a class="dropdown-item" href="#">Settings 2</a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="Refreshfix"></div>
+                        </div>
+
+                        <div class="x_content">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="card-box table-responsive">
+
+                                        <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap text-md-center" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>#SlNo</th>
+                                                    <th>Donor</th>
+                                                    <th>Patient Name</th>
+                                                    <th>Blood Group</th>
+                                                    <th>Amount Of Blood</th>
+                                                    <th>Reason O fBlood</th>
+                                                    <th>Hospital</th>
+                                                    <th>Hospital Location</th>
+                                                    <th>IsAccept By Donor</th>
+                                                    <th>Donation Status</th>
+                                                    <th class="text-md-center">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{
+
+                                                    int sl = 1;
+                                                    @foreach (var item in Model.bloodRequestReceivedInfos.Where(x=>x.isDonated==2 && x.remarks== "Donated"))
+                                                    {
+                                                        <tr>
+                                                            <td>@sl</td>
+                                                            <td>@Model.ApplicationUsers?.Where(x=>x.Id==item.acceptedBy).FirstOrDefault().UserName</td>
+                                                            <td>@item.BloodRequestInfo?.patientName</td>
+                                                            <td>@item.BloodRequestInfo?.BloodGroup?.groupName</td>
+                                                            <td>@item.BloodRequestInfo?.amountOfBlood Beg</td>
+                                                            <td>@item.BloodRequestInfo?.reasonOfBlood</td>
+                                                            <td>@item.BloodRequestInfo?.donationPlaceName</td>
+                                                            <td>@item.BloodRequestInfo?.location</td>
+                                                            <td>
+                                                                @if (item.isAccept == 0)
+                                                                {
+                                                                    <span>Pending</span>
+                                                                }
+                                                                else if (item.isAccept == 1)
+                                                                {
+                                                                    <span>Accepted</span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span>InValid</span>
+                                                                }
+
+
+                                                            </td>
+                                                            <td>
+
+                                                                @if (item.isDonated == 0)
+                                                                {
+                                                                    <span>No</span>
+                                                                }
+                                                                else if (item.isDonated == 1)
+                                                                {
+                                                                    <span>OnProcess</span>
+                                                                }
+                                                                else if (item.isDonated == 2)
+                                                                {
+                                                                    <span>Donated</span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span>Invalid</span>
+                                                                }
+                                                            </td>
+
+
+                                                            <td class="text-md-center">
+                                                                @if (item.isDonated == 2 && item.isAccept == 1)
+                                                                {
+                                                                    <a href="#" class="btn btn-round btn-warning" onclick="DonationRecordApproved(@item.BloodRequestInfo?.Id,@item.Id)">Approve</a>
+                                                                }
+                                                                else 
+                                                                {
+                                                                    <a href="#" class="btn btn-round btn-danger" onclick="DonationRecordReject(@item.BloodRequestInfo?.Id,@item.Id)">Reject</a>
+                                                                }
+
+                                                            </td>
+                                                        </tr>
+
+                                                        sl = sl + 1;
+                                                    }
+
+                                                }
+
+                                            </tbody>
+                                        </table>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /page content -->
+
+
+
+
+</body>
+</html>
+
+
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+
+
+        });
+
+
+
+        function DonationRecordReject(BloodRequestInfoId, BloodRequestReciveId) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You want to Reject this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Reject it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    $.ajax({
+                        url: "/Bloodbank/DonationRecord/DonationReject?bloodRequestReciveId=" + BloodRequestReciveId + "&bloodRequestInfoId=" + BloodRequestInfoId,
+                        data: { bloodRequestInfoId: BloodRequestInfoId, bloodRequestReciveId: BloodRequestReciveId },
+                        type: 'POST'
+                    })
+                        .done(function () {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Reject Successfully Done!!',
+                                showConfirmButton: false,
+                                timer: 1000
+                            }).then(function () {
+                                window.location.reload();
+                            })
+                        })
+                        .fail(function () {
+                            swal.fire('Cancelled', 'It will not be deleted. Please try again later !!!', 'error');
+                        });
+                }
+            });
+        }
+
+
+
+        function DonationRecordApproved(BloodRequestInfoId, BloodRequestReciveId) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You want to approve this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Approve it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    $.ajax({
+                        url: "/Bloodbank/DonationRecord/CreateDonationWithApproval?bloodRequestReciveId=" + BloodRequestReciveId + "&bloodRequestInfoId=" + BloodRequestInfoId,
+                        data: { bloodRequestInfoId: BloodRequestInfoId, bloodRequestReciveId: BloodRequestReciveId },
+                        type: 'POST'
+                    })
+                        .done(function () {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Donation Record Inserted Successfully Done!!',
+                                showConfirmButton: false,
+                                timer: 1000
+                            }).then(function () {
+                                window.location.reload();
+                            })
+                        })
+                        .fail(function () {
+                            swal.fire('Cancelled', 'It will not be deleted. Please try again later !!!', 'error');
+                        });
+                }
+            });
+        }
+
+
+    </script>
+}
+

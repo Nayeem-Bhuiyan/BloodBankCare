@@ -1,0 +1,373 @@
+﻿@model BloodRequestInfoViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <!-- page content -->
+    <div class="right_col" role="main">
+        <div class="">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-end">
+                    <li class="breadcrumb-item"><a href="/Home/Index">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/DashBoard/UserDashboard">DashBoard</a></li>
+                    <li class="breadcrumb-item active">Blood Request</li>
+                </ol>
+            </nav>
+
+            <div class="x_panel">
+                <div class="x_title">
+                    <h5>Blood Request</h5>
+                </div>
+                <div class="x_content">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form asp-area="Bloodbank" asp-controller="BloodRequest" asp-action="Index" id="frmData">
+                                <input type="hidden" id="BloodRequestInfoId" name="BloodRequestInfoId" value="" />
+                                <input type="hidden" id="userId" name="userId" value="" />
+
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-12">
+
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-md-3 col-sm-12">Patient Name</label>
+                                            <div class="col-md-9 col-sm-12">
+                                                <input type="text" id="patientName" name="patientName" class="form-control" value="" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-md-3 col-sm-12">Patient Address</label>
+                                            <div class="col-md-9 col-sm-12">
+                                                <input type="text" id="patientAddress" name="patientAddress" class="form-control" value="" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-md-3 col-sm-12">Relation</label>
+                                            <div class="col-md-9 col-sm-12">
+
+                                                <select id="RelationShipId" name="RelationShipId" class="form-control">
+                                                    <option value="">Select</option>
+                                                    @foreach (var item in Model.relationShips)
+                                                    {
+                                                        <option value="@item.Id">@item.relationShipName</option>
+                                                    }
+
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-md-3 col-sm-12">Hospital Name</label>
+                                            <div class="col-md-9 col-sm-12">
+                                                <input type="text" id="donationPlaceName" name="donationPlaceName" class="form-control" value="" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-md-3 col-sm-12">Hospital Location</label>
+                                            <div class="col-md-9 col-sm-12">
+                                                <input type="text" id="location" name="location" class="form-control" value="" />
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-6 col-sm-12">
+
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-md-3 col-sm-12">Reason Of Blood</label>
+                                            <div class="col-md-9 col-sm-12">
+                                                <input type="text" id="reasonOfBlood" name="reasonOfBlood" class="form-control" value="" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-md-3 col-sm-12">Blood Group</label>
+                                            <div class="col-md-9 col-sm-12">
+
+                                                <select id="BloodGroupId" name="BloodGroupId" class="form-control">
+                                                    <option value="">Select</option>
+                                                    @foreach (var item in Model.bloodGroups)
+                                                    {
+                                                        <option value="@item.Id">@item.groupName</option>
+                                                    }
+
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-md-3 col-sm-12">Amount Of Blood</label>
+                                            <div class="col-md-9 col-sm-12">
+
+                                                <select id="amountOfBlood" name="amountOfBlood" class="form-control">
+                                                    <option value="0">Select</option>
+                                                    @for (var i = 1; i <= 30; i++)
+                                                    {
+                                                        <option value="@i">@i Beg</option>
+                                                    }
+
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-md-3 col-sm-12">Need Date</label>
+                                            <div class="col-md-9 col-sm-12">
+                                                <input type="text" id="needDate" name="needDate" class="form-control" value="" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-md-3 col-sm-12">Remarks</label>
+                                            <div class="col-md-9 col-sm-12">
+                                                <textarea class="form-control" id="remarks" name="remarks" cols="2"></textarea>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-md-3"></label>
+                                            <div class="col-md-9">
+                                                <button type="button" id="btnSave" value="Submit" class="btn btn-primary"><i class="fa fa-save"></i></button>
+                                                <button type="reset" id="btnReset" value="reset" class="btn btn-info"><i class="fa fa-repeat"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+
+                                    </div>
+                                    
+
+                                </div>
+                                
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="row">
+                <div class="col-md-12 col-sm-12 ">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h5>Blood Request Info</h5>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li>
+                                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="#">Settings 1</a>
+                                        <a class="dropdown-item" href="#">Settings 2</a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="Refreshfix"></div>
+                        </div>
+
+                        <div class="x_content">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="card-box table-responsive">
+
+                                        <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap text-md-center" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>#SlNo</th>
+                                                    <th>Patient Name</th>
+                                                    <th>Blood Group</th>
+                                                    <th>Amount Of Blood</th>
+                                                    <th>Reason O fBlood</th>
+                                                    <th>Hospital</th>
+                                                    <th>Hospital Location</th>
+                                                    <th class="text-md-center">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{
+
+                                                    int sl = 1;
+                                                    @foreach (var item in Model.bloodRequestInfos.Where(x=>x.userId== Model.CurrentUser.Id))
+                                                    {
+                                                <tr>
+                                                    <td>@sl</td>
+                                                    <td>@item.patientName</td>
+                                                    <td>@item.BloodGroup.groupName</td>
+                                                    <td>@item.amountOfBlood</td>
+                                                    <td>@item.reasonOfBlood</td>
+                                                    <td>@item.donationPlaceName</td>
+                                                    <td>@item.location</td>
+
+
+                                                    <td class="text-md-center">
+                                                        <a href="#" class="btn btn-round btn-warning" onclick="Edit(@item.Id,@item.BloodGroupId,@item.RelationShipId,'@item.patientName',@item.amountOfBlood,'@item.donationPlaceName','@item.location','@item.needDate','@item.patientAddress','@item.userId','@item.reasonOfBlood','@item.remarks')"><i class="fa fa-edit"></i></a>
+                                                        <a href="#" class="btn btn-round btn-danger" onclick="Delete(@item.Id)"><i class="fa fa-trash"></i></a>
+                                                    </td>
+                                                </tr>
+
+                                                        sl = sl + 1;
+                                                    }
+
+                                                }
+
+                                            </tbody>
+                                        </table>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /page content -->
+
+
+
+
+</body>
+</html>
+
+
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+        /*    $('#datatable-responsive').DataTable();*/
+            $("#amountOfBlood").select2();
+
+            $('#needDate').flatpickr({ dateFormat: "Y-m-d", minDate: "@DateTime.Now.ToString("MM/dd/yyyy")" });
+            Refresh();
+        });
+
+
+        $('#btnSave').click(function () {
+
+
+            var data = $('#frmData').serialize();
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You want to save this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, save it!'
+            }).then((result)=> {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/Bloodbank/BloodRequest/Index',
+                        type: 'POST',
+                        data: data
+                    }).done(function () {
+                        if (data[0].value == 0) {
+                            swal.fire('success', 'Saved Successfully!', 'success').then(function () {
+                                location.reload();
+                            });
+                        }
+                        else {
+                            swal.fire('success', 'Saved Successfully!', 'success').then(function () {
+                                location.reload();
+                            });;
+                        }
+                    }).fail(function () {
+                        swal.fire('warning', 'Failed!', 'warning');
+                    })
+                }
+
+		});
+
+
+	})
+
+
+        function Delete(Id) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to retrieve this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                $.ajax({
+                    url: "/Bloodbank/BloodRequest/Delete/" + Id,
+                    data: { Id: Id },
+                    type: 'POST'
+                })
+                    .done(function() {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Deleted Successfully!!',
+                            showConfirmButton: false,
+                            timer: 1000
+                        }).then(function () {
+                            window.location.reload();
+                        })
+                    })
+                    .fail(function () {
+                        swal.fire('Cancelled', 'It will not be deleted. Please try again later !!!', 'error');
+                    });
+                }
+            });
+        }
+
+
+
+        function Edit(Id, BloodGroupId, RelationShipId, patientName, amountOfBlood, donationPlaceName, location, needDate,patientAddress,userId,reasonOfBlood,remarks) {
+            $("#BloodRequestInfoId").val(Id);
+            $("#BloodGroupId").val(BloodGroupId);
+            $("#RelationShipId").val(RelationShipId);
+            $("#patientName").val(patientName);
+            $("#amountOfBlood").val(amountOfBlood);
+            $("#donationPlaceName").val(donationPlaceName);
+            $("#location").val(location);
+            $("#needDate").val(needDate);
+            $("#patientAddress").val(patientAddress);
+            $("#userId").val(userId);
+            $("#reasonOfBlood").val(reasonOfBlood);
+            $("#remarks").val(remarks);
+
+
+        }
+
+
+        function Refresh() {
+            $("#BloodRequestInfoId").val(0);
+            $("#BloodGroupId").val("");
+            $("#RelationShipId").val("");
+            $("#patientName").val("");
+            $("#amountOfBlood").val("");
+            $("#donationPlaceName").val("");
+            $("#location").val("");
+            $("#needDate").val("");
+            $("#patientAddress").val("");
+            $("#userId").val("");
+            $("#reasonOfBlood").val("");
+            $("#remarks").val("");
+        }
+    </script>
+}

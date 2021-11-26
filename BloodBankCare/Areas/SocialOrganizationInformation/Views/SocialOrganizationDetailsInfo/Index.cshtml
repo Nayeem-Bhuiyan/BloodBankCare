@@ -1,0 +1,318 @@
+﻿@model SocialOrganizationDetailsViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+
+<html>
+<head>
+    <title></title>
+
+
+</head>
+<body>
+
+
+    <!-- page content -->
+    <div class="right_col" role="main">
+        <div class="">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-end">
+                    <li class="breadcrumb-item"><a href="/Home/Index">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/DashBoard/UserDashboard">DashBoard</a></li>
+                    <li class="breadcrumb-item active">Social Organization Details</li>
+                </ol>
+            </nav>
+
+            <div class="x_panel">
+                <div class="x_title">
+
+                    <h5>Add Social Organization Details </h5>
+
+                </div>
+                <div class="x_content">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form asp-area="SocialOrganizationInformation" asp-controller="SocialOrganizationDetailsInfo" asp-action="Index" id="frmData">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <input type="hidden" id="SocialOrganizationDetailsId" name="SocialOrganizationDetailsId" value="" />
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-md-2">Name</label>
+                                            <div class="col-md-10">
+                                                <select id="SocialOrganizationId" name="SocialOrganizationId" class="form-control">
+                                                    <option value="">Select</option>
+                                                    @foreach (var item in Model.socialOrganizations)
+                                                    {
+                                                        <option value="@item.Id">@item.socialOrgName</option>
+                                                    }
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-md-2">Org Type</label>
+                                            <div class="col-md-10">
+                                                <select id="organizationTypeName" name="organizationTypeName" class="form-control">
+                                                    <option value="">Select</option>
+                                                    <option value="Blood Related">Blood Service</option>
+                                                    <option value="Human Service">Human Service</option>
+                                                    <option value="Child Service">Child Service</option>
+                                                    <option value="General Service">General Service</option>
+                                                    <option value="Other Service">Other Service</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-md-2">Location</label>
+                                            <div class="col-md-10">
+                                                <input type="text" id="location" name="location" class="form-control" value="" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-md-2"></label>
+                                            <div class="col-md-10">
+                                                <button type="button" id="btnSave" value="Submit" class="btn btn-primary"><i class="fa fa-save"></i></button>
+                                                <button type="reset" id="btnReset" value="reset" class="btn btn-info"><i class="fa fa-repeat"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-md-2">Creator</label>
+                                            <div class="col-md-10">
+                                                <input type="text" id="creator" name="creator" class="form-control" value="" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-md-2">President</label>
+                                            <div class="col-md-10">
+                                                <input type="text" id="presentPresidentName" name="presentPresidentName" class="form-control" value="" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-md-2">Contact No</label>
+                                            <div class="col-md-10">
+                                                <input type="text" id="contactNo" name="contactNo" class="form-control" value="" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-md-2">Established</label>
+                                            <div class="col-md-10">
+                                                <input type="text" id="establishedYear" name="establishedYear" class="form-control" value="" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="row">
+                <div class="col-md-12 col-sm-12 ">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h5>Social Organization Details</h5>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li>
+                                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="#">Settings 1</a>
+                                        <a class="dropdown-item" href="#">Settings 2</a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="Refreshfix"></div>
+                        </div>
+
+                        <div class="x_content">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="card-box table-responsive">
+
+                                        <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap text-md-center" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>#SlNo</th>
+                                                    <th>Name</th>
+                                                    <th>Type</th>
+                                                    <th>creator</th>
+                                                    <th>President</th>
+                                                    <th>contactNo</th>
+                                                    <th>establishedYear</th>
+                                                    <th>Location</th>
+                                                    <th class="text-md-center">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{
+
+                                                    int sl = 1;
+                                                    @foreach (var item in Model.socialOrganizationDetailsList)
+                                                    {
+                                                        <tr>
+                                                            <td>@sl</td>
+                                                            <td>@item.SocialOrganization?.socialOrgName</td>
+                                                            <td>@item.organizationTypeName</td>
+                                                            <td>@item.creator</td>
+                                                            <td>@item.presentPresidentName</td>
+                                                            <td>@item.contactNo</td>
+                                                            <td>@item.establishedYear?.ToString("dd-MMM-yyyy")</td>
+                                                            <td>@item.location</td>
+                                                            <td class="text-md-center">
+                                                                <a href="#" class="btn btn-round btn-warning" onclick="Edit(@item.Id,'@item.SocialOrganizationId','@item.organizationTypeName','@item.creator','@item.presentPresidentName','@item.contactNo','@item.establishedYear','@item.location')"><i class="fa fa-edit"></i></a>
+                                                                <a href="#" class="btn btn-round btn-danger" onclick="Delete(@item.Id)"><i class="fa fa-trash"></i></a>
+                                                            </td>
+                                                        </tr>
+
+                                                        sl = sl + 1;
+                                                    }
+
+                                                }
+
+                                            </tbody>
+                                        </table>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /page content -->
+
+
+
+
+</body>
+</html>
+
+
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+
+            $('#establishedYear').flatpickr({ dateFormat: "Y-m-d", minDate: "@DateTime.Now.ToString("MM/dd/yyyy")" });
+            Refresh();
+        });
+
+
+        $('#btnSave').click(function () {
+            var data = $('#frmData').serialize();
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You want to save this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, save it!'
+            }).then((result)=> {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/SocialOrganizationInformation/SocialOrganizationDetailsInfo/Index',
+                        type: 'POST',
+                        data: data
+                    }).done(function () {
+                        if (data[0].value == 0) {
+                            swal.fire('success', 'Saved Successfully!', 'success').then(function () {
+                                location.reload();
+                            });
+                        }
+                        else {
+                            swal.fire('success', 'Saved Successfully!', 'success').then(function () {
+                                location.reload();
+                            });;
+                        }
+                    }).fail(function () {
+                        swal.fire('warning', 'Failed!', 'warning');
+                    })
+                }
+
+		});
+
+
+	})
+
+
+        function Delete(Id) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to retrieve this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                $.ajax({
+                    url: "/SocialOrganizationInformation/SocialOrganizationDetailsInfo/Delete/" + Id,
+                    data: { Id: Id },
+                    type: 'POST'
+                })
+                    .done(function() {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Deleted Successfully!!',
+                            showConfirmButton: false,
+                            timer: 1000
+                        }).then(function () {
+                            window.location.reload();
+                        })
+                    })
+                    .fail(function () {
+                        swal.fire('Cancelled', 'It will not be deleted. Please try again later !!!', 'error');
+                    });
+                }
+            });
+        }
+
+
+
+        function Edit(Id,SocialOrganizationId,organizationTypeName,creator,presentPresidentName,contactNo,establishedYear,location) {
+            $("#SocialOrganizationDetailsId").val(Id);
+            $("#SocialOrganizationId").val(SocialOrganizationId);
+            $("#organizationTypeName").val(organizationTypeName);
+            $("#creator").val(creator);
+            $("#presentPresidentName").val(presentPresidentName);
+            $("#contactNo").val(contactNo);
+            $("#establishedYear").val(establishedYear);
+            $("#location").val(location);
+        }
+
+
+        function Refresh() {
+            $("#SocialOrganizationDetailsId").val(0);
+            $("#SocialOrganizationId").val('');
+            $("#organizationTypeName").val('');
+            $("#creator").val('');
+            $("#presentPresidentName").val('');
+            $("#contactNo").val('');
+            $("#establishedYear").val('');
+            $("#location").val('');
+        }
+    </script>
+}

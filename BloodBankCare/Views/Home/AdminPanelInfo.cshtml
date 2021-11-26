@@ -1,0 +1,75 @@
+﻿@model HomePageViewModel
+@{
+    ViewData["Title"] = "AdminPanelInfo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12, .col, .col-auto, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm, .col-sm-auto, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12, .col-md, .col-md-auto, .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg, .col-lg-auto, .col-xl-1, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl, .col-xl-auto {
+        position: relative;
+        width: 100%;
+        padding-right: 4px;
+        padding-left: 4px;
+    }
+
+    .row {
+        margin-right: 0px;
+        margin-left: 0px;
+    }
+</style>
+<!-- Breadcrumb Area -->
+<div id="cr-breadcrumb-area" class="cr-breadcrumb-area bg-image--2 section-padding--md" data-overlay="8">
+    <div class="container">
+        <div class="cr-breadcrumb">
+            <div class="cr-breadcrumb__left">
+                <h2>Admin Panel</h2>
+                <p>Admin Panel Details Info</p>
+            </div>
+            <div class="cr-breadcrumb__right">
+                <ul class="cr-breadcrumb__pagination">
+                    <li>
+                        <a href="/Home/Index">Home</a>
+                    </li>
+                    <li>Admin Panel</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!--// Breadcrumb Area -->
+<!-- Main Area Begin-->
+
+<div class="row bg-light">
+    @foreach (var item in Model.adminPanelInfos)
+    {
+        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mt-1 mb-1">
+            <div class="card">
+                <div class="card-header bg-success">
+                    <h5 class="card-title text-center text-white font-weight-bold">@item.name.ToUpper()</h5>
+                </div>
+                <div class="card-body text-center" style="min-height:200px!important">
+                    <img src="/@item.ImageUrl" class="img-fluid" style="max-height:200px" alt="Alternate Text" /><br /><br />
+                    <div class="d-inline-flex font-weight-bold">
+                        <span>Profession :</span><span>@item.profession</span>
+                    </div><br />
+                    <div class="d-inline-flex">
+                        <span>Designation :</span><span>@item.designation</span>
+                    </div><br />
+                    <div class="d-inline-flex">
+                        <span>Job Type :</span><span>@item.instituteType</span>
+                    </div><br />
+                    <div class="d-inline-flex">
+                        <span>Work Place :</span><span>@item.instituteName</span>
+                    </div><br />
+                    <div class="d-inline-flex">
+                        <span>Address :</span><span> @item.address</span>
+                    </div><br />
+                </div>
+              
+            </div>
+        </div>
+    }
+
+</div>
+<!--//Main Area End -->
+<!--//Main Area End -->

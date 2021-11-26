@@ -1,0 +1,1371 @@
+﻿@model UserDashBoardViewModel
+@{
+    ViewData["Title"] = "UserDashboard";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section Style{ 
+    <style>
+            .accordion .fa {
+                margin-right: 0.5rem;
+                font-size: 24px;
+                font-weight: bold;
+                position: relative;
+                top: 2px;
+            }
+
+            [data-toggle="collapse"] .fa:before {
+                content: "\f077";
+            }
+
+            [data-toggle="collapse"].collapsed .fa:before {
+                content: "\f078";
+            }
+
+            /*   input[type=checkbox] {
+            -webkit-appearance: checkbox;
+        }*/
+
+            input[type=checkbox] {
+                display: block;
+            }
+    </style>
+}
+
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-end">
+                <li class="breadcrumb-item"><a href="/Home/Index">Home</a></li>
+                <li class="breadcrumb-item"><a href="/DashBoard/UserDashboard">DashBoard</a></li>
+                <li class="breadcrumb-item active">User DashBoard</li>
+            </ol>
+        </nav>
+
+        <div class="x_panel">
+            <div class="x_title text-center">
+
+                @*<h5>User DashBoard</h5>*@
+
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-sm-12 ">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>My Profile</h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li>
+                                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="#">Settings 1</a>
+                                        <a class="dropdown-item" href="#">Settings 2</a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+
+
+                        <div class="x_content">
+                            <div class="row">
+                                <div class="col-md-3">
+
+                                    <!-- Profile Image -->
+                                    <div class="card card-primary card-outline">
+                                        <div class="card-body box-profile">
+                                            <div class="text-center">
+                                                @if (Model.donorInformation.imageUrl == null || Model.donorInformation.imageUrl == "")
+                                                {
+                                                    <img class="profile-user-img img-fluid img-circle" id="displayImage" src="/DefaultImage/637555526423119366.png" alt="User Default profile picture">
+                                                }
+                                                else
+                                                {
+
+                                                    <img class="profile-user-img img-fluid img-circle" src="/@Model.donorInformation?.imageUrl" id="displayImage" alt="User profile picture">
+                                                }
+                                            </div>
+
+                                            <h3 class="profile-username text-center">@Model.applicationUser?.UserName.ToUpper()</h3>
+
+                                            <p class="text-muted text-center">@Model.applicationUser?.birthDate?.ToString("dd-MMM-yyyy")</p>
+                                            <p class="text-muted text-center"><a href="/BloodBank/DonorInfo/DonorByBloodGroup/@Model.applicationUser?.BloodGroup?.Id" class="btn btn-primary btn-round"><i class="fa fa-eye"></i>@Model.applicationUser?.BloodGroup?.groupName</a></p>
+                                            <p class="text-muted text-center">@Model.applicationUser?.PhoneNumber</p>
+
+
+                                            <ul class="list-group list-group-unbordered mb-3">
+                                                <li class="list-group-item">
+                                                    <b>Donated</b> <a class="float-right">@Model?.TotalDonation<span>&nbsp;&nbsp;Beg</span></a>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <b>Last Donate</b> <a class="float-right">@Model.donationRecord?.needDate?.ToString("dd-MMM-yyyy")</a>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <b>Your Last Donation before</b> <span class="btn btn-primary btn-round">@Model.LastDonationDayCount</span> days
+                                                </li>
+                                               
+                                            </ul>
+                                        </div>
+                                        <!-- /.card-body -->
+                                    </div>
+
+                                </div>
+                                <!-- /.col -->
+                                <div class="col-md-9">
+
+                                    <!-- /.card -->
+
+                                    <div class="accordion" id="accordionExample">
+
+                                        <div class="card">
+                                            <div class="card-header collapsed" id="TabHeading1" data-toggle="collapse" data-target="#CollapseTab1">
+                                                <h5 class="mb-0 text-primary">
+                                                    My Profile
+                                                    <i class="fa fa-angle-down float-md-right"></i>
+                                                </h5>
+                                            </div>
+                                            <div id="CollapseTab1" class="collapse show" aria-labelledby="TabHeading1" data-parent="#accordionExample">
+                                                <div class="card-body">
+                                                    <div class="card">
+                                                        <div class="card-header p-2">
+                                                            <ul class="nav nav-pills">
+                                                                <li class="nav-item"><a class="nav-link active" href="#ProfileDetails" data-toggle="tab">Profile Details</a></li>
+                                                                <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Edit</a></li>
+                                                                <li class="nav-item"><a class="nav-link" href="#DonationRecord" data-toggle="tab">Donation By Me</a></li>
+                                                                <li class="nav-item"><a class="nav-link" href="#BloodRequest" data-toggle="tab">Blood Receive By Me</a></li>
+                                                                <li class="nav-item"><a class="nav-link" href="#NeedBlood" data-toggle="tab">Blood Request</a></li>
+                                                            </ul>
+                                                        </div><!-- /.card-header -->
+                                                        <div class="card-body">
+                                                            <div class="tab-content">
+                                                                <div class="active tab-pane" id="ProfileDetails">
+                                                                    <ul class="list-group list-group-unbordered mb-3">
+
+                                                                        <!-- User Information -->
+
+                                                                        <li class="list-group-item">
+                                                                            <b>User Name</b> <a class="float-right">@Model.applicationUser.UserName</a>
+                                                                        </li>
+                                                                        <li class="list-group-item">
+                                                                            <b>Email</b> <a class="float-right">@Model.applicationUser?.Email</a>
+                                                                        </li>
+                                                                        <li class="list-group-item">
+                                                                            <b>Gender</b> <a class="float-right">@Model.applicationUser?.Gender?.genderName.</a>
+                                                                        </li>
+
+
+                                                                        @if (Model.donorInformation != null)
+                                                                        {
+                                                                            <!-- Donor Information -->
+                                                                            <li class="list-group-item">
+                                                                                <b>Religion</b> <a class="float-right">@Model.donorInformation?.Religion?.religionName</a>
+                                                                            </li>
+                                                                            <li class="list-group-item">
+                                                                                <b>National Id</b> <a class="float-right">@Model.donorInformation?.nationalId</a>
+                                                                            </li>
+                                                                            <li class="list-group-item">
+                                                                                <b>Age</b> <a class="float-right">@Model.donorInformation?.age</a>
+                                                                            </li>
+                                                                            <li class="list-group-item">
+                                                                                <b>Present Address</b> <a class="float-right">@Model.presentAddress?.houseNo,@Model.presentAddress?.villageName, @Model.presentAddress?.postOffice, @Model.presentAddress?.Thana?.thanaName,@Model.presentAddress?.District?.districtName</a>
+
+                                                                            </li>
+                                                                            <li class="list-group-item">
+                                                                                <b>Permanent Address</b> <a class="float-right">@Model.presentAddress?.houseNo,@Model.permanentAddress?.villageName, @Model.permanentAddress?.postOffice, @Model.permanentAddress?.Thana?.thanaName,@Model.permanentAddress?.District?.districtName</a>
+                                                                            </li>
+                                                                        }
+                                                                        else
+                                                                        {
+
+                                                                        }
+
+
+                                                                    </ul>
+
+
+                                                                </div>
+
+
+                                                                <div class="tab-pane" id="settings">
+
+                                                                    <div class="row">
+
+                                                                        <div class="col-md-12">
+                                                                            <h5>User Information</h5><br />
+
+                                                                            <form id="frmUserData" asp-area="Auth" asp-controller="Account" asp-action="EditRegistrationInfo">
+                                                                                <input type="hidden" id="ApplicationUserId" name="ApplicationUserId" value="@Model.applicationUser?.Id" />
+                                                                                <div class="row">
+                                                                                    <div class="col-md-6">
+                                                                                        <div class="form-group row">
+                                                                                            <label class="col-form-label col-md-3 col-sm-12 label-align" for="Email">
+                                                                                                Email <span class="required">*</span>
+                                                                                            </label>
+                                                                                            <div class="col-md-9 col-sm-12">
+                                                                                                <input type="email" id="Email" name="Email" value="@Model.applicationUser?.Email" required class="form-control">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="form-group row">
+                                                                                            <label class="col-form-label col-md-3 col-sm-12 label-align" for="GenderId">
+                                                                                                Gender <span class="required">*</span>
+                                                                                            </label>
+                                                                                            <div class="col-md-9 col-sm-12">
+                                                                                                <select class="form-control" id="GenderId" name="GenderId" required>
+                                                                                                    <option value="">Select</option>
+                                                                                                    @foreach (var item in Model.genders.OrderBy(x => x.Id))
+                                                                                                    {
+                                                                                                        <option value="@item.Id">@item.genderName</option>
+                                                                                                    }
+
+                                                                                                </select>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="form-group row">
+                                                                                            <label class="col-form-label col-md-3 col-sm-12 label-align" for="BloodGroupId">
+                                                                                                Blood <span class="required">*</span>
+                                                                                            </label>
+                                                                                            <div class="col-md-9 col-sm-12">
+                                                                                                <select class="form-control" id="BloodGroupId" name="BloodGroupId" required>
+                                                                                                    <option value="">Select</option>
+                                                                                                    @foreach (var item in Model.bloodGroups.OrderBy(x => x.Id))
+                                                                                                    {
+                                                                                                        <option value="@item.Id">@item.groupName</option>
+                                                                                                    }
+
+                                                                                                </select>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-md-6">
+                                                                                        <div class="form-group row">
+                                                                                            <label class="col-form-label col-md-3 col-sm-12 label-align" for="PhoneNumber">
+                                                                                                Phone <span class="required">*</span>
+                                                                                            </label>
+                                                                                            <div class="col-md-9 col-sm-12">
+                                                                                                <input type="number" id="PhoneNumber" name="PhoneNumber" value="@Model.applicationUser?.PhoneNumber" required class="form-control">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="form-group row">
+                                                                                            <label class="col-form-label col-md-3 col-sm-12 label-align" for="Password">
+                                                                                                Password<span class="required">*</span>
+                                                                                            </label>
+                                                                                            <div class="col-md-9 col-sm-12">
+                                                                                                <input type="password" id="Password" name="Password" value="" required class="form-control">
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div class="form-group row">
+                                                                                            <label class="col-form-label col-md-3 col-sm-12 label-align" for="ConfirmPassword">
+                                                                                                Confirm Password<span class="required">*</span>
+                                                                                            </label>
+                                                                                            <div class="col-md-9 col-sm-12">
+                                                                                                <input type="text" id="ConfirmPassword" name="ConfirmPassword" data-parsley-equalto="#Password" data-parsley-trigger="keyup"  value="" required class="form-control">
+                                                                                            </div>
+                                                                                        </div>
+
+
+                                                                                    </div>
+                                                                                    <div class="col-md-6">
+                                                                                        <div class="form-group row">
+                                                                                            <label class="col-form-label col-md-3 col-sm-12 label-align">
+
+                                                                                            </label>
+                                                                                            <div class="col-md-9 col-sm-12">
+                                                                                                <button type="submit" value="Submit" class="btn btn-primary" id="btnUserSave">Save</button>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </form>
+
+
+
+                                                                        </div>
+                                                                        @if (Model.donorInformation != null)
+                                                                        {
+                                                                    <div class="col-md-12">
+
+                                                                        <h5>Donor Information</h5><br />
+                                                                  
+                                                                        <form id="frmDonorInfo" asp-area="Bloodbank" asp-controller="DonorInfo" asp-action="SaveDonorInfo" enctype="multipart/form-data">
+                                                                            <input type="hidden" id="DonorInformationId" name="DonorInformationId" value="@Model.donorInformation?.Id" />
+                                                                            <div class="row">
+                                                                                <div class="col-md-6">
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-form-label col-md-3 col-sm-12 label-align" for="DonorImage">
+                                                                                            Photo <span class="required">*</span>
+                                                                                        </label>
+                                                                                        <div class="col-md-9 col-sm-12">
+                                                                                            <input type="file" id="DonorImage" name="DonorImage" onchange="loadFile(event)" required="required" class="form-control">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-form-label col-md-3 col-sm-12 label-align" for="nationalId">
+                                                                                            NId <span class="required">*</span>
+                                                                                        </label>
+                                                                                        <div class="col-md-9 col-sm-12">
+                                                                                            <input type="text" id="nationalId" name="nationalId" value="@Model.donorInformation?.nationalId" class="form-control">
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-form-label col-md-3 col-sm-12 label-align" for="age">
+                                                                                            Age <span class="required">*</span>
+                                                                                        </label>
+                                                                                        <div class="col-md-9 col-sm-12">
+                                                                                            <input type="text" id="age" name="age" value="@Model.donorInformation?.age" class="form-control">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-form-label col-md-3 col-sm-12 label-align" for="SocialOrganizationId">
+                                                                                            Social Org <span class="required">*</span>
+                                                                                        </label>
+                                                                                        <div class="col-md-9 col-sm-12">
+                                                                                            <select id="SocialOrganizationId" name="SocialOrganizationId" class="form-control">
+                                                                                                <option value="">Select</option>
+                                                                                                @foreach (var socialOrganization in Model.socialOrganizations)
+                                                                                                {
+                                                                                                    <option value="@socialOrganization.Id">@socialOrganization.socialOrgName</option>
+                                                                                                }
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-6">
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-form-label col-md-3 col-sm-12 label-align" for="ReligionId">
+                                                                                            Religion <span class="required">*</span>
+                                                                                        </label>
+                                                                                        <div class="col-md-9 col-sm-12">
+                                                                                            <select id="ReligionId" name="ReligionId" class="form-control" required>
+                                                                                                <option value="">Select</option>
+                                                                                                @foreach (var item in Model?.religions)
+                                                                                                {
+                                                                                                    <option value="@item.Id">@item.religionName</option>
+                                                                                                }
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>
+
+
+
+
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-form-label col-md-3 col-sm-12 label-align" for="ProfessionId">
+                                                                                            Profession <span class="required">*</span>
+                                                                                        </label>
+                                                                                        <div class="col-md-9 col-sm-12">
+                                                                                            <select id="ProfessionId" name="ProfessionId" class="form-control" required>
+                                                                                                <option value="">Select</option>
+                                                                                                @foreach (var profession in Model.professions)
+                                                                                                {
+                                                                                                    <option value="@profession.Id">@profession.professionName</option>
+                                                                                                }
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-form-label col-md-3 col-sm-12 label-align" for="designation">
+                                                                                            Designation
+                                                                                        </label>
+                                                                                        <div class="col-md-9 col-sm-12">
+                                                                                            <input type="text" id="designation" name="designation" value="@Model.donorInformation?.designation"  class="form-control">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                  
+                                                                                </div>
+                                                                                <div class="col-md-6">
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-form-label col-md-3 col-sm-12 label-align">
+
+                                                                                        </label>
+                                                                                        <div class="col-md-9 col-sm-12">
+                                                                                            <button type="submit" value="Submit" class="btn btn-primary" id="btnDonorInfoSave">Save</button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </form>
+
+
+                                                                    </div>
+                                                                            <div class="col-md-12">
+                                                                                <h5>Permanent Address</h5><br />
+                                                                                <form id="frmPermanentAddress" asp-area="Bloodbank" asp-controller="DonorInfo" asp-action="SaveDonorPermanentAddress">
+                                                                                    <input type="hidden" id="PermanentAddressId" name="PermanentAddressId" value="@Model.permanentAddress?.Id" />
+                                                                                    <div class="row">
+                                                                                        <div class="col-md-6">
+                                                                                            <div class="form-group row">
+                                                                                                <label class="col-form-label col-md-3 col-sm-12 label-align" for="careOf">
+                                                                                                    Care Of <span class="required">*</span>
+                                                                                                </label>
+                                                                                                <div class="col-md-9 col-sm-12">
+                                                                                                    <input type="text" id="careOf" name="careOf" value="@Model.permanentAddress?.careOf" required="required" class="form-control">
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                            <div class="form-group row">
+                                                                                                <label class="col-form-label col-md-3 col-sm-12 label-align" for="houseNo">
+                                                                                                    House No 
+                                                                                                </label>
+                                                                                                <div class="col-md-9 col-sm-12">
+                                                                                                    <input type="text" id="houseNo" name="houseNo" value="@Model.permanentAddress?.houseNo" class="form-control">
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                            <div class="form-group row">
+                                                                                                <label class="col-form-label col-md-3 col-sm-12 label-align" for="villageName">
+                                                                                                    Village 
+                                                                                                </label>
+                                                                                                <div class="col-md-9 col-sm-12">
+                                                                                                    <input type="text" id="villageName" name="villageName" value="@Model.permanentAddress?.villageName"  class="form-control">
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="form-group row">
+                                                                                                <label class="col-form-label col-md-3 col-sm-12 label-align" for="postOffice">
+                                                                                                    Post Office 
+                                                                                                </label>
+                                                                                                <div class="col-md-9 col-sm-12">
+                                                                                                    <input type="text" id="postOffice" name="postOffice" value="@Model.permanentAddress?.postOffice" required="required"  class="form-control">
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="col-md-6">
+
+                                                                                            <div class="form-group row">
+                                                                                                <label class="col-form-label col-md-3 col-sm-12 label-align" for="CountryId">
+                                                                                                    Country <span class="required">*</span>
+                                                                                                </label>
+                                                                                                <div class="col-md-9 col-sm-12">
+                                                                                                    <select id="CountryId" name="CountryId" class="form-control" required>
+                                                                                                        <option value="">Select</option>
+                                                                                                        @foreach (var country in Model.countries)
+                                                                                                        {
+                                                                                                            <option value="@country.Id">@country.countryName</option>
+                                                                                                        }
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                            <div class="form-group row">
+                                                                                                <label class="col-form-label col-md-3 col-sm-12 label-align" for="DistrictId">
+                                                                                                    District <span class="required">*</span>
+                                                                                                </label>
+                                                                                                <div class="col-md-9 col-sm-12">
+                                                                                                    <select id="DistrictId" name="DistrictId" class="form-control" required>
+                                                                                                        <option value="">Select</option>
+                                                                                                        @foreach (var country in Model.districts)
+                                                                                                        {
+                                                                                                            <option value="@country.Id">@country.districtName</option>
+                                                                                                        }
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="form-group row">
+                                                                                                <label class="col-form-label col-md-3 col-sm-12 label-align" for="ThanaId">
+                                                                                                    Thana <span class="required">*</span>
+                                                                                                </label>
+                                                                                                <div class="col-md-9 col-sm-12">
+                                                                                                    <select id="ThanaId" name="ThanaId" class="form-control" required>
+                                                                                                        <option value="">Select</option>
+                                                                                                        @foreach (var country in Model.thanas)
+                                                                                                        {
+                                                                                                            <option value="@country.Id">@country.thanaName</option>
+                                                                                                        }
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                        </div>
+                                                                                        <div class="col-md-6">
+                                                                                            <div class="form-group row">
+                                                                                                <label class="col-form-label col-md-3 col-sm-12 label-align">
+
+                                                                                                </label>
+                                                                                                <div class="col-md-9 col-sm-12">
+                                                                                                    <button type="submit" value="Submit" class="btn btn-primary" id="btnPermanentAddressSave">Save</button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </form>
+
+                                                                            </div>
+
+
+
+                                                                            <div class="col-md-12">
+                                                                                <h5>Present Address</h5><br />
+                                                                                <form id="frmPresentAddress" asp-area="Bloodbank" asp-controller="DonorInfo" asp-action="SaveDonorPresentAddress">
+                                                                                    <input type="hidden" id="PresentAddressId" name="PresentAddressId" value="@Model.presentAddress?.Id" />
+                                                                                    <div class="row">
+                                                                                        <div class="col-md-6">
+
+                                                                                            <div class="form-group row">
+                                                                                                <label class="col-form-label col-md-3 col-sm-12 label-align" for="PresentcareOf">
+
+                                                                                                </label>
+                                                                                                <div class="col-md-9 col-sm-12">
+                                                                                                    <div class="form-check">
+                                                                                                        <label class="form-check-label">
+
+                                                                                                            <input type="checkbox" name="addressType" id="addressType" value="@Model.presentAddress?.addressType" class="form-check-input" /> Same as permanent Address
+
+
+
+                                                                                                        </label>
+                                                                                                    </div>
+                                                                                                   
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                            <div class="form-group row">
+                                                                                                <label class="col-form-label col-md-3 col-sm-12 label-align" for="PresentcareOf">
+                                                                                                    Care Of <span class="required">*</span>
+                                                                                                </label>
+                                                                                                <div class="col-md-9 col-sm-12">
+                                                                                                    <input type="text" id="PresentcareOf" name="PresentcareOf" value="@Model.presentAddress?.careOf" required="required" class="form-control">
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                            <div class="form-group row">
+                                                                                                <label class="col-form-label col-md-3 col-sm-12 label-align" for="PresenthouseNo">
+                                                                                                    House No
+                                                                                                </label>
+                                                                                                <div class="col-md-9 col-sm-12">
+                                                                                                    <input type="text" id="PresenthouseNo" name="PresenthouseNo" value="@Model.presentAddress?.houseNo" class="form-control">
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                            <div class="form-group row">
+                                                                                                <label class="col-form-label col-md-3 col-sm-12 label-align" for="PresentvillageName">
+                                                                                                    Village 
+                                                                                                </label>
+                                                                                                <div class="col-md-9 col-sm-12">
+                                                                                                    <input type="text" id="PresentvillageName" name="PresentvillageName" value="@Model.presentAddress?.villageName"  class="form-control">
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                        </div>
+                                                                                        <div class="col-md-6">
+
+                                                                                            <div class="form-group row">
+                                                                                                <label class="col-form-label col-md-3 col-sm-12 label-align" for="PresentpostOffice">
+                                                                                                    Post Office 
+                                                                                                </label>
+                                                                                                <div class="col-md-9 col-sm-12">
+                                                                                                    <input type="text" id="PresentpostOffice" name="PresentpostOffice" value="@Model.presentAddress?.postOffice" required="required" class="form-control">
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                            <div class="form-group row">
+                                                                                                <label class="col-form-label col-md-3 col-sm-12 label-align" for="PresentCountryId">
+                                                                                                    Country <span class="required">*</span>
+                                                                                                </label>
+                                                                                                <div class="col-md-9 col-sm-12">
+                                                                                                    <select id="PresentCountryId" name="PresentCountryId" class="form-control" required>
+                                                                                                        <option value="">Select</option>
+                                                                                                        @foreach (var country in Model.countries)
+                                                                                                        {
+                                                                                                            <option value="@country.Id">@country.countryName</option>
+                                                                                                        }
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                            <div class="form-group row">
+                                                                                                <label class="col-form-label col-md-3 col-sm-12 label-align" for="PresentDistrictId">
+                                                                                                    District <span class="required">*</span>
+                                                                                                </label>
+                                                                                                <div class="col-md-9 col-sm-12">
+                                                                                                    <select id="PresentDistrictId" name="PresentDistrictId" class="form-control" required>
+                                                                                                        <option value="">Select</option>
+                                                                                                        @foreach (var country in Model.districts)
+                                                                                                        {
+                                                                                                            <option value="@country.Id">@country.districtName</option>
+                                                                                                        }
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                            <div class="form-group row">
+                                                                                                <label class="col-form-label col-md-3 col-sm-12 label-align" for="PresentThanaId">
+                                                                                                    Thana <span class="required">*</span>
+                                                                                                </label>
+                                                                                                <div class="col-md-9 col-sm-12">
+                                                                                                    <select id="PresentThanaId" name="PresentThanaId" class="form-control" required>
+                                                                                                        <option value="">Select</option>
+                                                                                                        @foreach (var country in Model.thanas)
+                                                                                                        {
+                                                                                                            <option value="@country.Id">@country.thanaName</option>
+                                                                                                        }
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="col-md-6">
+                                                                                            <div class="form-group row">
+                                                                                                <label class="col-form-label col-md-3 col-sm-12 label-align">
+
+                                                                                                </label>
+                                                                                                <div class="col-md-9 col-sm-12">
+                                                                                                    <button type="submit" value="Submit" class="btn btn-primary" id="btnPresentAddressSave">Save</button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </form>
+
+                                                                            </div>
+                                                                        }
+
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="tab-pane" id="DonationRecord">
+                                                                    <div class="row">
+
+                                                                        <div class="col-md-12">
+
+
+                                                                            <ul class="nav navbar-right panel_toolbox">
+                                                                                <li>
+                                                                                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                                                                </li>
+                                                                                <li class="dropdown">
+                                                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                                                        <a class="dropdown-item" href="#">Settings 1</a>
+                                                                                        <a class="dropdown-item" href="#">Settings 2</a>
+                                                                                    </div>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <a class="close-link"><i class="fa fa-close"></i></a>
+                                                                                </li>
+                                                                            </ul>
+                                                                            <div class="Refreshfix"></div>
+
+
+                                                                            <div class="x_content">
+                                                                                <div class="row">
+                                                                                    <div class="col-sm-12">
+                                                                                        <div class="card-box table-responsive">
+
+                                                                                            <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap text-md-center" cellspacing="0" width="100%">
+                                                                                                <thead>
+                                                                                                    <tr>
+                                                                                                        <th>Patient</th>
+                                                                                                        <th>Address</th>
+                                                                                                        <th>Reason</th>
+                                                                                                        <th>Group</th>
+                                                                                                        <th>Amount</th>
+                                                                                                        <th>Place</th>
+                                                                                                        <th>Location</th>
+                                                                                                        <th>Request</th>
+                                                                                                        <th>Need</th>
+                                                                                                    </tr>
+                                                                                                </thead>
+                                                                                                <tbody>
+                                                                                                    @foreach (var donation in Model.DonationRecordInfos.OrderByDescending(x=>x.Id))
+                                                                                                    {
+                                                                                                        <tr>
+                                                                                                            <td>@donation.patientName</td>
+                                                                                                            <td>@donation.patientAddress</td>
+                                                                                                            <td>@donation.reasonOfBlood</td>
+                                                                                                            <td>@donation.BloodGroup?.groupName</td>
+                                                                                                            <td>@donation.amountOfBlood</td>
+                                                                                                            <td>@donation.donationPlaceName</td>
+                                                                                                            <td>@donation.location</td>
+                                                                                                            <td>@donation.requestDate?.ToString("dd-MMM-yyyy")</td>
+                                                                                                            <td>@donation.needDate?.ToString("dd-MMM-yyyy")</td>
+                                                                                                        </tr>
+                                                                                                    }
+
+                                                                                                </tbody>
+                                                                                            </table>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="tab-pane" id="BloodRequest">
+                                                                    <div class="row">
+
+                                                                        <div class="col-md-12">
+
+
+                                                                            <ul class="nav navbar-right panel_toolbox">
+                                                                                <li>
+                                                                                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                                                                </li>
+                                                                                <li class="dropdown">
+                                                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                                                        <a class="dropdown-item" href="#">Settings 1</a>
+                                                                                        <a class="dropdown-item" href="#">Settings 2</a>
+                                                                                    </div>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <a class="close-link"><i class="fa fa-close"></i></a>
+                                                                                </li>
+                                                                            </ul>
+                                                                            <div class="Refreshfix"></div>
+
+
+                                                                            <div class="x_content">
+                                                                                <div class="row">
+                                                                                    <div class="col-sm-12">
+                                                                                        <div class="card-box table-responsive">
+
+                                                                                            <table id="datatable-responsive1" class="table table-striped table-bordered dt-responsive nowrap text-md-center" cellspacing="0" width="100%">
+                                                                                                <thead>
+                                                                                                    <tr>
+
+                                                                                                        <th>Patient</th>
+                                                                                                        <th>Address</th>
+                                                                                                        <th>Reason</th>
+                                                                                                        <th>Group</th>
+                                                                                                        <th>Amount</th>
+                                                                                                        <th>Place</th>
+                                                                                                        <th>Location</th>
+                                                                                                        <th>Request</th>
+                                                                                                        <th>Need</th>
+                                                                                                    </tr>
+
+                                                                                                </thead>
+                                                                                                <tbody>
+                                                                                                    @foreach (var donation in Model.BloodReceivedInfos)
+                                                                                                    {
+                                                                                                        <tr>
+                                                                                                            <td>@donation.patientName</td>
+                                                                                                            <td>@donation.patientAddress</td>
+                                                                                                            <td>@donation.reasonOfBlood</td>
+                                                                                                            <td>@donation.BloodGroup?.groupName</td>
+                                                                                                            <td>@donation.amountOfBlood</td>
+                                                                                                            <td>@donation.donationPlaceName</td>
+                                                                                                            <td>@donation.location</td>
+                                                                                                            <td>@donation.requestDate?.ToString("dd-MMM-yyyy")</td>
+                                                                                                            <td>@donation.needDate?.ToString("dd-MMM-yyyy")</td>
+                                                                                                        </tr>
+                                                                                                    }
+                                                                                                </tbody>
+                                                                                            </table>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+
+
+                                                                <div class="tab-pane" id="NeedBlood">
+                                                                    <div class="row">
+
+                                                                        <div class="col-md-12">
+
+
+                                                                            <ul class="nav navbar-right panel_toolbox">
+                                                                                <li>
+                                                                                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                                                                </li>
+                                                                                <li class="dropdown">
+                                                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                                                        <a class="dropdown-item" href="#">Settings 1</a>
+                                                                                        <a class="dropdown-item" href="#">Settings 2</a>
+                                                                                    </div>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <a class="close-link"><i class="fa fa-close"></i></a>
+                                                                                </li>
+                                                                            </ul>
+                                                                            <div class="Refreshfix"></div>
+
+
+                                                                            <div class="x_content">
+                                                                                <div class="row">
+                                                                                    <div class="col-sm-12">
+                                                                                        <div class="card-box table-responsive">
+
+                                                                                            <table id="datatable-responsive2" class="table table-striped table-bordered dt-responsive nowrap text-md-center" cellspacing="0" width="100%">
+                                                                                                <thead>
+                                                                                                    <tr>
+                                                                                                        <th>Patient</th>
+                                                                                                        <th>Relationship</th>
+                                                                                                        <th>Reason</th>
+                                                                                                        <th>Group</th>
+                                                                                                        <th>Amount</th>
+                                                                                                        <th>Place</th>
+                                                                                                        <th>Request</th>
+                                                                                                        <th>Need</th>
+                                                                                                    </tr>
+                                                                                                </thead>
+                                                                                                <tbody>
+                                                                                                    @foreach (var requestInfo in Model.BloodRequestInfos)
+                                                                                                    {
+                                                                                                        <tr>
+                                                                                                            <td>@requestInfo.patientName</td>
+                                                                                                            <td>@requestInfo.RelationShip?.relationShipName</td>
+                                                                                                            <td>@requestInfo.reasonOfBlood</td>
+                                                                                                            <td>@requestInfo.BloodGroup?.groupName</td>
+                                                                                                            <td>@requestInfo.amountOfBlood</td>
+                                                                                                            <td>@requestInfo.donationPlaceName</td>
+                                                                                                            <td>@requestInfo.requestDate?.ToString("dd-MMM-yyyy")</td>
+                                                                                                            <td>@requestInfo.needDate?.ToString("dd-MMM-yyyy")</td>
+
+                                                                                                        </tr>
+                                                                                                    }
+
+                                                                                                </tbody>
+                                                                                            </table>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+
+
+                                                                <!-- /.tab-pane -->
+                                                            </div>
+                                                            <!-- /.tab-content -->
+                                                        </div><!-- /.card-body -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="card">
+                                            <div class="card-header collapsed" id="TabHeading2" data-toggle="collapse" data-target="#CollapseTab2">
+                                                <h5 class="mb-0 text-primary">
+                                                    Heading 2
+                                                    <i class="fa fa-angle-down float-md-right"></i>
+                                                </h5>
+                                            </div>
+                                            <div id="CollapseTab2" class="collapse" aria-labelledby="TabHeading2" data-parent="#accordionExample">
+                                                <div class="card-body">
+                                                    <p>Bootstrap is a sleek, intuitive, and powerful front-end framework for faster and easier web development. It is a collection of CSS and HTML conventions. <a href="https://www.tutorialrepublic.com/twitter-bootstrap-tutorial/" target="_blank">Learn more.</a></p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="card">
+                                            <div class="card-header collapsed" id="TabHeading3" data-toggle="collapse" data-target="#CollapseTab3">
+                                                <h5 class="mb-0 text-primary">
+                                                    Heading3
+                                                    <i class="fa fa-angle-down float-md-right"></i>
+                                                </h5>
+                                            </div>
+                                            <div id="CollapseTab3" class="collapse" aria-labelledby="TabHeading3" data-parent="#accordionExample">
+                                                <div class="card-body">
+                                                    <p>Bootstrap is a sleek, intuitive, and powerful front-end framework for faster and easier web development. It is a collection of CSS and HTML conventions. <a href="https://www.tutorialrepublic.com/twitter-bootstrap-tutorial/" target="_blank">Learn more.</a></p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <!-- /.col -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- /page content -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@section Scripts{
+
+    <script>
+
+            $(document).ready(function () {
+
+                $("#addressType").change(function() {
+                    if ($("#addressType").is(':checked')) {
+                        $("#PresentCountryId").val($("#CountryId").val());
+                        $("#PresentDistrictId").val($("#DistrictId").val());
+                        $("#PresentThanaId").val($("#ThanaId").val());
+                        $("#PresentvillageName").val($("#villageName").val());
+                        $("#PresentpostOffice").val($("#postOffice").val());
+                        $("#PresentcareOf").val($("#careOf").val());
+                        $("#PresenthouseNo").val($("#houseNo").val());
+
+
+                        $("#PresentCountryId").attr('readonly', true);
+                        $("#PresentDistrictId").attr('readonly', true);
+                        $("#PresentThanaId").attr('readonly', true);
+                        $("#PresentvillageName").attr('readonly', true);
+                        $("#PresentpostOffice").attr('readonly', true);
+                        $("#PresentcareOf").attr('readonly', true);
+                        $("#PresenthouseNo").attr('readonly', true);
+
+                    }
+                    else {
+
+
+
+                        $("#PresentCountryId").val("");
+                        $("#PresentDistrictId").empty();
+                        $("#PresentThanaId").empty();
+                        $("#PresentvillageName").val("");
+                        $("#PresentpostOffice").val("");
+                        $("#PresentcareOf").val("");
+                        $("#PresenthouseNo").val("");
+
+
+                        $("#PresentCountryId").attr('readonly', false);
+                        $("#PresentDistrictId").attr('readonly', false);
+                        $("#PresentThanaId").attr('readonly', false);
+                        $("#PresentvillageName").attr('readonly', false);
+                        $("#PresentpostOffice").attr('readonly', false);
+                        $("#PresentcareOf").attr('readonly', false);
+                        $("#PresenthouseNo").attr('readonly', false);
+                    }
+                })
+
+
+                //dropdown value select
+
+                $("#GenderId").val(@Model.applicationUser.GenderId);
+                $("#BloodGroupId").val(@Model.applicationUser.BloodGroupId);
+                $("#CountryId").val(@Model.permanentAddress.CountryId);
+                $("#DistrictId").val(@Model.permanentAddress.DistrictId);
+                $("#ThanaId").val(@Model.permanentAddress.ThanaId);
+                $("#PresentCountryId").val(@Model.presentAddress.CountryId);
+                $("#PresentDistrictId").val(@Model.presentAddress.DistrictId);
+                $("#PresentThanaId").val(@Model.presentAddress.ThanaId);
+                $("#SocialOrganizationId").val(@Model.donorInformation.SocialOrganizationId);
+                $("#ReligionId").val(@Model.donorInformation.ReligionId);
+                $("#ProfessionId").val(@Model.donorInformation.ProfessionId);
+
+
+
+                $('#datatable-responsive1').DataTable();
+                $('#datatable-responsive2').DataTable();
+
+                jQuery('input[type="file"]').each(function () {
+                    $this = jQuery(this);
+                    $this.on('change', function () {
+                        var fsize = $this[0].files[0].size,
+                            ftype = $this[0].files[0].type,
+                            fname = $this[0].files[0].name,
+                            fextension = fname.substring(fname.lastIndexOf('.') + 1);
+                        $("#fileType").val(fextension);
+                        validExtensions = ["jpg", "pdf", "jpeg", "gif", "png", "doc", "docx", "xls", "xlsx", "ppt", "pptx", "txt", "zip", "rar", "gzip"];
+
+                        if ($.inArray(fextension, validExtensions) == -1) {
+                            alert("This type of files are not allowed!");
+                            this.value = "";
+                            return false;
+                        } else {
+                            if (fsize > 2097152) {/*1048576-1MB(You can change the size as you want)*/
+                                alert("File size too large! Please upload less than 2MB");
+                                this.value = "";
+                                return false;
+                            } else {
+                                loadFile();
+
+                                return true;
+
+                            }
+
+                        }
+
+                    });
+                });
+
+
+                $("#CountryId").change(function () {
+                    var id = $(this).val();
+                    Common.Ajax('GET', '/MasterData/DistrictInfo/GetDistrictListByCountryId/' + id, [], 'json', ajaxGetPermanentDistrict);
+                });
+
+                $("#DistrictId").change(function () {
+                    var id = $(this).val();
+                    Common.Ajax('GET', '/MasterData/ThanaInfo/GetThanaListByDistrictId/' + id, [], 'json', ajaxGetPermanentThana);
+                });
+
+
+
+                $("#PresentCountryId").change(function () {
+                    var id = $(this).val();
+                    Common.Ajax('GET', '/MasterData/DistrictInfo/GetDistrictListByCountryId/' + id, [], 'json', ajaxGetPresentDistrict);
+                });
+
+                $("#PresentDistrictId").change(function () {
+                    var id = $(this).val();
+                    Common.Ajax('GET', '/MasterData/ThanaInfo/GetThanaListByDistrictId/' + id, [], 'json', ajaxGetPresentThana);
+                });
+
+
+
+            });
+
+
+
+            var loadFile = function (event) {
+                var output = document.getElementById('displayImage');
+                output.src = URL.createObjectURL(event.target.files[0]);
+                output.onload = function () {
+                    URL.revokeObjectURL(output.src) // free memory
+                }
+            };
+
+
+
+            function ajaxGetPermanentDistrict(response) {
+                var options = '<option value="">Select </option>';
+                $.each(response, function (i, item) {
+                    options += '<option value="' + item.Id + '">' + item.districtName + '</option>';
+                });
+                $('#DistrictId').empty();
+                $('#DistrictId').append(options);
+            }
+
+            function ajaxGetPermanentThana(response) {
+                var options = '<option value="">Select </option>';
+                $.each(response, function (i, item) {
+                    options += '<option value="' + item.Id + '">' + item.thanaName + '</option>';
+                });
+                $('#ThanaId').empty();
+                $('#ThanaId').append(options);
+            }
+
+
+
+            function ajaxGetPresentDistrict(response) {
+                var options = '<option value="">Select </option>';
+                $.each(response, function (i, item) {
+                    options += '<option value="' + item.Id + '">' + item.districtName + '</option>';
+                });
+                $('#PresentDistrictId').empty();
+                $('#PresentDistrictId').append(options);
+            }
+
+            function ajaxGetPresentThana(response) {
+                var options = '<option value="">Select </option>';
+                $.each(response, function (i, item) {
+                    options += '<option value="' + item.Id + '">' + item.thanaName + '</option>';
+                });
+                $('#PresentThanaId').empty();
+                $('#PresentThanaId').append(options);
+        }
+
+
+        $('#btnDonorInfoSave').click(function () {
+            $('#frmDonorInfo').parsley();
+
+            $('#frmDonorInfo').on('submit', function (event) {
+                event.preventDefault();
+                if ($('#frmDonorInfo').parsley().isValid()) {
+                    var form = $("#frmDonorInfo")[0];
+                    var frmData = new FormData(form);
+                    frmData.append("DonorImage", $('input[type="file"]')[0].files[0]);
+                    frmData.append("DonorInformationId", $('#DonorInformationId').val());
+                    frmData.append("designation", $('#designation').val());
+                    frmData.append("age", $('#age').val());
+                    frmData.append("nationalId", $('#nationalId').val());
+                    frmData.append("SocialOrganizationId", $('#SocialOrganizationId').val());
+                    frmData.append("ProfessionId", $('#ProfessionId').val());
+                    frmData.append("ReligionId", $('#ReligionId').val());
+
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "You want to save this!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, save it!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+
+                            $.ajax({
+                                url: "/Bloodbank/DonorInfo/SaveDonorInfo",
+                                type: 'POST',
+                                enctype: "multipart/form-data",
+                                data: frmData,
+                                processData: false,
+                                contentType: false,
+                                cache: false,
+                                timeout: 600000,
+                                beforeSend: function () {
+                                    $('#btnDonorInfoSave').attr('disabled', 'disabled');
+                                    $('#btnDonorInfoSave').val('Submitting...');
+                                },
+                                success: function (data) {
+                                   /* $('#frmDonorInfo')[0].reset();*/
+                                    $('#frmDonorInfo').parsley().reset();
+                                    $('#btnDonorInfoSave').attr('disabled', false);
+                                    $('#btnDonorInfoSave').val('Submit');
+
+                                    if ($('#DonorInformationId').val() != 0) {
+                                        swal.fire('success', 'Updated Successfully!', 'success').then(function () {
+                                            window.location.reload();
+                                        });
+                                    }
+                                    else {
+                                        swal.fire('success', 'Saved Successfully!', 'success').then(function () {
+                                            window.location.reload();
+                                        });;
+                                    }
+
+                                },
+                                error: function () {
+                                    swal.fire('warning', 'Failed!', 'warning');
+                                }
+                            });
+
+
+
+                        }
+                    })
+
+
+
+                }
+            });
+        })
+
+
+        $('#btnPermanentAddressSave').click(function () {
+            $('#frmPermanentAddress').parsley();
+
+            $('#frmPermanentAddress').on('submit', function (event) {
+                event.preventDefault();
+                if ($('#frmPermanentAddress').parsley().isValid()) {
+
+                    var frmData = $(this).serialize();
+
+
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "You want to save this!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, save it!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+
+                            $.ajax({
+                                url: "/Bloodbank/DonorInfo/SaveDonorPermanentAddress",
+                                type: 'POST',
+                                data: frmData,
+                                beforeSend: function () {
+                                    $('#btnPermanentAddressSave').attr('disabled', 'disabled');
+                                    $('#btnPermanentAddressSave').val('Submitting...');
+                                },
+                                success: function (data) {
+
+                                    $('#frmPermanentAddress').parsley().reset();
+                                    $('#btnPermanentAddressSave').attr('disabled', false);
+                                    $('#btnPermanentAddressSave').val('Submit');
+
+                                    if ($('#PermanentAddressId').val()!= 0) {
+                                        swal.fire('success', 'Updated Successfully!', 'success').then(function () {
+                                            window.location.reload();
+                                        });
+                                    }
+                                    else {
+                                        swal.fire('success', 'Saved Successfully!', 'success').then(function () {
+                                            window.location.reload();
+                                        });;
+                                    }
+
+                                },
+                                error: function () {
+                                    swal.fire('warning', 'Failed!', 'warning');
+                                }
+                            });
+
+
+
+                        }
+                    })
+
+
+
+                }
+            });
+        })
+
+
+        $('#btnPresentAddressSave').click(function () {
+            $('#frmPresentAddress').parsley();
+
+            $('#frmPresentAddress').on('submit', function (event) {
+                event.preventDefault();
+                if ($('#frmPresentAddress').parsley().isValid()) {
+
+                    var frmData = $(this).serialize();
+
+
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "You want to save this!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, save it!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+
+                            $.ajax({
+                                url: "/Bloodbank/DonorInfo/SaveDonorPresentAddress",
+                                type: 'POST',
+                                data: frmData,
+                                beforeSend: function () {
+                                    $('#btnPresentAddressSave').attr('disabled', 'disabled');
+                                    $('#btnPresentAddressSave').val('Submitting...');
+                                },
+                                success: function (data) {
+
+                                    $('#frmPresentAddress').parsley().reset();
+                                    $('#btnPresentAddressSave').attr('disabled', false);
+                                    $('#btnPresentAddressSave').val('Submit');
+
+                                    if ($('#PresentAddressId').val() != 0) {
+                                        swal.fire('success', 'Updated Successfully!', 'success').then(function () {
+                                            window.location.reload();
+                                        });
+                                    }
+                                    else {
+                                        swal.fire('success', 'Saved Successfully!', 'success').then(function () {
+                                            window.location.reload();
+                                        });;
+                                    }
+
+                                },
+                                error: function () {
+                                    swal.fire('warning', 'Failed!', 'warning');
+                                }
+                            });
+
+
+
+                        }
+                    })
+
+
+
+                }
+            });
+        })
+
+
+
+
+        $('#btnUserSave').click(function () {
+            $('#frmUserData').parsley();
+
+            $('#frmUserData').on('submit', function (event) {
+                event.preventDefault();
+                if ($('#frmUserData').parsley().isValid()) {
+
+                    var frmData = $(this).serialize();
+
+
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "You want to save this!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, save it!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+
+                            $.ajax({
+                                url: "/Auth/Account/EditRegistrationInfo",
+                                type: 'POST',
+                                data: frmData,
+                                beforeSend: function () {
+                                    $('#btnUserSave').attr('disabled', 'disabled');
+                                    $('#btnUserSave').val('Submitting...');
+                                },
+                                success: function (data) {
+
+                                    $('#frmUserData').parsley().reset();
+                                    $('#btnUserSave').attr('disabled', false);
+                                    $('#btnUserSave').val('Submit');
+
+                                    if ($('#ApplicationUserId').val() != 0) {
+                                        swal.fire('success', 'Updated Successfully!', 'success').then(function () {
+                                            window.location.reload();
+                                        });
+                                    }
+                                    else {
+                                        swal.fire('success', 'Saved Successfully!', 'success').then(function () {
+                                            window.location.reload();
+                                        });;
+                                    }
+
+                                },
+                                error: function () {
+                                    swal.fire('warning', 'Failed!', 'warning');
+                                }
+                            });
+
+
+
+                        }
+                    })
+
+
+
+                }
+            });
+        })
+    </script>
+
+
+
+
+}

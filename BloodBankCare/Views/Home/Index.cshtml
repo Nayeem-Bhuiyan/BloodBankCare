@@ -1,0 +1,1139 @@
+﻿@model HomePageViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+
+}
+
+<style>
+    .accordion .fa {
+        margin-right: 0.5rem;
+        font-size: 24px;
+        font-weight: bold;
+        position: relative;
+        top: 2px;
+    }
+
+    [data-toggle="collapse"] .fa:before {
+        content: "\f077";
+    }
+
+    [data-toggle="collapse"].collapsed .fa:before {
+        content: "\f078";
+    }
+
+    /*   input[type=checkbox] {
+            -webkit-appearance: checkbox;
+        }*/
+
+    input[type=checkbox] {
+        display: block;
+    }
+
+    /* vertical tab css*/
+    .tabs-section {
+        overflow: hidden;
+        background-color: darkturquoise;
+        padding: 60px 0px;
+    }
+
+        .tabs-section .feature-img {
+            max-height: 255px;
+            overflow: hidden;
+            border-radius: 10px;
+            border: 3px solid #fff;
+        }
+
+        .tabs-section .nav-tabs {
+            border: 0;
+        }
+
+        .tabs-section .nav-link {
+            border: 0;
+            padding: 11px 15px;
+            transition: 0.3s;
+            color: #fff;
+            border-radius: 0;
+            border-right: 2px solid #cddc39 !important;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+            .tabs-section .nav-link:hover {
+                color: #cddc39;
+            }
+
+            .tabs-section .nav-link.active {
+                color: #333333;
+                background: #cddc39;
+            }
+
+            .tabs-section .nav-link:hover {
+                border-right: 4px solid #cddc39;
+            }
+
+        .tabs-section .tab-pane.active {
+            -webkit-animation: fadeIn 0.5s ease-out;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+
+    .fas {
+        margin-right: 4px !important; /*override*/
+    }
+
+    .pagination .fas {
+        margin-right: 0px !important; /*override*/
+    }
+
+    .pagination a {
+        color: #fff;
+    }
+
+    .card ul {
+        padding: 0px;
+        margin: 0px;
+        list-style: none;
+    }
+
+    .news-item {
+        padding: 4px 4px;
+        margin: 0px;
+        border-bottom: 1px dotted #555;
+    }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+<link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+
+<!-- Top Banner -->
+<div class="banner-area">
+    <div class="banner banner-slider-active">
+        <div id="mainCarousel">
+            <!-- Single Banner -->
+            <div class="banner__single bg-image--2" data-black-overlay="6">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-xl-9 col-lg-11">
+                            <div class="banner__single__content text-center">
+                                <h1><span class="color--theme">Blood Request</span> Service</h1>
+                                <p>
+                                    If you need blood please request us And you will get response from our valuable donors
+                                </p>
+                                <a href="/Bloodbank/BloodRequest/Index" class="cr-btn">
+                                    <span>Request No</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- //Single Banner -->
+            <!-- Single Banner -->
+            <div class="banner__single bg-image--1" style="background-image: url('/wwwroot/DesignImage/MainCarouselImg1.png')!important" data-black-overlay="6">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-7 col-lg-9">
+                            <div class="banner__single__content">
+                                <h1>WE ARE Ready <span class="color--theme">For Your Blood</span></h1>
+                                <p>
+                                    You Can Contact With Us
+                                </p>
+                                <a href="/Home/ContactUS" class="cr-btn">
+                                    <span>Contact Now</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- //Single Banner -->
+            <!-- Single Banner -->
+
+
+            <div class="banner__single bg-image--3" data-black-overlay="6">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-xl-9 col-lg-11">
+                            <div class="banner__single__content text-center">
+                                <h3>Our Admin</h3>
+                                <h1>For any kinds of critical problem you can contact with our  <span class="color--theme">Admin panel</span></h1>
+                                <p>
+                                    Our Admin panel can solve any kinds of problem solution
+                                </p>
+                                <a href="#" class="cr-btn">
+                                    <span>Admin Contact</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- //Single Banner -->
+
+
+        </div>
+    </div>
+</div>
+<!-- //Top Banner -->
+<!-- Page Conent -->
+<main class="page-content">
+    <!-- Funfact Area -->
+    <div id="funfact-area" class="funfact-area section-padding--lg bg-image--1" data-overlay="8">
+        <div class="container">
+            <div class="row">
+
+                <!--  Single Funfact -->
+                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <div class="funfact-wrapper">
+                        <div class="funfact">
+                            <span class="funfact-icon">
+                                <i class="pe-7s-look"></i>
+                            </span>
+                            <div class="funfact-content">
+                                <h3><span class="counter">@Model.countRecordInfos?.totalUsers</span>+</h3>
+                                <h5>Total Users</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--//  Single Funfact -->
+                <!--  Single Funfact -->
+                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <div class="funfact-wrapper">
+                        <div class="funfact">
+                            <span class="funfact-icon">
+                                <i class="pe-7s-graph3"></i>
+                            </span>
+                            <div class="funfact-content">
+                                <h3><span class="counter">@Model.countRecordInfos?.totalDonors</span>+</h3>
+                                <h5>Total Donor</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--//  Single Funfact -->
+                <!--  Single Funfact -->
+                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <div class="funfact-wrapper">
+                        <div class="funfact">
+                            <span class="funfact-icon">
+                                <i class="pe-7s-paper-plane"></i>
+                            </span>
+                            <div class="funfact-content">
+                                <h3><span class="counter">@Model.countRecordInfos?.totalDonationOfCurrentMonth</span>+</h3>
+                                <h5>Current Moth Donation</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--//  Single Funfact -->
+                <!--  Single Funfact -->
+                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <div class="funfact-wrapper">
+                        <div class="funfact">
+                            <span class="funfact-icon">
+                                <i class="pe-7s-like"></i>
+                            </span>
+                            <div class="funfact-content">
+                                <h3><span class="counter">@Model.countRecordInfos?.totalDonation</span>+</h3>
+                                <h5>Total Donations</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--//  Single Funfact -->
+
+
+            </div>
+        </div>
+    </div>
+    <!--// Funfact Area -->
+
+    <section class="tabs-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-5 col-lg-3">
+                    <ul class="nav nav-tabs flex-column mb-3">
+                        <li class="nav-item">
+                            <a class="nav-link active show" data-toggle="tab" href="#tab-1">Notice Board</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tab-2">Daily News Corner</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tab-3">FAQ</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tab-4">Last Donation</a>
+                        </li>
+
+
+                    </ul>
+                </div>
+                <div class="col-sm-7 col-lg-9">
+                    <div class="tab-content">
+                        <div class="tab-pane active show" id="tab-1">
+
+                            <div class="card panel-default">
+                                <div class="card-header bg-info text-white text-center"> <span class="glyphicon glyphicon-list-alt"></span><b>Notice Board</b></div>
+                                <div class="card-body bg-light">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <ul class="demo1">
+
+
+                                                @foreach (var notice in Model.noticeBoardInfos)
+                                                {
+                                                    @*@if (notice.endDate.Value.Date>=DateTime.Now.Date)
+                                                        {*@
+                                                    <li class="news-item">
+                                                        <table cellpadding="4">
+                                                            <tr>
+                                                                <td><span class=" btn btn-success text-nowrap">@notice?.publishDate</span></td>
+                                                                <td>@notice?.headingText... <a href="/Home/NoticeDetails/@notice.Id">Read more...</a></td>
+                                                            </tr>
+                                                        </table>
+                                                    </li>
+                                                    //}
+
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer bg-info"> </div>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane" id="tab-2">
+
+                            <h3 class="mt-3">Daily News Corner</h3>
+
+                            <div class="card">
+                                <div class="card-body">
+                                    @{
+
+                                        <div class="dailyNewsUpdate">
+                                            @foreach (var item in Model.dailyNewsUpdates.Take(5))
+                                            {
+
+                                                <div class="row">
+                                                    <div class="col-md-12 col-sm-12 col-lg-12">
+                                                        <div class="d-inline-flex">
+                                                            <div class="card">
+
+                                                                <div class="card-body">
+                                                                    <img src="/@item.fileUrl" style="width:300px!important;height:300px;min-height:300px!important" class="img-fluid" alt="Alternate Text" />
+                                                                </div>
+                                                            </div>
+
+
+                                                            <div class="card">
+                                                                <div class="card-body">
+                                                                    <b class="text-success">Place :</b><span class="text-primary font-weight-bolder"> @item.location</span><br />
+                                                                    <b class="text-success">Date Of Event :</b> <span class="text-primary font-weight-bolder">@item.date</span><br />
+                                                                    <b class="text-success">Occasion :</b><span class="text-primary font-weight-bolder">@item.reason</span> <br />
+                                                                    <b class="text-success">Publish date :</b><span class="text-primary font-weight-bolder">@item.createdAt?.ToString("dd-MM-yyyy")</span> <br />
+                                                                    <b class="text-success">Details information :</b> <span class="text-primary font-weight-bolder">@item.detailsDescription</span> <br />
+                                                                </div>
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            }
+                                        </div>
+
+                                    }
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="tab-pane" id="tab-3">
+                            <div class="text-sm-center">
+                                <h5 class="text-white">General FAQ Informations</h5>
+                            </div>
+                            <div class="accordion" id="accordionExample">
+                                @{
+                                    string TabHeadingInfo = "";
+                                    string CollapseTabInfo = "";
+
+                                    @foreach (var item in Model.generalFAQs)
+                                    {
+                                        TabHeadingInfo = "TabHeading" + item.Id;
+                                        CollapseTabInfo = "CollapseTab" + item.Id;
+                                        <div class="card">
+                                            <div class="card-header collapsed" id="@TabHeadingInfo" data-toggle="collapse" data-target="#@CollapseTabInfo">
+                                                <p class="mb-0 text-primary justify-content-center align">
+                                                    @item.question
+                                                    <i class="fa fa-angle-down float-sm-right"></i>
+                                                </p>
+                                            </div>
+                                            <div id="@CollapseTabInfo" class="collapse" aria-labelledby="@TabHeadingInfo" data-parent="#accordionExample">
+                                                <div class="card-body">
+                                                    <p>@item.answer</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    }
+
+
+                                }
+                            </div>
+
+                        </div>
+                        <div class="tab-pane" id="tab-4">
+
+                            <h3 class="mt-3">Last Donation Record</h3>
+
+                            <div class="card">
+                                <div class="card-body">
+
+                                    <ul class="list-group">
+
+
+                                        @{
+                                            string imageUrl = @Model.donors.Where(x => x.userId == Model.lastDonationRecord?.donorUserId).FirstOrDefault()?.imageUrl;
+                                            if (imageUrl != null || imageUrl != "")
+                                            {
+                                                <li class="list-group-item text-dark"><img src="/@imageUrl" height="200" width="200" alt="Donor Image">  </li>
+                                            }
+                                            else
+                                            {
+                                                <li class="list-group-item text-dark"><img src="/DefaultImage/637542749758847082.png" height="200" width="200" class="justify-content-center" alt="Donor Image Can Not Display Your Browser" /></li>
+                                            }
+
+                                            <li class="list-group-item text-dark"><span>Donor</span><b class="float-sm-left float-lg-right">@Model.applicationUsers.Where(x => x.Id == Model.lastDonationRecord?.donorUserId).FirstOrDefault()?.UserName</b></li>
+                                            <li class="list-group-item text-dark"><span>Patient</span><b class="float-sm-left float-lg-right">@Model.lastDonationRecord.patientName</b></li>
+
+                                            <li class="list-group-item text-dark"><span>Blood Group</span><span class="float-sm-left float-lg-right">@Model.lastDonationRecord?.BloodGroup?.groupName</span></li>
+                                            <li class="list-group-item text-dark"><span>Donation Place</span><span class="float-sm-left float-lg-right">@Model.lastDonationRecord?.location</span></li>
+                                            <li class="list-group-item text-dark"><span>Donation Date</span><span class="float-sm-left float-lg-right">@Model.lastDonationRecord?.needDate?.ToString("dd-MMM-yyyy")</span></li>
+                                            <li class="list-group-item text-dark"><span>Reason Of Blood</span><span class="float-sm-left float-lg-right">@Model.lastDonationRecord?.reasonOfBlood</span></li>
+                                            <li class="list-group-item text-dark"><span>Blood Amount</span><span class="float-sm-left float-lg-right">@Model.lastDonationRecord?.amountOfBlood Beg</span></li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- Blog Area -->
+    <section id="blog-area" class="blog-area section-padding--xlg bg--white">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-12 offset-0">
+                    <div class="section-title text-center">
+                        <h4>Blood Group</h4>
+                        <h2>
+                            Blood Group
+                            <span class="color--theme">Donor Info</span>
+                        </h2>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                @foreach (var item in Model.bloodGroupWiseDonorViewModels)
+                {
+                    <!-- Single Blog -->
+                    <div class="col-lg-3 col-md-6 col-12">
+
+                        <article class="blog sticky text-center">
+
+                            <div class="blog__content">
+                                <div class="blog__content__body">
+
+                                    <h4 class="font-weight-bolder">
+                                        <a href="/Bloodbank/DonorInfo/DonorByBloodGroup/@item.bloodGroup.Id" class=" btn btn-success btn-round text-white">@item.bloodGroup.groupName</a>
+                                    </h4>
+                                    <b href="#" class="text-success">Total Donor :<span class="text-primary">@item.TotalDonor</span></b><br />
+                                    <b href="#" class="text-primary">Total Donation :<span class="text-danger">@item.TotalDonation</span></b>
+
+                                </div>
+
+                            </div>
+                        </article>
+
+                    </div>
+                    <!--// Single Blog -->
+                }
+
+
+            </div>
+        </div>
+    </section>
+    <!--// Blog Area -->
+    <!-- FAQ Area -->
+    <section id="faq-area" class="cr-section faq-area bg--green">
+    </section>
+    <!-- //FAQ Area -->
+    <!-- Service Area -->
+    <section id="service-area" class="service-area section-padding--xlg bg--grey--light">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-md-10 col-12">
+                    <div class="section-title text-center">
+                        <h4>Blood Campaign</h4>
+                        <h2>
+                            Blood Campaign
+                            <span class="color--theme">Events Details</span>
+                        </h2>
+                        <p>
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="bloodCampaignCarousel">
+                @foreach (var item in Model.bloodCampaigns)
+                {
+                    <div class="card m-1">
+                        <img class="card-img-top" src="/@item.imageUrl" height="200" alt="Card image">
+                        <div class="card-body">
+                            <ul class="list-group">
+                                <li class="list-group-item text-dark text-center"><b class="text-primary">@item.headingText</b></li>
+                                <li class="list-group-item text-dark"><span>Chief Guest</span><b class="float-sm-left float-lg-right">@item.chiefGuest</b></li>
+                                <li class="list-group-item text-dark"><span>Special Guest</span><b class="float-sm-left float-lg-right">@item.specialGuest</b></li>
+                                <li class="list-group-item text-dark"><span>Occasion</span><span class="float-sm-left float-lg-right">@item.occasion</span></li>
+                                <li class="list-group-item text-dark"><span>Location</span><span class="float-sm-left float-lg-right">@item.location</span></li>
+                                <li class="list-group-item text-dark"><span>Date</span><span class="float-sm-left float-lg-right">@item.date?.ToString("dd-MMM-yyyy")</span></li>
+                                <li class="list-group-item text-dark" style="height:200px!important; min-height:200px!important"><span>Details</span><span class="float-sm-left float-lg-right">@item.deatilsDescription</span></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                }
+            </div>
+        </div>
+    </section>
+    <!--// Service Area -->
+    <!-- Portfolio Area -->
+    <div id="portfolio-area" class="portfolio-area bg--grey section-padding--xlg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-12 offset-0">
+                    <div class="section-title text-center">
+                        <h4>Memorable Photos</h4>
+                        <h2>
+                            Recent
+                            <span class="color--theme">Photo Gallery</span>
+                        </h2>
+                        <p>
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="portfolio-filters text-center">
+                        <button class="is-active" data-filter="*">All</button>
+                        <button data-filter=".filter-recent">Recent</button>
+                        <button data-filter=".filter-running">Running</button>
+                        <button data-filter=".filter-completed">Completed</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row portfolio-wrap portfolio-gallery-active">
+
+
+                @{
+                    int sl = 1;
+                    @foreach (var item in Model.photoGalleries)
+                    {
+                        if (sl == 1 || sl == 3)
+                        {
+                            <div class="col-lg-4 col-md-6 col-12 portfolio-item filter-recent">
+                                <div class="portfolio">
+                                    <div class="portfolio-image">
+                                        <img src="/@item.fileUrl" style="height:300px!important;min-height:300px!important" class="img-fluid" alt="portofolio image">
+                                    </div>
+                                    <div class="portfolio-content">
+                                        <h5><a href="portfolio-details.html">Necessitatibus blanditiis.</a></h5>
+                                        <h6>Recent</h6>
+                                    </div>
+                                    <a href="/@item.fileUrl" class="portfolio-zoomicon"><i class="pe-7s-search"></i></a>
+                                </div>
+                            </div>
+                        }
+                        else if (sl == 2 || sl == 4)
+                        {
+                            <div class="col-lg-4 col-md-6 col-12 portfolio-item filter-recent filter-completed">
+                                <div class="portfolio">
+                                    <div class="portfolio-image">
+                                        <img src="/@item.fileUrl" style="height:300px!important;min-height:300px!important" class="img-fluid" alt="portofolio image">
+                                    </div>
+                                    <div class="portfolio-content">
+                                        <h5><a href="portfolio-details.html">Necessitatibus blanditiis.</a></h5>
+                                        <h6>Recent</h6>
+                                    </div>
+                                    <a href="/@item.fileUrl" class="portfolio-zoomicon"><i class="pe-7s-search"></i></a>
+                                </div>
+                            </div>
+                        }
+                        else if (sl == 3)
+                        {
+                            <div class="col-lg-4 col-md-6 col-12 portfolio-item filter-completed">
+                                <div class="portfolio">
+                                    <div class="portfolio-image">
+                                        <img src="/@item.fileUrl" style="height:300px!important;min-height:300px!important" class="img-fluid" alt="portofolio image">
+                                    </div>
+                                    <div class="portfolio-content">
+                                        <h5><a href="portfolio-details.html">Necessitatibus blanditiis.</a></h5>
+                                        <h6>Recent</h6>
+                                    </div>
+                                    <a href="/@item.fileUrl" class="portfolio-zoomicon"><i class="pe-7s-search"></i></a>
+                                </div>
+                            </div>
+                        }
+                        else if (sl == 6)
+                        {
+                            <div class="col-lg-4 col-md-6 col-12 portfolio-item filter-recent filter-running">
+                                <div class="portfolio">
+                                    <div class="portfolio-image">
+                                        <img src="/@item.fileUrl" style="height:300px!important;min-height:300px!important" class="img-fluid" alt="portofolio image">
+                                    </div>
+                                    <div class="portfolio-content">
+                                        <h5><a href="portfolio-details.html">Necessitatibus blanditiis.</a></h5>
+                                        <h6>Recent</h6>
+                                    </div>
+                                    <a href="/@item.fileUrl" class="portfolio-zoomicon"><i class="pe-7s-search"></i></a>
+                                </div>
+                            </div>
+                        }
+
+                        sl = sl + 1;
+                    }
+                }
+
+
+            </div>
+        </div>
+    </div>
+    <!--// Portfolio Area -->
+    <!-- Team Area -->
+    <section id="team-area" class="advisor-area bg--white section-padding--xlg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-12 offset-0">
+                    <div class="section-title text-center">
+                        <h4>OUR Volunteers</h4>
+                        <h2>
+                            MEET OUR
+                            <span class="color--theme">Valuable Volunteers</span>
+                        </h2>
+                        <p>
+                            Our Volunteer is always ready for your blood related informations
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+                    <div id="Volunteer">
+                        @foreach (var item in Model.adminPanelInfos.Where(x => x.role == 2).Take(15))
+                        {
+                            <!-- Single Advisor -->
+
+                            <figure class="team m-1">
+                                <div class="team__header">
+                                    <div class="team__image">
+                                        <img src="/@item.ImageUrl" style="height:300px!important;min-height:300px!important" alt="team member thumb">
+                                    </div>
+                                    <div class="team__social">
+                                        <ul>
+                                            <li class="facebook"><a href="https://www.facebook.com/"><i class="fa fa-facebook"></i></a></li>
+                                            <li class="twitter"><a href="https://twitter.com/"><i class="fa fa-twitter"></i></a></li>
+                                            <li class="google-plus"><a href="https://plus.google.com/"><i class="fa fa-google-plus"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <figcaption class="team__content">
+                                    <h5>
+                                        <a href="team-details.html">@item?.name</a>
+                                    </h5>
+                                    <p>@item?.contactNo</p>
+
+                                </figcaption>
+                            </figure>
+
+                            <!--// Single Advisor -->
+                        }
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+    <!--// Team Area -->
+    <!-- Features Area -->
+    <!--<section id="features-area" class="cr-section features-area">
+        <div class="row no-gutters justify-content-center">
+
+
+        </div>
+    </section>-->
+    <!--// Features Area -->
+    <!-- Testimonial Area -->
+    <div id="testimonial-area" class="testimonial-area section-padding--xlg bg--grey">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-8 col-lg-9 col-md-10 col-12">
+                    <div class="testimonial text-center">
+
+                        <!-- Testimonial Content -->
+                        <div class="testimonial__content testimonial-content-slider-active">
+                            @foreach (var item in Model.wellWisherMessages.OrderByDescending(x => x.Id))
+                            {
+                                <!-- Testimonial Content Single -->
+                                <div class="testimonial__content__single">
+                                    <p>
+                                        @item.detailsMessage
+                                    </p>
+                                </div>
+                                <!--// Testimonial Content Single -->
+                            }
+
+
+
+                        </div>
+                        <!--// Testimonial Content -->
+                        <!-- Testimonial Author -->
+                        <div class="testimonial__author testimonial-author-slider-active">
+                            @foreach (var person in Model.wellWisherMessages.OrderByDescending(x => x.Id))
+                            {
+
+                                <!-- Single Author -->
+                                <div class="testimonial__author__single">
+                                    <div class="testimonial__author__image">
+
+                                        <img src="~/@person.imgmUrl" alt="testimonial author">
+                                    </div>
+                                    <div class="testimonial__author__description">
+                                        <h6>@person.personName</h6>
+                                        <span>@person.designation</span>
+                                        <span>@person.organizationName</span>
+
+                                    </div>
+                                </div>
+                                <!--// Single Author -->
+
+                            }
+                        </div>
+                        <!--// Testimonial Author -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--// Testimonial Area -->
+    <!-- Pricing Area -->
+    <div id="pricing-area" class="pricing-area section-padding--xlg bg--white">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-12 offset-0">
+                    <div class="section-title text-center">
+                        <h4>Top Donors</h4>
+                        <h2>
+                            Top Donors
+                            <span class="color--theme">Details Information</span>
+                        </h2>
+                        <p>
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="DonorRanking">
+
+
+                @{
+                    int postion = 2;
+                    int? topAmount = 0;
+                    topAmount = Model.topDonorViewModels.Max(x => x.totalDonationAmount);
+
+                    @foreach (var donor in Model.topDonorViewModels.OrderByDescending(x => x.totalDonationAmount).Take(10))
+                    {
+
+
+
+
+
+                        <!-- Pricebox -->
+
+                        @if (topAmount == donor.totalDonationAmount)
+                        {
+                            <div class="pricebox is-active m-2">
+
+                                <div class="pricebox-header">
+                                    <h5 class="pricebox-title">@Model.applicationUsers.Where(x => x.Id == donor.userId).FirstOrDefault()?.UserName</h5>
+                                </div>
+                                <div class="pricebox-body justify-content-sm-center">
+                                    <div class="align-content-sm-center ml-sm-5 mr-sm-5">
+                                        @if (donor.imageUrl != null || donor.imageUrl != "")
+                                        {
+
+                                            <img src="~/@Model.donors.Where(x=>x.ApplicationUserID==donor.userId || x.userId==donor.userId).FirstOrDefault()?.imageUrl" style="height: 150px!important; min-height: 150px!important" class="img-fluid" alt="Alternate Text" />
+                                        }
+                                        else
+                                        {
+                                            <img src="~/DonorImages/637614506246937987.jpg" style="height: 150px!important; min-height: 150px!important" class="img-fluid" alt="Alternate Text" />
+                                        }
+
+                                    </div>
+                                    <ul>
+
+                                        @*<li>@Model.donors.Where(x => x.ApplicationUserID == donor.userId || x.userId == donor.userId).FirstOrDefault()?.Profession?.professionName</li>
+                                            <li>@Model.donors.Where(x => x.ApplicationUserID == donor.userId || x.userId == donor.userId).FirstOrDefault()?.designation</li>*@
+
+                                        <li>@Model.donors.Where(x => x.ApplicationUserID == donor.userId || x.userId == donor.userId).FirstOrDefault()?.age  Years Old</li>
+                                        <li><span><b>Blood Group :</b>@Model.applicationUsers.Where(x => x.Id == donor.userId).FirstOrDefault()?.BloodGroup?.groupName</span></li>
+                                        <li><span><b>Donor Rank</b></span> :Highest Donor</li>
+                                    </ul>
+                                </div>
+                                <div class="pricebox-footer">
+                                    <a href="#" class="cr-btn cr-btn--sm">
+                                        <span>Total Donation</span><br /><span>@donor?.totalDonationAmount Beg</span>
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="pricebox m-2">
+
+                                <div class="pricebox-header">
+                                    <h5 class="pricebox-title">@Model.applicationUsers.Where(x => x.Id == donor.userId).FirstOrDefault()?.UserName</h5>
+                                </div>
+                                <div class="pricebox-body justify-content-sm-center">
+                                    <div class="align-content-sm-center  ml-sm-5 mr-sm-5">
+                                        @if (donor.imageUrl != null || donor.imageUrl != "")
+                                        {
+
+                                            <img src="~/@Model.donors.Where(x=>x.ApplicationUserID==donor.userId || x.userId==donor.userId).FirstOrDefault()?.imageUrl" style="height:150px;width:150px" class="img-fluid" alt="Alternate Text" />
+                                        }
+                                        else
+                                        {
+                                            <img src="~/DonorImages/637614506246937987.jpg" style="height:150px;width:150px;" class="img-fluid" alt="Alternate Text" />
+                                        }
+
+                                    </div>
+                                    <ul>
+
+                                        @*<li>@Model.donors.Where(x => x.ApplicationUserID == donor.userId || x.userId == donor.userId).FirstOrDefault()?.Profession?.professionName</li>
+                                            <li>@Model.donors.Where(x => x.ApplicationUserID == donor.userId || x.userId == donor.userId).FirstOrDefault()?.designation</li>*@
+
+                                        <li>@Model.donors.Where(x => x.ApplicationUserID == donor.userId || x.userId == donor.userId).FirstOrDefault()?.age  Years Old</li>
+                                        <li><span><b>Blood Group :</b>@Model.applicationUsers.Where(x => x.Id == donor.userId).FirstOrDefault()?.BloodGroup?.groupName</span></li>
+                                        <li><span><b>Donor Rank</b></span> :@postion</li>
+
+                                    </ul>
+                                </div>
+                                <div class="pricebox-footer">
+                                    <a href="#" class="cr-btn cr-btn--sm">
+                                        <span>Total Donation</span><br /><span>@donor?.totalDonationAmount Beg</span>
+                                    </a>
+                                </div>
+                            </div>
+
+                            postion = postion + 1;
+                        }
+
+
+                        <!--// Pricebox -->
+
+                    }
+
+                }
+
+            </div>
+        </div>
+    </div>
+    <!--// Pricing Area -->
+    <!-- Call To Action Area -->
+    <section class="cta-area section-padding--md bg--grey--light bg--abstruct-mask">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-9 col-lg-10">
+                    <div class="calltoaction text-center">
+                        <h3>
+                            NEED HELP FOR YOUR <span class="color--theme">Blood Related CONSULTING ?</span>
+                        </h3>
+                        <p>
+                            We are ready for your any kinds of blood related problem and solution.Our team is always ready for full free blood donation .
+
+                        </p>
+                        <div class="calltoaction-button mt-4">
+                            <span class="calltoaction-icon"><i class="flaticon-phone"></i></span>
+                            <a href="callto://+8801755391672">01755391672</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--// Call To Action Area -->
+
+</main>
+<!-- //Page Conent -->
+
+
+@section Scripts{
+    <script src="~/js/jquery.bootstrap.newsbox.min.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+
+
+            $(".demo1").bootstrapNews({
+                newsPerPage: 3,
+                autoplay: true,
+                pauseOnHover: true,
+                direction: 'up',
+                newsTickerInterval: 3000,
+                onToDo: function () {
+                    console.log(this);
+                }
+            });
+
+
+
+
+            $('.DonorRanking').slick({
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 2000,
+
+                responsive: [
+                    {
+                        breakpoint: 1024,
+                        settings: {
+                            slidesToShow: 3,
+                            slidesToScroll: 1,
+                            autoplay: true,
+                            autoplaySpeed: 2000,
+                            infinite: true,
+                        }
+                    },
+                    {
+                        breakpoint: 600,
+                        settings: {
+                            slidesToShow: 2,
+                            slidesToScroll: 1,
+                            autoplay: true,
+                            autoplaySpeed: 2000,
+                            infinite: true,
+                        }
+                    },
+                    {
+                        breakpoint: 480,
+                        settings: {
+                            slidesToShow: 1,
+                            slidesToScroll: 1,
+                            autoplay: true,
+                            autoplaySpeed: 2000,
+                            infinite: true,
+                        }
+                    }
+
+
+                ]
+            });
+
+            $('.dailyNewsUpdate').slick({
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 2000,
+
+                responsive: [
+                    {
+                        breakpoint: 1024,
+                        settings: {
+                            slidesToShow: 1,
+                            slidesToScroll: 1,
+                            autoplay: true,
+                            autoplaySpeed: 2000,
+                            infinite: true,
+                        }
+                    },
+                    {
+                        breakpoint: 600,
+                        settings: {
+                            slidesToShow: 1,
+                            slidesToScroll: 1,
+                            autoplay: true,
+                            autoplaySpeed: 2000,
+                            infinite: true,
+                        }
+                    },
+                    {
+                        breakpoint: 480,
+                        settings: {
+                            slidesToShow: 1,
+                            slidesToScroll: 1,
+                            autoplay: true,
+                            autoplaySpeed: 2000,
+                            infinite: true,
+                        }
+                    }
+
+
+                ]
+            });
+
+            $('.bloodCampaignCarousel').slick({
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 2000,
+
+                responsive: [
+                    {
+                        breakpoint: 1024,
+                        settings: {
+                            slidesToShow: 2,
+                            slidesToScroll: 1,
+                            autoplay: true,
+                            autoplaySpeed: 2000,
+                            infinite: true,
+                        }
+                    },
+                    {
+                        breakpoint: 600,
+                        settings: {
+                            slidesToShow: 1,
+                            slidesToScroll: 1,
+                            autoplay: true,
+                            autoplaySpeed: 2000,
+                            infinite: true,
+                        }
+                    },
+                    {
+                        breakpoint: 480,
+                        settings: {
+                            slidesToShow: 1,
+                            slidesToScroll: 1,
+                            autoplay: true,
+                            autoplaySpeed: 2000,
+                            infinite: true,
+                        }
+                    }
+
+
+                ]
+            });
+
+            $('#Volunteer').slick({
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 2000,
+
+                responsive: [
+                    {
+                        breakpoint: 1024,
+                        settings: {
+                            slidesToShow: 2,
+                            slidesToScroll: 1,
+                            autoplay: true,
+                            autoplaySpeed: 2000,
+                            infinite: true,
+                        }
+                    },
+                    {
+                        breakpoint: 600,
+                        settings: {
+                            slidesToShow: 1,
+                            slidesToScroll: 1,
+                            autoplay: true,
+                            autoplaySpeed: 2000,
+                            infinite: true,
+                        }
+                    },
+                    {
+                        breakpoint: 480,
+                        settings: {
+                            slidesToShow: 1,
+                            slidesToScroll: 1,
+                            autoplay: true,
+                            autoplaySpeed: 2000,
+                            infinite: true,
+                        }
+                    }
+
+
+                ]
+            });
+
+        });
+
+
+
+        $('#mainCarousel').slick({
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            autoplay: true,
+            autoplaySpeed: 2000,
+
+            responsive: [
+                {
+                    breakpoint: 1024,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                        autoplay: true,
+                        autoplaySpeed: 2000,
+                        infinite: true,
+                    }
+                },
+                {
+                    breakpoint: 600,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                        autoplay: true,
+                        autoplaySpeed: 2000,
+                        infinite: true,
+                    }
+                },
+                {
+                    breakpoint: 480,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                        autoplay: true,
+                        autoplaySpeed: 2000,
+                        infinite: true,
+                    }
+                }
+
+
+            ]
+        });
+
+    </script>
+
+
+}

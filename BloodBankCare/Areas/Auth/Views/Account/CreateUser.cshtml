@@ -1,0 +1,402 @@
+﻿@model RegisterViewModel
+@{
+    ViewData["Title"] = "CreateUser";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+<html>
+<head>
+    <title></title>
+
+
+</head>
+<body>
+
+
+    <!-- page content -->
+    <div class="right_col" role="main">
+        <div class="">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-end">
+                    <li class="breadcrumb-item"><a href="/Home/Index">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/DashBoard/UserDashboard">DashBoard</a></li>
+                    <li class="breadcrumb-item active">Create User</li>
+                </ol>
+            </nav>
+
+            <div class="x_panel">
+                <div class="x_title">
+                   
+                    <button type="button" class="btn btn-primary btn-sm"  onclick="location.href='/Auth/Account/UserList'">User List</button>
+                </div>
+                <div class="x_content">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <from data-parsley-validate="parsley" asp-action="Register" asp-route-returnUrl="@ViewData["ReturnUrl"]" id="FormId" method="post">
+
+                                <div asp-validation-summary="All" class="text-danger"></div>
+                                <div class="row">
+
+                                    <div class="col-2"></div>
+                                    <div class="col-8">
+                                        <div class="form-group row">
+                                            <label for="reqNo" class="col-sm-3 col-form-label float-right">User Name<span style="color:red;">*</span></label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="Name" placeholder="User Name" name="Name" onchange="DuplicateUaserName()" data-parsley-required="true">
+                                                <input type="hidden" id="EmpCode" name="EmpCode">
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="reqNo" class="col-sm-3 col-form-label float-right">Email Address<span style="color:red;">*</span></label>
+                                            <div class="col-sm-8">
+                                                <input type="email" data-parsley-required="true" class="form-control " id="Email" onchange="DuplicateEmail()" placeholder="Email Address" name="Email">
+
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="reqNo" class="col-sm-3 col-form-label float-right">Select User Role<span style="color:red;">*</span></label>
+                                            <div class="col-sm-8">
+                                                <select id="RoleId" name="RoleId" class="form-control" data-parsley-required="true">
+                                                    <option value="0" selected="selected">Select User Role</option>
+                                                    @foreach (var data in Model.userRoles.Where(x => x.RoleName != "General User"))
+                                                    {
+                                                        <option value="@data.RoleName">@data.RoleName</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="form-group row">
+                                            <label for="reqNo" class="col-sm-3 col-form-label float-right">Password<span style="color:red;">*</span></label>
+                                            <div class="col-sm-8">
+                                                <input type="password" data-parsley-required="true" class="form-control " id="exampleInputPassword" placeholder="Password" name="Password">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="reqNo" class="col-sm-3 col-form-label float-right">Repeat Password<span style="color:red;">*</span></label>
+                                            <div class="col-sm-8">
+                                                <input type="password" data-parsley-required="true" class="form-control " id="exampleRepeatPassword" placeholder="Repeat Password" name="ConfirmPassword">
+
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-7">
+
+                                            </div>
+                                            <div class="col-md-4 pull-right">
+                                                <button type="button" id="submit" class="btn btn-info btn-block" onclick="SaveUser()"> Register Account</button>
+                                            </div>
+                                            <div class="col-md-1">
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-2">
+
+                                    </div>
+
+                                </div>
+                            </from>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- /page content -->
+
+
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<form class="user" asp-action="Register" asp-route-returnUrl="@ViewData["ReturnUrl"]" id="FormId" method="post">
+
+    <div class="card mb-2 mt-2">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 class="card-title" style="color: black">User Register</h5>
+                </div>
+                <div class="col-md-5">-->
+                    @*<a class="btn btn-success btn-sm ml-2" id="backBtn" style="float:right; color:white">&nbsp; &nbsp; Back &nbsp; &nbsp;</a>*@
+                    <!--<button type="button" class="btn btn-default btn-sm" style="width:100px;background-color:#024972;color:white;float:right;" onclick="location.href='/Auth/Account/UserList'">User List</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <from data-parsley-validate="parsley">
+
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="row">
+
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <div class="form-group row">
+                        <label for="reqNo" class="col-sm-3 col-form-label float-right">User Name<span style="color:red;">*</span></label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="Name" placeholder="User Name" name="Name" onchange="DuplicateUaserName()" data-parsley-required="true">
+                            <input type="hidden" id="EmpCode" name="EmpCode">
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <label for="reqNo" class="col-sm-3 col-form-label float-right">Email Address<span style="color:red;">*</span></label>
+                        <div class="col-sm-8">
+                            <input type="email" data-parsley-required="true" class="form-control " id="Email" onchange="DuplicateEmail()" placeholder="Email Address" name="Email">
+
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="reqNo" class="col-sm-3 col-form-label float-right">Select User Role<span style="color:red;">*</span></label>
+                        <div class="col-sm-8">
+                            <select id="RoleId" name="RoleId" class="form-control" data-parsley-required="true">
+                                <option value="0" selected="selected">Select User Role</option>
+                                @foreach (var data in Model.userRoles.Where(x => x.RoleName != "General User"))
+                                {
+                                    <option value="@data.RoleName">@data.RoleName</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    
+                  
+                 
+                    <div class="form-group row">
+                        <label for="reqNo" class="col-sm-3 col-form-label float-right">Password<span style="color:red;">*</span></label>
+                        <div class="col-sm-8">
+                            <input type="password" data-parsley-required="true" class="form-control " id="exampleInputPassword" placeholder="Password" name="Password">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="reqNo" class="col-sm-3 col-form-label float-right">Repeat Password<span style="color:red;">*</span></label>
+                        <div class="col-sm-8">
+                            <input type="password" data-parsley-required="true" class="form-control " id="exampleRepeatPassword" placeholder="Repeat Password" name="ConfirmPassword">
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-7">
+
+                        </div>
+                        <div class="col-md-4 pull-right">
+                            <button type="button" id="submit" class="btn btn-info btn-block" onclick="SaveUser()"> Register Account</button>
+                        </div>
+                        <div class="col-md-1">
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-2">
+
+                </div>
+
+            </div>
+        </from>
+
+
+    </div>
+
+</form>-->
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('.disAll').hide();
+           
+            $('#RoleId').change(function () {
+               // $('.disAll').hide();
+                var role = $('#RoleId').val()
+                if (role == 'SbAdmin') {
+                    $('.disAll').hide();
+                    $('#divDealer').hide();
+                    $('#divShootingClub').hide();
+                }
+                else if (role == 'DC Admin') {
+                    $('.disAll').show();
+                    $('#divDealer').hide();
+                    $('#divShootingClub').hide();
+
+                }
+                else if (role == 'CitySbAdmin') {
+                    $('.disAll').show();
+                    $('#divDealer').hide();
+                    $('#divShootingClub').hide();
+                }
+                else if (role == 'Dealer') {
+                    $('.disAll').show();
+                    $('#divDealer').show();
+                    $('#divShootingClub').hide();
+                    //$('#divthn').hide();
+                }
+                else if (role == 'Home Ministry') {
+                    $('.disAll').hide();
+                    $('#divDealer').hide();
+                    $('#divShootingClub').hide();
+                    
+                }
+                else if (role == 'Admin') {
+                    $('.disAll').hide();
+                    $('#divDealer').hide();
+                    $('#divShootingClub').hide();
+                   
+                }
+                else if (role == 'Shooting Club') {
+                    $('.disAll').show();
+                    $('#divDealer').hide();
+                    $('#divShootingClub').show();
+                   
+                }
+                else {
+                    $('.disAll').hide();
+                    $('#divDealer').hide();
+                    $('#divShootingClub').hide();
+                }
+            })
+            
+            $('#divisionId').change(function () {
+                var id = $('#divisionId').val();
+                DisplayDiv(id);
+            })
+            //$('#districtId').change(function () {
+            //    var id = $('#districtId').val();
+            //    DisplayDis(id);
+            //})
+        })
+        function SaveUser() {
+             
+                var role = $('#RoleId').val()
+                var dist = $('#districtId').val()
+                if (role == 'Super Admin') {
+                    if (dist == 0) {
+                        swal.fire('warning', 'Please Select District!', 'warning');
+                        return false;
+                    }
+                }
+                else if (role == 'Admin') {
+                    if (dist == 0) {
+                        swal.fire('warning', 'Please Select District!', 'warning');
+                        return false;
+                    }
+                }
+		        console.log($('#FormId').serializeArray());
+		        var data = $('#FormId').serializeArray();
+                 var form = $('#FormId');
+                 console.log(data[0].value)
+                 if (form.parsley().isValid()) {
+                     swal.fire({
+                         title: 'Are you sure?', text: 'Do you want to submit this record!', type: 'warning', showCancelButton: true, confirmButtonColor: '#3085d6', cancelButtonColor: '#d33', confirmButtonText: 'Yes, submit it!'
+                     }).then(function () {
+                         //$('#submit').submit();
+                         $.ajax({
+                             url: '@Url.Action("CreateUser", "Account")',
+                             type: 'POST',
+                             data: data
+                         }).done(function () {
+
+                             swal.fire('success', 'Saved Successfully!', 'success').then(function () {
+                                 //location.reload();
+                                 location.replace("/Auth/Account/UserList");
+
+                             });
+                         }).fail(function () {
+                             swal.fire('warning', 'Failed!', 'warning');
+                         })
+                     });
+                 }
+                 else {
+                     swal.fire('warning', 'Please input mandatory field!', 'warning')
+                 }
+            
+        }
+        function DisplayDiv(id) {
+            //alert(id);
+            Common.Ajax('GET', '/global/api/GetAllDistrictByDivisionId/' + id, [], 'json', ajaxDistrict);
+        }
+        function DisplayDis(id) {
+            Common.Ajax('GET', '/global/api/GetThanaByDistrictId/' + id, [], 'json', ajaxThana);
+        }
+
+        function ajaxDistrict(response) {
+            $('#thanaId').val(0);
+            //var options = '<option value="0">Select</option>';
+            var options = '<option value="0">Select District</option>';
+            $.each(response, function (i, item) {
+                options += '<option value="' + item.Id + '">' + item.districtName + '</option>';
+            });
+            $('#districtId').empty();
+            $('#districtId').append(options);
+        }
+        function ajaxThana(response) {
+            //var options = '<option value="0">Select</option>';
+            var options = '<option value="0">Select Thana</option>';
+            $.each(response, function (i, item) {
+                options += '<option value="' + item.Id + '">' + item.thanaName + '</option>';
+            });
+            $('#thanaId').empty();
+            $('#thanaId').append(options);
+        }
+        function DuplicateUaserName() {
+            //alert(121);
+            var uName = $("#Name").val()
+            $.ajax({
+                type: 'GET',
+                url: '/Auth/Account/RestrictDuplicateUserName',
+                data: {'uName':uName},
+                datatType: "json",
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    if (data !== 'Not Used') {
+                        //$("#Name").val('');
+                        swal.fire('Warning', data + ' User Name has already used!', 'warning');
+                        $("#Name").val('');
+                        return false;
+                    }
+                }
+            })
+        }
+        function DuplicateEmail() {
+            var uName = $("#Email").val()
+            $.ajax({
+                type: 'GET',
+                url: '/Auth/Account/RestrictDuplicateEmail',
+                data: { 'email': uName },
+                datatType: "json",
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    if (data !== 'Not Used') {
+                        swal.fire('Warning', data + ' Email has already used!', 'warning');
+                        $("#Email").val("");
+                        return false;
+                    }
+                }
+            })
+        }
+
+
+    </script>
+}

@@ -1,0 +1,165 @@
+﻿@model HomePageViewModel
+@{
+    ViewData["Title"] = "PhotoGallery";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section Style{
+
+    <style>
+        .col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12, .col, .col-auto, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm, .col-sm-auto, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12, .col-md, .col-md-auto, .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg, .col-lg-auto, .col-xl-1, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl, .col-xl-auto {
+            position: relative;
+            width: 100%;
+            padding-right: 4px;
+            padding-left: 4px;
+        }
+
+        .row {
+            margin-right: 0px;
+            margin-left: 0px;
+        }
+
+
+
+
+
+        #SearchText {
+            width: 50%;
+            position: absolute;
+            right: 18px;
+            box-shadow: none;
+        }
+
+
+
+        .pagination > li > a,
+        .pagination > li > span {
+            position: relative;
+            float: left;
+            padding: 6px 12px;
+            margin-left: -1px;
+            line-height: 1.42857143;
+            color: #337ab7;
+            text-decoration: none;
+            background-color: #fff;
+            border: 1px solid #ddd;
+        }
+
+        .pagination > .active > a,
+        .pagination > .active > a:focus,
+        .pagination > .active > a:hover,
+        .pagination > .active > span,
+        .pagination > .active > span:focus,
+        .pagination > .active > span:hover {
+            z-index: 3;
+            color: #fff;
+            cursor: default;
+            background-color: #337ab7;
+            border-color: #337ab7;
+        }
+
+        .pagination-container {
+            margin: 20px 0;
+            display: flex;
+            justify-content: flex-start; 
+            /*justify-content: flex-end;*/
+        }
+    </style>
+
+}
+<!-- Breadcrumb Area -->
+<div id="cr-breadcrumb-area" class="cr-breadcrumb-area bg-image--2 section-padding--md" data-overlay="8">
+    <div class="container">
+        <div class="cr-breadcrumb">
+            <div class="cr-breadcrumb__left">
+                <h2>Gallery</h2>
+                <p>Memeorial Photo Of different Event</p>
+            </div>
+            <div class="cr-breadcrumb__right">
+                <ul class="cr-breadcrumb__pagination">
+                    <li>
+                        <a href="/Home/Index">Home</a>
+                    </li>
+                    <li>Photo Gallery</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!--// Breadcrumb Area -->
+<!-- Main Area Begin-->
+<div class="row">
+    <div class="col-md-12">
+        <div class="card-header py-3 d-flex flex-row align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Search</h6>
+            <input type="text" class="form-control" placeholder="Search here..." id="SearchText" />
+        </div>
+    </div>
+</div>
+<div class="row bg-light paginationItem">
+    @foreach (var item in Model.photoGalleries.Where(x => x.DisplaySectionName == "Photo Gallery"))
+        {
+            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mt-1 mb-1 searchdiv">
+                <div class="card" style="min-height:400px!important">
+                    <div class="card-header text-white bg-success">
+                        <h5 class="card-title text-center">@item.headLineText</h5>
+                    </div>
+                    <div class="card-body">
+                        <img src="/@item.fileUrl" class="img-fluid" style="max-height:200px" alt="Alternate Text" />
+                    </div>
+                    <div class="card-footer text-center text-white bg-info">
+                        @item.createdAt?.ToString("dd-MMM-yyyy")
+                    </div>
+                </div>
+            </div>
+        }
+
+</div>
+
+      
+
+<!--//Main Area End -->
+@section Scripts{
+    <script src="~/js/paginathing.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            PaginationScript();
+            $("#SearchText").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                if ($(this).val() == "" || $(this).val() == null) {
+                    PaginationScript();
+                    $('nav.pagination-container').not(':last').remove();
+                } else {
+                    $(".searchdiv").filter(function () {
+                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                    });
+                } 
+            });
+
+        })
+
+
+        function PaginationScript() {
+            $('.paginationItem').paginathing({
+                perPage: 4, // show item per page
+                limitPagination: 2, // false or number. Limiting your pagination number.
+                prevNext: true, // enable previous and next button
+                firstLast: true, // enable first and last button
+                prevText: '&laquo;', // Previous button text
+                nextText: '&raquo;', // Next button text
+                firstText: 'First', // "First button" text
+                lastText: 'Last', // "Last button" text
+                containerClass: 'pagination-container', // extend default container class
+                ulClass: 'pagination', // extend default ul class
+                liClass: 'page', // extend li class
+                activeClass: 'active', // active link class
+                disabledClass: 'disable',
+                insertAfter: null,
+                pageNumbers: false
+
+            })
+        }
+    </script>
+}

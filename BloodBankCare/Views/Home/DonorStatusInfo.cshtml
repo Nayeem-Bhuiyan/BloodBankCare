@@ -1,0 +1,69 @@
+﻿@model IEnumerable<DonorStatusViewModel>
+@{
+    ViewData["Title"] = "DonorStatusInfo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- Breadcrumb Area -->
+<div id="cr-breadcrumb-area" class="cr-breadcrumb-area bg-image--2 section-padding--md" data-overlay="8">
+    <div class="container">
+        <div class="cr-breadcrumb">
+            <div class="cr-breadcrumb__left">
+                <h2>Home</h2>
+                <p>Donor Status Information</p>
+            </div>
+            <div class="cr-breadcrumb__right">
+                <ul class="cr-breadcrumb__pagination">
+                    <li>
+                        <a href="/Home/Index">Home</a>
+                    </li>
+                    <li>DonorStatusInfo</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!--// Breadcrumb Area -->
+<h5 class="text-primary">Total Donation Amount <span id="DonationAmount" class="btn btn-primary btn-rounded">0</span> Beg</h5>
+<table class="table table-bordered table-striped table-sm-responsive">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Donor Type</th>
+            <th>Total Donation</th>
+            <th>Last Donate</th>
+            <th>last Donation Days</th>
+            <th>Status</th>
+            <th>donation Status</th>
+        </tr>
+    </thead>
+    <tbody>@{ 
+        int? totalDonationAmount = 0;
+        @foreach (var item in Model.OrderBy(x => x.OrderByRecord))
+        {
+            <tr>
+                <td>@item.donorInformation?.ApplicationUser?.UserName</td>
+                <td>@item.donorType</td>
+                <td>@item.totalDonation</td>
+                <td>@item.LastDonatedDate?.ToString("dd-MMM-yyyy")</td>
+                <td>@item.lastDonationDaysCount</td>
+                <td>@item.donorStatus</td>
+                <td>@item.donationStatus</td>
+
+            </tr>
+
+            totalDonationAmount = totalDonationAmount + item.totalDonation;
+        }
+
+        }
+    </tbody>
+
+</table>
+
+@section Scripts{ 
+
+<script>
+    $(document).ready(function () {
+        $("#DonationAmount").html(@totalDonationAmount);
+    });
+</script>
+}

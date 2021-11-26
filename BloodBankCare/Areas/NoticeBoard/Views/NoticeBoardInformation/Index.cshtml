@@ -1,0 +1,332 @@
+﻿@model NoticeBoardInfoViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+    <!-- page content -->
+    <div class="right_col" role="main">
+        <div class="">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-end">
+                    <li class="breadcrumb-item"><a href="/Home/Index">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/DashBoard/UserDashboard">DashBoard</a></li>
+                    <li class="breadcrumb-item active">Notice Board</li>
+                </ol>
+            </nav>
+
+            <div class="x_panel">
+                <div class="x_title">
+                    <h5>Add Notice Board Info </h5>
+                </div>
+                <div class="x_content">
+
+                    <form id="frmData" asp-area="NoticeBoard" asp-controller="NoticeBoardInformation" asp-action="Index" enctype="multipart/form-data" data-parsley-validate class="form-horizontal form-label-left">
+                        <input type="hidden" id="NoticeBoardInfoId" name="NoticeBoardInfoId" value="0" />
+                        <div class="row">
+
+                            <div class="col-md-12 col-sm-12">
+
+
+                                <div class="item form-group">
+                                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="UploadedFile">
+                                        Photo <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 ">
+                                        <input type="file" id="UploadedFile" name="UploadedFile" required="required" class="form-control ">
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="headingText">
+                                        Head Line <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 ">
+                                        <input type="text" id="headingText" name="headingText" required="required" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label for="detailsDescription" class="col-form-label col-md-3 col-sm-3 label-align">Details<span class="required">*</span></label>
+                                    <div class="col-md-6 col-sm-6 ">
+                                        <input type="text" id="detailsDescription" class="form-control" name="detailsDescription">
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label for="endDate" class="col-form-label col-md-3 col-sm-3 label-align">End Date<span class="required">*</span></label>
+                                    <div class="col-md-6 col-sm-6 ">
+                                        <input type="text" id="endDate" class="form-control" name="endDate">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="ln_solid"></div>
+
+                        <div class="item form-group">
+                            <div class="col-md-6 col-sm-6 offset-md-3">
+                                <button type="button" id="btnSave" class="btn btn-success">Save</button>
+                                <button class="btn btn-primary" type="reset">Reset</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 col-sm-12 ">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h5>Notice Board Info</h5>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li>
+                                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="#">Settings 1</a>
+                                        <a class="dropdown-item" href="#">Settings 2</a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="Refreshfix"></div>
+                        </div>
+
+                        <div class="x_content">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="card-box table-responsive">
+
+                                        <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap text-md-center" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>#SlNo</th>
+                                                    <th>Notice Headline</th>
+                                                    <th>Details</th>
+                                                    <th>Publish Date</th>
+                                                    <th>End Date</th>
+                                                    <th>File</th>
+
+                                                    <th class="text-md-center">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{
+
+                                                    int sl = 1;
+                                                    @foreach (var item in Model.noticeBoardInfos)
+                                                    {
+                                                        <tr>
+                                                            <td>@sl</td>
+                                                            <td>@item.headingText</td>
+                                                            <td>@item.detailsDescription</td>
+                                                            <td>@item.publishDate?.ToString("dd-MMM-yyyy")</td>
+                                                            <td>@item.endDate?.ToString("dd-MMM-yyyy")</td>
+                                                            <td>
+                                                                <a href="/@item.fileUrl" class="btn btn-round btn-info"><i class="fa fa-download"></i></a>
+                                                                <a class="btn btn-round btn-primary"  onclick="OpenPdf(@item.fileUrl)">Read</a>
+                                                            </td>
+
+                                                            <td class="text-md-center">
+                                                                <a href="#" class="btn btn-round btn-warning" onclick="Edit(@item.Id,'@item.headingText','@item.detailsDescription','@item.endDate','@item.fileUrl')"><i class="fa fa-edit"></i></a>
+                                                                <a href="#" class="btn btn-round btn-danger" onclick="Delete(@item.Id)"><i class="fa fa-trash"></i></a>
+                                                            </td>
+                                                        </tr>
+
+                                                        sl = sl + 1;
+                                                    }
+
+
+                                                }
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /page content -->
+
+
+
+
+
+
+    <div id="PdfReaderModal" class="modal bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <embed src="" id="pdfDisplay" style="height:800px; max-width:100%; border:solid; border-left-width:50px;border-right-width:50px;border-bottom-width:50px; border-top-width:10px; border-color:white;" />
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+@section Scripts{
+    <script>
+
+        function OpenPdf(fileUrl) {
+            var fixedValue = "#toolbar=0&navpanes=0&scrollbar=0";
+            $("#pdfDisplay").attr("src", ("/"+fileUrl + fixedValue).trim());
+            $("#PdfReaderModal").modal("show");
+        }
+
+
+
+
+        $(document).ready(function () {
+
+        /*    $('#datatable-responsive').DataTable();*/
+            $('#endDate').flatpickr({ dateFormat: "Y-m-d", minDate: "@DateTime.Now.ToString("MM/dd/yyyy")" });
+            Refresh();
+
+            jQuery('input[type="file"]').each(function () {
+                $this = jQuery(this);
+                $this.on('change', function () {
+                    var fsize = $this[0].files[0].size,
+                        ftype = $this[0].files[0].type,
+                        fname = $this[0].files[0].name,
+                        fextension = fname.substring(fname.lastIndexOf('.') + 1);
+                    $("#fileType").val(fextension);
+                    validExtensions = ["jpg", "pdf", "jpeg", "gif", "png", "doc", "docx", "xls", "xlsx", "ppt", "pptx", "txt", "zip", "rar", "gzip"];
+
+                    if ($.inArray(fextension, validExtensions) == -1) {
+                        alert("This type of files are not allowed!");
+                        this.value = "";
+                        return false;
+                    } else {
+                        if (fsize > 2097152) {/*1048576-1MB(You can change the size as you want)*/
+                            alert("File size too large! Please upload less than 2MB");
+                            this.value = "";
+                            return false;
+                        } else {
+
+
+                            return true;
+
+                        }
+
+                    }
+
+                });
+            });
+
+
+        });
+
+
+        function OpenFile(Id) {
+
+            window.open("/NoticeBoard/NoticeBoardInformation/OpenPdfFile/"+Id,"_blank")
+        }
+
+
+        $('#btnSave').click(function (event) {
+            event.preventDefault();
+            var form = $("#frmData")[0];
+            var data = new FormData(form);
+            data.append("fileUrl", $('input[type="file"]')[0].files[0]);
+            data.append("NoticeBoardInfoId", $('#NoticeBoardInfoId').val());
+            data.append("headingText", $('#headingText').val());
+            data.append("detailsDescription", $('#detailsDescription').val());
+            data.append("endDate", $('#endDate').val());
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You want to save this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, save it!'
+            }).then((result)=> {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/NoticeBoard/NoticeBoardInformation/Index',
+                        type: 'POST',
+                        enctype:"multipart/form-data",
+                        data: data,
+                        processData: false,
+                        contentType: false,
+                        cache: false,
+                        timeout:600000
+                    }).done(function () {
+                            swal.fire('success', 'Saved Successfully!', 'success').then(function () {
+                                location.reload();
+                            });
+                    }).fail(function () {
+                        swal.fire('warning', 'Failed!', 'warning');
+                    })
+                }
+
+		});
+
+
+	})
+
+        function Delete(Id) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to retrieve this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                $.ajax({
+                    url: "/NoticeBoard/NoticeBoardInformation/Delete/" + Id,
+                    data: { Id: Id },
+                    type: 'POST'
+                })
+                    .done(function() {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Deleted Successfully!!',
+                            showConfirmButton: false,
+                            timer: 1000
+                        }).then(function () {
+                            window.location.reload();
+                            Refresh();
+                        })
+                    })
+                    .fail(function () {
+                        swal.fire('Cancelled', 'It will not be deleted. Please try again later !!!', 'error');
+                    });
+                }
+            });
+        }
+
+        function Edit(Id,headingText,detailsDescription,endDate,fileUrl) {
+            $("#NoticeBoardInfoId").val(Id);
+            $("#headingText").val(headingText);
+            $("#detailsDescription").val(detailsDescription);
+            $("#endDate").val(endDate);
+         /*   $("#fileUrl").val(fileUrl);*/
+          /*  $("#displayImage").prop("src", "/" + fileUrl);*/
+            console.log(imgmUrl);
+        }
+
+
+        function Refresh() {
+            $("#NoticeBoardInfoId").val(0);
+            $("#headingText").val("");
+            $("#detailsDescription").val("");
+        }
+
+
+
+
+    </script>
+}

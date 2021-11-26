@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+
+}
+
+<input type="text" id="fromDate" class="form-control" name="name" value="" />
+<select id="cars" name="cars" class="form-control">
+    <option selected>Custom Select Menu</option>
+    <option value="1">Volvo</option>
+    <option value="2">Fiat</option>
+    <option value="3">Audi</option>
+</select>
+<i class="far fa-atom-alt"></i>
+@section Scripts{
+    <script type="text/javascript">
+        $("#cars").select2();
+
+        $("#cars")
+          $('#fromDate').flatpickr({ dateFormat: "Y-m-d", altInput: true,altFormat: "F j, Y", maxDate: "@DateTime.Now.ToString("yyyy.MM.dd")"
+            });
+    </script>
+}

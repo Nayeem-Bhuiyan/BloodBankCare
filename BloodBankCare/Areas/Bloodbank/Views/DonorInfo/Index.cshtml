@@ -1,0 +1,463 @@
+﻿@model DonorInformationViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+@section Style{
+    <link href="~/Admin/vendors/jQuery-Smart-Wizard/styles/smart_wizard.css" rel="stylesheet" />
+    <style>
+    </style>
+}
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-end">
+                <li class="breadcrumb-item"><a href="/Home/Index">Home</a></li>
+                <li class="breadcrumb-item"><a href="/DashBoard/UserDashboard">DashBoard</a></li>
+                <li class="breadcrumb-item active">Donor Info</li>
+            </ol>
+        </nav>
+
+        <div class="x_panel">
+            <div class="x_title">
+                <h5>Add New Donor </h5>
+            </div>
+            <div class="x_content">
+                <form class="form-horizontal form-label-left" asp-area="Bloodbank" asp-controller="DonorInfo" asp-action="Index" enctype="multipart/form-data" data-parsley-validate>
+                    <input type="hidden" id="DonorInformationId" name="DonorInformationId" value="0" />
+                    <input type="hidden" id="PresentAddressId" name="PresentAddressId" value="0" />
+                    <input type="hidden" id="PermanentAddressId" name="PermanentAddressId" value="0" />
+                    <!-- Smart Wizard -->
+                    <div id="wizard" class="form_wizard wizard_horizontal">
+                        <ul class="wizard_steps">
+                            <li>
+                                <a href="#step-1">
+                                    <span class="step_no">1</span>
+                                    <span class="step_descr">
+                                        Step 1<br />
+                                        <small>Personal Information</small>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#step-2">
+                                    <span class="step_no">2</span>
+                                    <span class="step_descr">
+                                        Step 2<br />
+                                        <small>Professional Information</small>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#step-3">
+                                    <span class="step_no">3</span>
+                                    <span class="step_descr">
+                                        Step 3<br />
+                                        <small>Permanent Address</small>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#step-4">
+                                    <span class="step_no">4</span>
+                                    <span class="step_descr">
+                                        Step 4<br />
+                                        <small>Present Address</small>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <img src="/DefaultImage/NoImage.jpg" height="100" width="120" id="displayImage" alt="Alternate Text" />
+                            </div>
+                            <div class="col-md-10">
+                                <div id="step-1">
+                                    @*<h2 class="StepTitle">Step 1 Content</h2>*@
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="nationalId">
+                                            NId <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input type="text" id="nationalId" name="nationalId" required="required" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="DonorImage">
+                                            Photo <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input type="file" id="DonorImage" name="DonorImage" onchange="loadFile(event)" required="required" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="age">
+                                            Age <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input type="text" id="age" name="age" required="required" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="ReligionId">
+                                            Religion <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <select id="ReligionId" name="ReligionId" class="form-control">
+                                                @foreach (var item in Model?.religions)
+                                                {
+                                                    <option value="@item.Id">@item.religionName</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div id="step-2">
+                                    @*<h2 class="StepTitle">Step 2 Content</h2>*@
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="age">
+                                            Profession <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <select id="ProfessionId" name="ProfessionId" class="form-control">
+                                                @foreach (var profession in Model.professions)
+                                                {
+                                                    <option value="@profession.Id">@profession.professionName</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="designation">
+                                            Designation <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input type="text" id="designation" name="designation" required="required" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="SocialOrganizationId">
+                                            Social Organization <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <select id="SocialOrganizationId" name="SocialOrganizationId" class="form-control">
+                                                @foreach (var socialOrganization in Model.socialOrganizations)
+                                                {
+                                                    <option value="@socialOrganization.Id">@socialOrganization.socialOrgName</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div id="step-3">
+                                    @*<h2 class="StepTitle">Step 3 Content</h2>*@
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-md-3 col-sm-12 label-align" for="careOf">
+                                                    Care Of <span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-9 col-sm-12">
+                                                    <input type="text" id="careOf" name="careOf" required="required" class="form-control">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-md-3 col-sm-12 label-align" for="houseNo">
+                                                    House No <span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-9 col-sm-12">
+                                                    <input type="text" id="houseNo" name="houseNo" required="required" class="form-control">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-md-3 col-sm-12 label-align" for="villageName">
+                                                    Village <span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-9 col-sm-12">
+                                                    <input type="text" id="villageName" name="villageName" required="required" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-md-3 col-sm-12 label-align" for="postOffice">
+                                                    Post Office <span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-9 col-sm-12">
+                                                    <input type="text" id="postOffice" name="postOffice" required="required" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-md-3 col-sm-12 label-align" for="CountryId">
+                                                    Country <span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-9 col-sm-12">
+                                                    <select id="CountryId" name="CountryId" class="form-control">
+                                                        @foreach (var country in Model.countries)
+                                                        {
+                                                            <option value="@country.Id">@country.countryName</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-md-3 col-sm-12 label-align" for="DistrictId">
+                                                    District <span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-9 col-sm-12">
+                                                    <select id="DistrictId" name="DistrictId" class="form-control">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-md-3 col-sm-12 label-align" for="ThanaId">
+                                                    Country <span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-9 col-sm-12">
+                                                    <select id="ThanaId" name="ThanaId" class="form-control">
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div id="step-4">
+                                    @*<h2 class="StepTitle">Step 4 Content</h2>*@
+                                    <div class="row">
+                                        <div class="col-md-6">
+
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-md-3 col-sm-12 label-align" for="PresentcareOf">
+
+                                                </label>
+                                                <div class="col-md-9 col-sm-12">
+                                                    <input type="checkbox" name="addressType" id="addressType" value="1" />  Same as permanent Address
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-md-3 col-sm-12 label-align" for="PresentcareOf">
+                                                    Care Of <span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-9 col-sm-12">
+                                                    <input type="text" id="PresentcareOf" name="PresentcareOf" required="required" class="form-control">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-md-3 col-sm-12 label-align" for="PresenthouseNo">
+                                                    House No <span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-9 col-sm-12">
+                                                    <input type="text" id="PresenthouseNo" name="PresenthouseNo" required="required" class="form-control">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-md-3 col-sm-12 label-align" for="PresentvillageName">
+                                                    Village <span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-9 col-sm-12">
+                                                    <input type="text" id="PresentvillageName" name="PresentvillageName" required="required" class="form-control">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-6">
+
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-md-3 col-sm-12 label-align" for="PresentpostOffice">
+                                                    Post Office <span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-9 col-sm-12">
+                                                    <input type="text" id="PresentpostOffice" name="PresentpostOffice" required="required" class="form-control">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-md-3 col-sm-12 label-align" for="PresentCountryId">
+                                                    Country <span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-9 col-sm-12">
+                                                    <select id="PresentCountryId" name="PresentCountryId" class="form-control">
+                                                        @foreach (var country in Model.countries)
+                                                        {
+                                                            <option value="@country.Id">@country.countryName</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-md-3 col-sm-12 label-align" for="PresentDistrictId">
+                                                    District <span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-9 col-sm-12">
+                                                    <select id="PresentDistrictId" name="PresentDistrictId" class="form-control">
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-form-label col-md-3 col-sm-12 label-align" for="PresentThanaId">
+                                                    Country <span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-9 col-sm-12">
+                                                    <select id="PresentThanaId" name="PresentThanaId" class="form-control">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End SmartWizard Content -->
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /page content -->
+
+
+@section Scripts{
+    <script src="/Admin/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js"></script>
+    <script>
+
+        $(document).ready(function () {
+
+            jQuery('input[type="file"]').each(function () {
+                $this = jQuery(this);
+                $this.on('change', function () {
+                    var fsize = $this[0].files[0].size,
+                        ftype = $this[0].files[0].type,
+                        fname = $this[0].files[0].name,
+                        fextension = fname.substring(fname.lastIndexOf('.') + 1);
+                    $("#fileType").val(fextension);
+                    validExtensions = ["jpg", "pdf", "jpeg", "gif", "png", "doc", "docx", "xls", "xlsx", "ppt", "pptx", "txt", "zip", "rar", "gzip"];
+
+                    if ($.inArray(fextension, validExtensions) == -1) {
+                        alert("This type of files are not allowed!");
+                        this.value = "";
+                        return false;
+                    } else {
+                        if (fsize > 2097152) {/*1048576-1MB(You can change the size as you want)*/
+                            alert("File size too large! Please upload less than 2MB");
+                            this.value = "";
+                            return false;
+                        } else {
+                            loadFile();
+
+                            return true;
+
+                        }
+
+                    }
+
+                });
+            });
+
+
+            $("#CountryId").change(function () {
+                var id = $(this).val();
+                Common.Ajax('GET', '/MasterData/DistrictInfo/GetDistrictListByCountryId/' + id, [], 'json', ajaxGetPermanentDistrict);
+            });
+
+            $("#DistrictId").change(function () {
+                var id = $(this).val();
+                Common.Ajax('GET', '/MasterData/ThanaInfo/GetThanaListByDistrictId/' + id, [], 'json', ajaxGetPermanentThana);
+            });
+
+
+
+            $("#PresentCountryId").change(function () {
+                var id = $(this).val();
+                Common.Ajax('GET', '/MasterData/DistrictInfo/GetDistrictListByCountryId/' + id, [], 'json', ajaxGetPresentDistrict);
+            });
+
+            $("#PresentDistrictId").change(function () {
+                var id = $(this).val();
+                Common.Ajax('GET', '/MasterData/ThanaInfo/GetThanaListByDistrictId/' + id, [], 'json', ajaxGetPresentThana);
+            });
+
+
+
+        });
+
+
+
+        var loadFile = function (event) {
+            var output = document.getElementById('displayImage');
+            output.src = URL.createObjectURL(event.target.files[0]);
+            output.onload = function () {
+                URL.revokeObjectURL(output.src) // free memory
+            }
+        };
+
+
+
+        function ajaxGetPermanentDistrict(response) {
+            var options = '<option value="">Select </option>';
+            $.each(response, function (i, item) {
+                options += '<option value="' + item.Id + '">' + item.districtName + '</option>';
+            });
+            $('#DistrictId').empty();
+            $('#DistrictId').append(options);
+        }
+
+        function ajaxGetPermanentThana(response) {
+            var options = '<option value="">Select </option>';
+            $.each(response, function (i, item) {
+                options += '<option value="' + item.Id + '">' + item.thanaName + '</option>';
+            });
+            $('#ThanaId').empty();
+            $('#ThanaId').append(options);
+        }
+
+
+
+        function ajaxGetPresentDistrict(response) {
+            var options = '<option value="">Select </option>';
+            $.each(response, function (i, item) {
+                options += '<option value="' + item.Id + '">' + item.districtName + '</option>';
+            });
+            $('#PresentDistrictId').empty();
+            $('#PresentDistrictId').append(options);
+        }
+
+        function ajaxGetPresentThana(response) {
+            var options = '<option value="">Select </option>';
+            $.each(response, function (i, item) {
+                options += '<option value="' + item.Id + '">' + item.thanaName + '</option>';
+            });
+            $('#PresentThanaId').empty();
+            $('#PresentThanaId').append(options);
+        }
+    </script>
+}
+
+
+
+
+
+
+

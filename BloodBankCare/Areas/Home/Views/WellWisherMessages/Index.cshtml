@@ -1,0 +1,342 @@
+﻿@model WellWisherMessageViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <!-- page content -->
+    <div class="right_col" role="main">
+        <div class="">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-end">
+                    <li class="breadcrumb-item"><a href="/Home/Index">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/DashBoard/UserDashboard">DashBoard</a></li>
+                    <li class="breadcrumb-item active">WellWisherMessage</li>
+                </ol>
+            </nav>
+
+            <div class="x_panel">
+                <div class="x_title">
+                    <h5>Add Well Wisher Message Info </h5>
+                </div>
+                <div class="x_content">
+
+                    <form id="frmData" asp-area="Home" asp-controller="WellWisherMessages" asp-action="Index" enctype="multipart/form-data" data-parsley-validate class="form-horizontal form-label-left">
+                        <input type="hidden" id="WellWisherMessageId" name="WellWisherMessageId" value="0" />
+                        <div class="row">
+                            <div class="col-md-3 col-sm-12">
+                                <img src="/DefaultImage/NoImage.jpg" height="150" width="150" id="displayImage" alt="Alternate Text" />
+                            </div>
+                            <div class="col-md-9 col-sm-12">
+
+                                <div class="item form-group">
+                                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="personName">
+                                        PersonName <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 ">
+                                        <input type="text" id="personName" name="personName" required="required" class="form-control">
+                                    </div>
+                                </div>
+
+
+                                <div class="item form-group">
+
+                                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="ImageFile">
+                                        Photo <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 ">
+                                        <input type="file" id="ImageFile" name="ImageFile" onchange="loadFile(event)" required="required" class="form-control ">
+                                    </div>
+                                </div>
+
+
+                                <div class="item form-group">
+                                    <label for="organizationName" class="col-form-label col-md-3 col-sm-3 label-align">Organization Name<span class="required">*</span></label>
+                                    <div class="col-md-6 col-sm-6 ">
+                                        <input type="text" id="organizationName" class="form-control" name="organizationName">
+                                    </div>
+                                </div>
+
+                                <div class="item form-group">
+                                    <label for="designation" class="col-form-label col-md-3 col-sm-3 label-align">Designation<span class="required">*</span></label>
+                                    <div class="col-md-6 col-sm-6 ">
+                                        <input type="text" id="designation" class="form-control" name="designation">
+                                    </div>
+                                </div>
+
+                                <div class="item form-group">
+                                    <label for="headlineText" class="col-form-label col-md-3 col-sm-3 label-align">Headline Text<span class="required">*</span></label>
+                                    <div class="col-md-6 col-sm-6 ">
+                                        <input type="text" id="headlineText" class="form-control" name="headlineText">
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label for="detailsMessage" class="col-form-label col-md-3 col-sm-3 label-align">Details Message<span class="required">*</span></label>
+                                    <div class="col-md-6 col-sm-6 ">
+                                        <textarea cols="3" class="form-control" id="detailsMessage" name="detailsMessage"></textarea>
+                                    </div>
+                                </div>
+                              
+                            </div>
+                        </div>
+                        <div class="ln_solid"></div>
+                        <div class="col-md-3">
+
+                        </div>
+                        <div class="item form-group">
+                            <div class="col-md-6 col-sm-6 offset-md-3">
+                                <button type="button" id="btnSave" class="btn btn-success">Save</button>
+                                <button class="btn btn-primary" type="reset">Reset</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 col-sm-12 ">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h5>Well Wisher Message Info</h5>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li>
+                                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="#">Settings 1</a>
+                                        <a class="dropdown-item" href="#">Settings 2</a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="Refreshfix"></div>
+                        </div>
+
+                        <div class="x_content">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="card-box table-responsive">
+
+                                        <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap text-md-center" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>#SlNo</th>
+                                                    <th>Picture</th>
+                                                    <th>Name</th>
+                                                    <th>Organization</th>
+                                                    <th>Designation</th>
+                                                    <th>Headline Text</th>
+
+                                                    <th class="text-md-center">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{
+
+                                                    int sl = 1;
+                                                    @foreach (var item in Model.wellWisherMessages)
+                                                    {
+                                                <tr>
+                                                    <td>@sl</td>
+                                                    <td><img src="/@item.imgmUrl" height="75" width="75" alt="Alternate Text" /></td>
+                                                    <td>@item.personName</td>
+                                                    <td>@item.organizationName</td>
+                                                    <td>@item.designation</td>
+                                                    <td>@item.headlineText</td>
+
+                                                    <td class="text-md-center">
+                                                        <a href="#" class="btn btn-round btn-warning" onclick="Edit(@item.Id,'@item.personName','@item.organizationName','@item.designation','@item.headlineText','@item.detailsMessage')"><i class="fa fa-edit"></i></a>
+                                                        <a href="#" class="btn btn-round btn-danger" onclick="Delete(@item.Id)"><i class="fa fa-trash"></i></a>
+                                                    </td>
+                                                </tr>
+
+                                                        sl = sl + 1;
+                                                    }
+
+                                                }
+
+                                            </tbody>
+                                        </table>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /page content -->
+
+
+
+
+</body>
+</html>
+
+
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+        /*    $('#datatable-responsive').DataTable();*/
+
+            Refresh();
+
+            jQuery('input[type="file"]').each(function () {
+                $this = jQuery(this);
+                $this.on('change', function () {
+                    var fsize = $this[0].files[0].size,
+                        ftype = $this[0].files[0].type,
+                        fname = $this[0].files[0].name,
+                        fextension = fname.substring(fname.lastIndexOf('.') + 1);
+                    $("#fileType").val(fextension);
+                    validExtensions = ["jpg", "pdf", "jpeg", "gif", "png", "doc", "docx", "xls", "xlsx", "ppt", "pptx", "txt", "zip", "rar", "gzip"];
+
+                    if ($.inArray(fextension, validExtensions) == -1) {
+                        alert("This type of files are not allowed!");
+                        this.value = "";
+                        return false;
+                    } else {
+                        if (fsize > 2097152) {/*1048576-1MB(You can change the size as you want)*/
+                            alert("File size too large! Please upload less than 2MB");
+                            this.value = "";
+                            return false;
+                        } else {
+                            loadFile();
+
+                            return true;
+
+                        }
+
+                    }
+
+                });
+            });
+
+
+        });
+
+        var loadFile = function (event) {
+            var output = document.getElementById('displayImage');
+            output.src = URL.createObjectURL(event.target.files[0]);
+            output.onload = function () {
+                URL.revokeObjectURL(output.src) // free memory
+            }
+        };
+
+        $('#btnSave').click(function (event) {
+            event.preventDefault();
+            var form = $("#frmData")[0];
+            var data = new FormData(form);
+            data.append("ImageFile", $('input[type="file"]')[0].files[0]);
+            data.append("personName", $('#personName').val());
+            data.append("organizationName", $('#organizationName').val());
+            data.append("designation", $('#designation').val());
+            data.append("headlineText", $('#headlineText').val());
+            data.append("detailsMessage", $('#detailsMessage').text());
+            data.append("WellWisherMessageId", $('#WellWisherMessageId').text());
+           
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You want to save this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, save it!'
+            }).then((result)=> {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/Home/WellWisherMessages/Index',
+                        type: 'POST',
+                        enctype:"multipart/form-data",
+                        data: data,
+                        processData: false,
+                        contentType: false,
+                        cache: false,
+                        timeout:600000
+                    }).done(function () {
+                            swal.fire('success', 'Saved Successfully!', 'success').then(function () {
+                                location.reload();
+                            });
+                    }).fail(function () {
+                        swal.fire('warning', 'Failed!', 'warning');
+                    })
+                }
+
+		});
+
+
+	})
+
+        function Delete(Id) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to retrieve this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                $.ajax({
+                    url: "/Home/WellWisherMessages/Delete/" + Id,
+                    data: { Id: Id },
+                    type: 'POST'
+                })
+                    .done(function() {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Deleted Successfully!!',
+                            showConfirmButton: false,
+                            timer: 1000
+                        }).then(function () {
+                            window.location.reload();
+                            Refresh();
+                        })
+                    })
+                    .fail(function () {
+                        swal.fire('Cancelled', 'It will not be deleted. Please try again later !!!', 'error');
+                    });
+                }
+            });
+        }
+
+        function Edit(Id, personName, organizationName, designation, headlineText, detailsMessage) {
+            $("#WellWisherMessageId").val(Id);
+            $("#personName").val(personName);
+            $("#organizationName").val(organizationName);
+            $("#designation").val(designation);
+            $("#headlineText").val(headlineText);
+            $("#detailsMessage").val(detailsMessage);
+         
+        }
+
+
+        function Refresh() {
+            $("#WellWisherMessageId").val(0);
+            $("#personName").val("");
+            $("#organizationName").val("");
+            $("#designation").val("");
+            $("#headlineText").val("");
+            $("#detailsMessage").val("");
+            $("#ImageFile").val("");
+            $("#displayImage").prop("src","");
+        }
+    </script>
+}

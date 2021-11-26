@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>@ViewData["Title"]</title>
+    <!-- Custom fonts for this template-->
+    <link href="~/css/fonts.css" rel="stylesheet" />
+    @*<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">*@
+    @RenderSection("Style", required: false)
+
+    <style>
+        body {
+            font-family: 'Nikosh' !important;
+            font-size: 11pt !important;
+        }
+
+        table .btn {
+            font-size: 8pt !important;
+            padding: 3px 5px 3px 5px !important;
+        }
+
+        table th, table td {
+            /*padding: 2px 2px 2px 2px !important;*/
+            color: black !important;
+        }
+
+        .col-form-label {
+            color: #606066 !important;
+            font-weight: bold;
+            padding: 0 0 0 0;
+        }
+
+        .form-control {
+            color: #606066 !important;
+            font-size: 10pt !important;
+            padding: 1px 4px 1px 8px;
+            border: 1px solid #606066;
+            height: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 6px !important;
+        }
+
+        .gj-datepicker-bootstrap [role=right-icon] button {
+            border: 1px solid #606066 !important;
+        }
+
+            .gj-datepicker-bootstrap [role=right-icon] button .gj-icon {
+                top: 5px !important;
+            }
+
+        .nav .nav-item {
+            background: #30994c !important;
+            border-radius: 3px !important;
+        }
+
+        /*Parsly  Section*/
+        input.parsley-success,
+        select.parsley-success,
+        textarea.parsley-success {
+            color: #468847;
+            background-color: #DFF0D8;
+            border: 1px solid #D6E9C6;
+        }
+
+        input.parsley-error,
+        select.parsley-error,
+        textarea.parsley-error {
+            color: #B94A48;
+            background-color: #F2DEDE;
+            border: 1px solid #EED3D7;
+        }
+
+        .parsley-errors-list {
+            margin: 2px 0 3px;
+            padding: 0;
+            list-style-type: none;
+            font-size: 0.9em;
+            line-height: 0.9em;
+            opacity: 0;
+            transition: all .3s ease-in;
+            -o-transition: all .3s ease-in;
+            -moz-transition: all .3s ease-in;
+            -webkit-transition: all .3s ease-in;
+        }
+
+            .parsley-errors-list.filled {
+                opacity: 1;
+            }
+
+        .parsley-type, .parsley-required, .parsley-equalto {
+            color: #ff0000;
+        }
+        /*Parsly  Section*/
+
+        .table-bordered {
+            border-collapse: collapse !important;
+        }
+
+            .table-bordered th {
+                border: 1px solid black;
+            }
+
+            .table-bordered td {
+                border: 1px solid black;
+            }
+
+        .table-bordered-grey {
+            border-collapse: collapse !important;
+        }
+
+            .table-bordered-grey th {
+                border: 1px solid gray;
+            }
+
+            .table-bordered-grey td {
+                border: 1px solid gray;
+            }
+    </style>
+
+</head>
+<body>
+
+    <div>
+
+        @RenderBody()
+
+    </div>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

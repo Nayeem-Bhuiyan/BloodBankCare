@@ -8,6 +8,6 @@ Use visual studio 2019
 
 Use sql server 2019
 
-Full project completely done by using Asynchronous repository service.
+Full project completely done by using Asynchronous repository service pattern
 
 Bootstrap 4 ,Ajax,Entity Framework Core are used here
